@@ -28,5 +28,7 @@ git checkout <branch_name>
 
 開始寫
 
+寫完push到自己的branch然後pull request的時後需要一個別人同意才可以merge回master
+
 寫功能時記得不要改多個資料夾如果有兩個人同時改動同個資料夾會造成conflict，要手動修正會很麻煩
 然後遇到奇怪問題不要隨便覆蓋之類的
