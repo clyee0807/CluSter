@@ -1,0 +1,1 @@
+// my event 點進去會顯示result
