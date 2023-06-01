@@ -9,10 +9,15 @@
 如果遇到 conflict 就要先 resolve 再 merge 進去
 
 ### step.0
-```
-git clone ...
-```
+* ```git clone ...```
+* ```npm install```
+* ```npm start```
+* ```a``` 打開虛擬機
+* ```r``` 重整
 ### step.1
+***要先開branch切到那個branch再寫code***<br>
+***要先開branch切到那個branch再寫code***<br>
+***要先開branch切到那個branch再寫code***
 1. 根據master複製一個new branch
 ```git branch <new_branch> <master>```
 2. 切換到你創的那個new branch
