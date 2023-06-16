@@ -1,34 +1,36 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+// import 'react-native-gesture-handler';
+import Home from './src/screens/home';
 
-export default function App() {
+import addEventListener from './routes/addEventStack'
+
+const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
+// import Navigator from './routes/drawer'
+function Root() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>CluSter</Text>
-      <Text style={styles.subtitle}>Tap to Start</Text>
-      <Text style={styles.slogan}>Transcending the Universe, Our Encounter Awaits.</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Drawer.Navigator>
+      <Drawer.Screen name="AddEvent" component={addEventListener} />
+      {/* <Drawer.Screen name="Profile" component={Profile} /> */}
+      {/* <Stack.Screen name="Settings" component={Settings} /> */}
+    </Drawer.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2C4073',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    // fontFamily: 'Fugaz One',
-    color: '#fff',
-    fontSize: 60,
-    marginBottom: 100
-  },
-  subtitle: {
-    color: '#fff'
-  },
-  slogan: {
-    color: '#fff'
-  }
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Root"
+          component={Root}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen name="Feed" component={Feed} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
