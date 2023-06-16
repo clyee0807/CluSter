@@ -10,6 +10,7 @@ export default function AddEvent({navigation}) {
       <Text>Create or Join</Text>
       <Text>Would you like to join or create a new event?</Text>
       <Button title='Go to create event' onPress={() => navigation.navigate('CreateEvent')} />
+      <Button title='Go to join event' onPress={() => navigation.navigate('JoinEvent')} />
     </View>
   );
 }

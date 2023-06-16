@@ -1,10 +1,20 @@
 import { StyleSheet } from 'react-native';
+import { useFonts, FugazOne_400Regular } from '@expo-google-fonts/fugaz-one';
+import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
+
 
 export const globalStyles = StyleSheet.create({
   titleText: {
-    fontSize: 18,
+    fontSize: 24,
+    fontFamily: 'SpaceGrotesk_400Regular',
     fontWeight: 'bold',
-    color: '#333',
+    color: '#000',
+    marginTop: 30,
+  },
+  instructionText: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 14,
+    color: '#A29EB6',
   },
   paragraph: {
     marginVertical: 8,
@@ -12,6 +22,6 @@ export const globalStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
   },
 });

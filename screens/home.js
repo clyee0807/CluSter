@@ -2,12 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useFonts, FugazOne_400Regular } from '@expo-google-fonts/fugaz-one';
 import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 // import LinearGradient from 'react-native-linear-gradient';
 
 export default function Home({navigation}) {
   let [fontsLoaded] = useFonts({
     SpaceGrotesk_400Regular,
-    FugazOne_400Regular
+    FugazOne_400Regular,
+    Inter_400Regular
   });
 
   if (!fontsLoaded) {
@@ -15,7 +17,6 @@ export default function Home({navigation}) {
   }
 
   return (
-      // <View style={styles.container}>
       <ImageBackground source={require('../assets/Home.png')} style={styles.backgroundImage}>
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('MyEvent')}>
           <Text style={styles.title}>CluSter</Text>
@@ -24,7 +25,6 @@ export default function Home({navigation}) {
           <StatusBar style="auto" />
         </TouchableOpacity>
       </ImageBackground>
-      // </View>
   );
 }
 
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 60,
     marginTop: 240,
-    // marginBottom: 50
   },
   subtitle: {
     color: '#fff',
