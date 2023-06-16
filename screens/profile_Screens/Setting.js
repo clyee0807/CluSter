@@ -8,4 +8,4 @@ export default function Setting() {
         <Text>setting</Text>
       </View>
     );
-  }
+}

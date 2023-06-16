@@ -5,7 +5,7 @@ import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
 
 export const globalStyles = StyleSheet.create({
   titleText: {
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: 'SpaceGrotesk_400Regular',
     fontWeight: 'bold',
     color: '#000',
