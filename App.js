@@ -1,34 +1,32 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function App() {
+
+import AddEventStack from './routes/addEventStack';
+
+const Stack = createNativeStackNavigator();
+
+function Root() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>CluSter</Text>
-      <Text style={styles.subtitle}>Tap to Start</Text>
-      <Text style={styles.slogan}>Transcending the Universe, Our Encounter Awaits.</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="AddEventstack" component={AddEventStack} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Settings" component={Settings} /> */}
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2C4073',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    // fontFamily: 'Fugaz One',
-    color: '#fff',
-    fontSize: 60,
-    marginBottom: 100
-  },
-  subtitle: {
-    color: '#fff'
-  },
-  slogan: {
-    color: '#fff'
-  }
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Root"
+          component={Root}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen name="Feed" component={Feed} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

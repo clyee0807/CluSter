@@ -30,10 +30,17 @@ const Exampledata = [
 ];
 
 
-export default function App() {
+// export default function App() {
+//   return (
+//     <View>
+//       <Text>CluSter</Text>
+//     </View>
+//   );
+// }
+export default function CreateEvent() {
   return (
     <View>
-      <Text>CluSter</Text>
+      <Text>create event</Text>
     </View>
   );
 }
