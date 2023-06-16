@@ -7,9 +7,8 @@ import Home from '../screens/home';
 import MyEvent from '../screens/myEvents_Screens/Main';
 import AddEvent from '../screens/addEvents_Screens/Main';
 import CreateEvent from '../screens/createEvents_Screens/Main';
-import JoinEvent from '../screens/JoinEvents_Screenns/Main';
+import JoinEvent from '../screens/JoinEvents_Screens/Main';
 import EventScreen from '../screens/event_Screens/Main';
-import { Component } from 'react/cjs/react.production.min';
 import Notice from '../screens/myEvents_Screens/notification';
 
 
@@ -18,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function AddEventStack() {
     return(
         <Stack.Navigator>
-            <Stack.Screen name='Home' component={Home}></Stack.Screen>
+            <Stack.Screen name='Home' component={Home} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='MyEvent' component={MyEvent}></Stack.Screen>
             <Stack.Screen name='EventScreen' component={EventScreen}></Stack.Screen>
             <Stack.Screen name='Notification' component={Notice}></Stack.Screen>
