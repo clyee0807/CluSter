@@ -1,5 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
+// createEvent - weekday/date 
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
+import Buttons from '../../components/buttons.js';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 
 const Exampledata = [
     {
@@ -30,17 +34,79 @@ const Exampledata = [
 ];
 
 
-// export default function App() {
-//   return (
-//     <View>
-//       <Text>CluSter</Text>
-//     </View>
-//   );
-// }
+
 export default function CreateEvent() {
-  return (
-    <View>
-      <Text>create event</Text>
-    </View>
-  );
+	const [selectedDate, setSelected] = useState([]);
+	const [mode, setMode] = useState('Specific Dates'); 
+
+	const handleSetMode = (buttonMode) =>{
+		setMode(buttonMode);
+		// console.log(mode);
+	};
+	const handleSetSelected = (day) => {
+		if(selectedDate.includes(day.dateString)){
+			setSelected((prevSelected) => {
+				let filtSelected = prevSelected.filter(item => item !== day.dateString);
+				return [...filtSelected];
+			})
+		} else {
+			setSelected((prevSelected) => {
+				return [...prevSelected, day.dateString];
+			})
+		}
+	};
+	// console.log(selectedDate);
+	const markdates = {};
+	selectedDate.forEach(date => {
+		// console.log(date);
+		markdates[date] = {selected: true, selectedDayBackgroundColor: '#809BBF'};
+	});
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.modeButton}>
+				<Buttons buttonText='Specific Dates' height={36} width={144} onPress={()=>handleSetMode('Specific Dates')} mode={mode}/>
+				<Buttons buttonText='Days of the Week' height={36} width={144} onPress={()=>handleSetMode('Days of the Week')} mode={mode}/>
+			</View>
+			{(mode==='Days of the Week') ? 
+				(<View>
+					<Text>Days of the Week</Text>
+				</View>) : 
+				(<View>
+					<Calendar
+					  	// markingType={'period'}
+						markedDates={markdates}
+						style={{
+							marginHorizontal: 35,
+							borderWidth: 1,
+							borderRadius: 12,
+							borderColor: '#809BBF',
+							// backgroundColor: 'pink',
+						}}
+						theme={{
+							selectedDayBackgroundColor: '#809BBF',
+							selectedDayTextColor: '#ffffff',
+							todayTextColor: '#FF63A5',
+						}}
+						onDayPress={day => {
+							handleSetSelected(day);
+
+						}}
+					/>
+				</View>)}
+
+		</View>
+	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+
+	},
+	modeButton: {
+		margin: 15,
+		flexDirection: 'row',
+		justifyContent: 'space-around', 
+		alignItems: 'flex-start',
+	},
+});

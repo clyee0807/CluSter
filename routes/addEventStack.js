@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import Home from '../screens/home';
 import MyEvent from '../screens/myEvents_Screens/Main';
 import AddEvent from '../screens/addEvents_Screens/Main';
@@ -22,8 +23,8 @@ export default function AddEventStack() {
             <Stack.Screen name='MyEvent' component={MyEvent} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='EventScreen' component={EventScreen}></Stack.Screen>
             <Stack.Screen name='Notification' component={Notice}></Stack.Screen>
-            <Stack.Screen name='AddEvent' component={AddEvent} options={{headerTitleAlign: 'center', headerShadowVisible: false}}></Stack.Screen>
-            <Stack.Screen name='CreateEvent' component={CreateEvent}></Stack.Screen>
+            <Stack.Screen name='AddEvent' component={AddEvent} options={{ headerTitleAlign: 'center', headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }} /> 
+            <Stack.Screen name='CreateEvent' component={CreateEvent} options={{ headerTitleAlign: 'center', headerTitle: () => ( <Text style={styles.headerTitle}>Create Events</Text>) }} /> 
             <Stack.Screen name='JoinEvent' component={JoinEvent} options={{headerTitle: ' ',headerShadowVisible: false}}></Stack.Screen>
             <Stack.Screen name='AddFriend' component={AddFriend}></Stack.Screen>
             <Stack.Screen name='FriendList' component={FriendList}></Stack.Screen>
@@ -32,3 +33,11 @@ export default function AddEventStack() {
         </Stack.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+	headerTitle: {
+        fontFamily: 'SpaceGrotesk_400Regular',
+        fontSize: 20,
+        fontWeight: 600,
+	},
+})
