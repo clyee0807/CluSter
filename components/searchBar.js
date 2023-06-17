@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
 		height: 80,
 		paddingTop: 38,
 		backgroundColor: 'coral',
-    borderStyle: 'dashed',
-    borderColor: '#bbb',
+		borderStyle: 'dashed',
+		borderColor: '#bbb',
 	},
 	searching: {
 		textAlign: 'center',
