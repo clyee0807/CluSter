@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity, Keyboard } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function BottomBar({navigation}) {
+
   const [keyboardStatus, setKeyboardStatus] = useState('');
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function BottomBar({navigation}) {
     };
   }, []);
 
+
     return (
       <View style={[styles.container, { marginBottom: keyboardStatus=='Keyboard Shown'?-100:0}]}>
         <View style={styles.bottomBar}>
@@ -32,6 +34,9 @@ export default function BottomBar({navigation}) {
 }
   
 const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },  
     homeicon: {
       flex: 1,
     },

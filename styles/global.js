@@ -34,4 +34,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  card:{
+    backgroundColor: 'pink',
+  }
 });

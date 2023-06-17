@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   enter: {
     backgroundColor: '#809BBF',
     alignItems: 'center',
+    
     borderRadius: 16,
     height: 40,
     width: 300,
