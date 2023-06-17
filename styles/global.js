@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useFonts, FugazOne_400Regular } from '@expo-google-fonts/fugaz-one';
 import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 
 
 export const globalStyles = StyleSheet.create({
