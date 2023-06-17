@@ -98,7 +98,7 @@ export default function MyEvent({navigation}) {
 				</View>
 				<Text style={globalStyles.instructionText}>Your all events will be displayed here.</Text>
 				<SearchBar submitHandler={submitHandler}/>
-				<View>
+				<View style={styles.list}>
 					<FlatList
 					data={events}
 					renderItem={ ({item})=>(
