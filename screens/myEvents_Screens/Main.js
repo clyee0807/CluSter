@@ -132,9 +132,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	topSections: {
-		flex: 4,
+		flex: 15,
 		padding: 30,
-		},
+		// backgroundColor: 'yellow',
+	},
 	rows: {
 		flexDirection: 'row',
 		justifyContent: 'space-between', 
@@ -142,6 +143,9 @@ const styles = StyleSheet.create({
 	},
 	notificationIcon: {
 		marginTop: 40,
+	},
+	list: {
+		flex: 1,
 	},
 	eventCard: {
 		height: 140,
