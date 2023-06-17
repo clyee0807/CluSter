@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 		borderColor: '#809BBF',
 		paddingHorizontal: 10,
 		paddingVertical: 10,
+		backgroundColor: '#fff'
 	},
 	searchIcon: {
 		marginRight: 10,
