@@ -41,22 +41,23 @@ export default function Timeline({ data, direction, customStyle = {} }: Props) {
       } = customStyle;
     return(
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={{ paddingLeft: 35,paddingTop:15, flexDirection: 'row', justifyContent: 'space-around', height: 60 }}>
+        <View style={{ marginLeft: 130, paddingTop:15, flexDirection: 'row', justifyContent: 'space-around', height: 60 }}>
           {
             data.map((item, index) => {
               let lastIndex = index === data.length - 1
-              let firstIndex = index === 1
+              let firstIndex = index === 0
 
               return (
                 <View key={index} style={[styles.containerHorizontal, containerHorizontal]}>
                   <View style={[styles.dotConnectorHorizontalWrapper, dotConnectorHorizontalWrapper]}>
-                    <View style={[styles.dotContainerHorizontal, dotContainerHorizontal]}>
+                    <View style={[styles.dotHorizontal, dotHorizontal]} />
+                    {/* {firstIndex ?
+                      <View style={[styles.dotHorizontal2, dotHorizontal]} />:
                       <View style={[styles.dotHorizontal, dotHorizontal]} />
-                    </View>
+                    } */}
                     {!lastIndex && <View style={[styles.connectorHorizontal, connectorHorizontal]} />}
                   </View>
                   <View style={customStyle.containerHorizontalText}>
-                    {/* <Text style={[styles.txtStatus, textStyle.txtStatus]}>{item?.status}</Text> */}
                     <Text style={[styles.txtDate, textStyle.txtDate]}>{item}</Text>
                   </View>
                 </View>
@@ -115,15 +116,11 @@ const styles = StyleSheet.create({
 
   containerHorizontal: {
     flex: 1,
-    width: 85
-  },
-  containerHorizontal2: {
-    flex: 1,
-    width: 85,
-    padding: 5,
+    width: 90
   },
   connectorHorizontal: {
     flex: 1,
+    width: 50,
     height: 2,
     backgroundColor: '#809BBF'
   },
@@ -141,7 +138,14 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10
   },
+  dotHorizontal2: {
+    backgroundColor: '#FFD966',
+    borderRadius: 50,
+    width: 10,
+    height: 10,
+    marginLeft:15
+  },
   dotConnectorHorizontalWrapper: {
     flexDirection: 'row', alignItems: 'center', marginBottom: 10
-  }
+  },
 })

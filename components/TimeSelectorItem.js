@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     clickcircle: {
         borderRadius: 50,
         margin: 10,
-        borderColor: '#809BBF',
-        borderWidth: 1,
+        // borderColor: '#809BBF',
+        // borderWidth: 1,
         width: 20,
         height:20,
         // backgroundColor: '#FFF'

@@ -94,7 +94,7 @@ export default function MyEvent({navigation}) {
 			<View style={styles.topSections}>
 				<View style={styles.rows}>
 					<Text style={globalStyles.titleText}>MY EVENTs</Text>
-					<TouchableOpacity onPress={() => navigation.navigate('Profile')}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
+					<TouchableOpacity onPress={() => navigation.navigate('Notification')}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
 				</View>
 				<Text style={globalStyles.instructionText}>Your all events will be displayed here.</Text>
 				<SearchBar submitHandler={submitHandler}/>

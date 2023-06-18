@@ -3,32 +3,22 @@ import { StyleSheet, View, Text, Button, TouchableOpacity, Keyboard, FlatList, S
 import { globalStyles } from '../styles/global';
 import Timeline from './timeline';
 // import { HorizontalTimeline } from 'react-native-horizontal-timeline';
-import TimeSelectorItemLine from './TimeSelectorItemLine';
+// import TimeSelectorItemLine from './TimeSelectorItemLine';
 import TimeInterval from './TimeInterval';
 import Blueblock from './blueblock';
+import ResultPeople from './resultpeople';
 
 
-export default function TimeSelector({dates,interval}) {
+export default function Result({available_member,interval}) {
 	return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={styles.container}>
-            <Timeline style={styles.timeline} data={dates} direction='horizontal' customStyle={styles.timeline}/>
-            {/* <Text style={globalStyles.instructionText}>Minimum Time Unit: 1hr</Text> */}
-            {/* <View style={{alignItems:'center'}}><Text style={globalStyles.instructionText}>Minimum Time Unit: 1hr</Text></View> */}
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <TimeInterval interval={interval}/>
-                <FlatList
-                    horizontal = {true}
-                    style={{paddingBottom:30}}
-                    data={dates}
-                    renderItem={({item})=>(
-                        <TimeSelectorItemLine interval={interval}/>
-                        // <TouchableOpacity style={styles.clickbox}></TouchableOpacity>
-                    )}>
-            </FlatList>
-            <Blueblock interval={interval}/>
-            </ScrollView>
-        </View>
+            <View style={styles.container}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <TimeInterval interval={interval}/>
+                    <ResultPeople interval={interval}/>
+                    <Blueblock interval={interval}/>
+                </ScrollView>
+            </View>
         </ScrollView>
     )
 }
@@ -72,13 +62,4 @@ const styles = StyleSheet.create({
         width: 38,
         height: 30,
     }
-    // selectline: {
-    //     // alignContent: 'center',
-    //     // // justifyContent:'center',
-    //     // alignItems: 'center',
-    //     backgroundColor: '#E5EAEF',
-    //     marginVertical:10,
-    //     width: 90,
-    //     height: 30,
-    // }
 });

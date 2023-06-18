@@ -4,11 +4,15 @@ import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } f
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import { SelectList } from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-neat-date-picker';
+// 去node_modules/react-native-neat-date-picker/src/components/NeatDatePicker.tsx的第187行false改成true
+// pop出來的calendar才不會跑版
+
 import { AntDesign } from '@expo/vector-icons'; 
 import Buttons from '../../components/buttons.js';
 import BottomBar from '../../components/bottomBar';
 import TextBar from '../../components/textBar.js';
 import WeekdayPicker from '../../components/weekdayPicker.js';
+
 
 const Exampledata = [
     {
@@ -106,8 +110,7 @@ export default function CreateEvent({navigation}) {
 	];
 
 	// selectDeadline modal
-	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false)
-	const [showDatePickerRange, setShowDatePickerRange] = useState(false);
+	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false);
 
 	const [date, setDate] = useState('2023-06-20');
 
@@ -125,6 +128,23 @@ export default function CreateEvent({navigation}) {
 		// For range mode, the output contains startDate, startDateString, endDate, and EndDateString
 		console.log(output)
 		setDate(output.dateString)
+	}
+
+	const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+	const [endDate, setEndDate] = useState('2023-06-20');
+
+	const openEndDatePicker = () => setShowEndDatePicker(true);
+	const onCancelEndDatePicker = () => {
+		setShowEndDatePicker(false);
+	}
+
+	const onConfirmEndDatePicker = (output) => {
+		// You should close the modal in here
+		setShowEndDatePicker(false);
+
+		console.log(output)
+		setEndDate(output.dateString)
 	}
 
 
@@ -213,7 +233,28 @@ export default function CreateEvent({navigation}) {
 						onConfirm={onConfirmSingle}
 						colorOptions={{ selectedDateBackgroundColor: '#809BBF',
 										headerColor: '#809BBF',
+										weekDaysColor: '#1C1243',}}
+					/>
+					<Text style={styles.subsettingText}>Event End Date: </Text>
+					<Text style={styles.descText}>Event will continue every week until this date.</Text>
+					<TouchableOpacity onPress={openEndDatePicker} style={styles.selectDateBox}>
+						<View style={{ flexDirection: 'row', alignContent: 'center' }}>
+							<AntDesign name="calendar" size={18} color="black" />
+							<Text style={styles.DLtimeText}>{endDate}</Text>
+						</View>
+					</TouchableOpacity>
+					<DatePicker
+						isVisible={showEndDatePicker}
+						mode={'single'}
+						onCancel={onCancelEndDatePicker}
+						onConfirm={onConfirmEndDatePicker}
+						colorOptions={{ selectedDateBackgroundColor: '#809BBF',
+										headerColor: '#809BBF',
 										weekDaysColor: '#1C1243',
+
+						}}
+						modalStyles={{  transparent: 'true',
+										// justifyContent: 'flex-end',
 
 						}}
 					/>
@@ -326,10 +367,9 @@ export default function CreateEvent({navigation}) {
 						colorOptions={{ selectedDateBackgroundColor: '#809BBF',
 										headerColor: '#809BBF',
 										weekDaysColor: '#1C1243',
-
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>
