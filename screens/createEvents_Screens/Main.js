@@ -1,13 +1,14 @@
 // createEvent - weekday/date 
 import React, { useState, useMemo } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
-import Buttons from '../../components/buttons.js';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import BottomBar from '../../components/bottomBar';
-import TextBar from '../../components/textBar.js';
 import { SelectList } from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-neat-date-picker';
-
+import { AntDesign } from '@expo/vector-icons'; 
+import Buttons from '../../components/buttons.js';
+import BottomBar from '../../components/bottomBar';
+import TextBar from '../../components/textBar.js';
+import WeekdayPicker from '../../components/weekdayPicker.js';
 
 const Exampledata = [
     {
@@ -108,13 +109,9 @@ export default function CreateEvent({navigation}) {
 	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false)
 	const [showDatePickerRange, setShowDatePickerRange] = useState(false);
 
-	const [date, setDate] = useState('');
-	const [startDate, setStartDate] = useState('');
-	const [endDate, setEndDate] = useState('');
+	const [date, setDate] = useState('2023-06-20');
 
-	const openDatePickerSingle = () => setShowDatePickerSingle(true)
-	const openDatePickerRange = () => setShowDatePickerRange(true)
-
+	const openDatePickerSingle = () => setShowDatePickerSingle(true);
 	const onCancelSingle = () => {
 		// You should close the modal in here
 		setShowDatePickerSingle(false)
@@ -139,9 +136,91 @@ export default function CreateEvent({navigation}) {
 				<Buttons buttonText='Days of the Week' height={36} width={144} onPress={()=>handleSetMode('Days of the Week')} mode={mode}/>
 			</View>
 			{(mode==='Days of the Week') ? 
-				(<View>
-					<Text>Days of the Week</Text>
-				</View>) : 
+				(<ScrollView style={styles.topSection}>
+					<WeekdayPicker/>
+					<Text style={styles.settingText}>Event Name: </Text>
+					<TextBar placeholder="Type a name..." submitHandler={submitEventNameHandler}/>
+					<Text style={styles.settingText}>Team Members: </Text>
+					{/* 大頭照是要怎麼搞== */}
+					<Text style={styles.settingText}>Setting: </Text>
+					<Text style={styles.subsettingText}>Minimum Time Unit: </Text>
+					<SelectList 
+						setSelected={(val) => setdropelected(val)} 
+						data={[{key:'1', value:'1 hour'},
+							  {key:'2', value:'2 hour'}]} 
+						save="value"
+						search={false}
+						boxStyles={{marginHorizontal:32,
+									marginTop: 10,
+									marginBottom: 10,
+									fontFamily: 'SpaceGrotesk_400Regular',
+									borderColor: '#809BBF',
+									borderRadius: 16, }}
+						dropdownStyles={{marginHorizontal:32,
+									borderColor: '#809BBF',
+									fontFamily: 'SpaceGrotesk_400Regular',
+									marginTop: 2,
+									marginBottom: 10,
+									}}
+						defaultOption={{ key:'1', value:'1 hour' }}
+					/>
+					<Text style={styles.subsettingText}>Interval: </Text>
+					<Text style={styles.descText}>Members can only select time in the interval.</Text>
+					<View style={styles.timeText}>
+						<Text style={styles.beginText}>begin</Text>
+						<Text style={styles.endText}>end</Text>
+					</View>
+					<View style={styles.timeInterval}>
+						<Image source={require('../../assets/beginTime.png')}/>
+						<SelectList
+							setSelected={(val) => setbeginTime(val)} 
+							data={timelist}
+							boxStyles={{marginHorizontal:0,
+										borderColor: '#809BBF',}}
+							dropdownStyles={{marginHorizontal:5,
+								borderColor: '#809BBF',
+								fontFamily: 'SpaceGrotesk_400Regular',
+								marginTop: 2,
+								marginBottom: 10,}}
+							defaultOption={{ key:'7', value:'07:00' }}
+							search={false} />
+						<Image styles={styles.TimeImg} source={require('../../assets/endTime.png')}/>
+						<SelectList
+							setSelected={(val) => setendTime(val)} 
+							data={timelist}
+							boxStyles={{marginHorizontal:0,
+										borderColor: '#809BBF',}}
+							dropdownStyles={{marginHorizontal:5,
+								borderColor: '#809BBF',
+								fontFamily: 'SpaceGrotesk_400Regularr',
+								marginTop: 2,
+								marginBottom: 10,}}
+							defaultOption={{ key:'19', value:'19:00' }}
+							search={false} />
+					</View>
+					<Text style={styles.subsettingText}>Deadline: </Text>
+					<Text style={styles.descText}>Memebers should vote their available time before deadline.</Text>
+					<TouchableOpacity onPress={openDatePickerSingle} style={styles.selectDateBox}>
+						<View style={{ flexDirection: 'row', alignContent: 'center' }}>
+							<AntDesign name="calendar" size={18} color="black" />
+							<Text style={styles.DLtimeText}>{date}</Text>
+						</View>
+					</TouchableOpacity>
+					<DatePicker
+						isVisible={showDatePickerSingle}
+						mode={'single'}
+						onCancel={onCancelSingle}
+						onConfirm={onConfirmSingle}
+						colorOptions={{ selectedDateBackgroundColor: '#809BBF',
+										headerColor: '#809BBF',
+										weekDaysColor: '#1C1243',
+
+						}}
+					/>
+					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
+						<Text style={styles.createButtonText}>create</Text>
+					</TouchableOpacity>
+				</ScrollView>) : 
 				(<ScrollView style={styles.topSection}>
 					<Calendar
 						markedDates={markdates}
@@ -153,6 +232,10 @@ export default function CreateEvent({navigation}) {
 							borderRadius: 12,
 							borderColor: '#809BBF',
 							// backgroundColor: 'pink',
+						}}
+						headerStyle={{
+							fontFamily: 'SpaceGrotesk_400Regular',
+
 						}}
 						theme={{
 							selectedDayBackgroundColor: '#809BBF',
@@ -194,6 +277,7 @@ export default function CreateEvent({navigation}) {
 						defaultOption={{ key:'1', value:'1 hour' }}
 					/>
 					<Text style={styles.subsettingText}>Interval: </Text>
+					<Text style={styles.descText}>Members can only select time in the interval.</Text>
 					<View style={styles.timeText}>
 						<Text style={styles.beginText}>begin</Text>
 						<Text style={styles.endText}>end</Text>
@@ -220,21 +304,30 @@ export default function CreateEvent({navigation}) {
 										borderColor: '#809BBF',}}
 							dropdownStyles={{marginHorizontal:5,
 								borderColor: '#809BBF',
-								fontFamily: 'SpaceGrotesk_400Regular',
+								fontFamily: 'SpaceGrotesk_400Regularr',
 								marginTop: 2,
 								marginBottom: 10,}}
 							defaultOption={{ key:'19', value:'19:00' }}
 							search={false} />
 					</View>
 					<Text style={styles.subsettingText}>Deadline: </Text>
-					<TouchableOpacity onPress={openDatePickerSingle} style={styles.selectDate}>
-						<Text>{date}</Text>
+					<Text style={styles.descText}>Memebers should vote their available time before deadline.</Text>
+					<TouchableOpacity onPress={openDatePickerSingle} style={styles.selectDateBox}>
+						<View style={{ flexDirection: 'row', alignContent: 'center' }}>
+							<AntDesign name="calendar" size={18} color="black" />
+							<Text style={styles.DLtimeText}>{date}</Text>
+						</View>
 					</TouchableOpacity>
 					<DatePicker
 						isVisible={showDatePickerSingle}
 						mode={'single'}
 						onCancel={onCancelSingle}
 						onConfirm={onConfirmSingle}
+						colorOptions={{ selectedDateBackgroundColor: '#809BBF',
+										headerColor: '#809BBF',
+										weekDaysColor: '#1C1243',
+
+						}}
 					/>
 					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
@@ -271,6 +364,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	subsettingText: {
+		marginTop: 5,
 		marginLeft: 37,
 		fontFamily: 'SpaceGrotesk_400Regular',
 		fontSize: 14,
@@ -290,15 +384,24 @@ const styles = StyleSheet.create({
 	beginText: {
 		marginTop: 2,
 		fontFamily: 'SpaceGrotesk_400Regular',
-		fontSize:8,
+		color: '#1C1243',
+		fontSize: 10,
 	},
 	endText: {
 		marginTop: 2,
 		paddingLeft: 160,
 		fontFamily: 'SpaceGrotesk_400Regular',
-		fontSize:8,
+		color: '#1C1243',
+		fontSize: 10,
 	},
-	selectDate: {
+	descText: {
+		marginHorizontal: 38,
+		marginTop: 2,
+		fontFamily: 'SpaceGrotesk_400Regular',
+		color: '#1C1243',
+		fontSize: 10,
+	},
+	selectDateBox: {
 		marginHorizontal: 35,
 		marginVertical: 5,
 		borderWidth: 1,
@@ -307,6 +410,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: 40,
+	},
+	DLtimeText: {
+		paddingLeft: 10,
 	},
 	createButton:{
 		marginHorizontal: 35,
