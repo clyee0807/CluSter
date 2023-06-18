@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity, Keyboard } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
-export default function BottomBar({navigation}) {
+export default function CalendarBottomBar({navigation}) {
 
   const [keyboardStatus, setKeyboardStatus] = useState('');
 
@@ -26,7 +27,9 @@ export default function BottomBar({navigation}) {
       <View style={[styles.container, { marginBottom: keyboardStatus=='Keyboard Shown'?-100:0}]}>
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => navigation.navigate('MyEvent')}><Ionicons name="home-outline" size={30} color="#A29EB6" /></TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}><AntDesign name="pluscircle" size={30} color="#A29EB6" /></TouchableOpacity>
+          <View style={styles.calendarcontainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}><Feather name="calendar" size={24} color="white" /></TouchableOpacity>
+          </View>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}><Ionicons name="person-outline" size={30} color="#A29EB6" /></TouchableOpacity>
         </View>
       </View>
@@ -60,4 +63,12 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       alignItems: 'center',
     },
+    calendarcontainer: {
+        borderRadius: 50,
+        width: 50,
+        height: 50,
+        backgroundColor: '#A29EB6',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
