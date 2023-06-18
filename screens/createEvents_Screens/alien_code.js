@@ -6,6 +6,10 @@ import { globalStyles } from '../../styles/global';
 export default function Porfile({navigation}) {
     return (
       <View style={globalStyles.container}>
+        <Image
+          source={require('../../assets/alien.png')}
+          style={styles.image}
+        />
         <Text>eventCode</Text>
       </View>
     );
