@@ -6,6 +6,7 @@ import { Touchable } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native';
 import { useState } from 'react';
+import BottomBar from '../../components/bottomBar';
 
 const Exampledata = [
     {
@@ -93,6 +94,8 @@ export default function VoteScreen({navigation}) {
 					<Text style={{color:'#FFF',}}>Submit</Text>
 				</TouchableOpacity>
 			</ScrollView>
+			{/* <BottomBar navigation={navigation}/> */}
+
 		</View>
   );
 }
