@@ -30,7 +30,7 @@ export default function AddEventStack() {
             <Stack.Screen name='CreateEvent' component={CreateEvent}></Stack.Screen>
             <Stack.Screen name='JoinEvent' component={JoinEvent} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Join Events</Text>)}}></Stack.Screen>
             <Stack.Screen name='AddFriend' component={AddFriend}></Stack.Screen>
-            <Stack.Screen name='FriendList' component={FriendList}></Stack.Screen>
+            <Stack.Screen name='FriendList' component={FriendList} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Friends</Text>)}}></Stack.Screen>
             <Stack.Screen name='Profile' component={Porfile}></Stack.Screen>
             <Stack.Screen name='Setting' component={Setting}></Stack.Screen>
         </Stack.Navigator>
