@@ -25,14 +25,14 @@ export default function AddEventStack() {
             <Stack.Screen name='MyEvent' component={MyEvent} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='EventScreen' component={EventScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='VoteScreen' component={VoteScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
-            <Stack.Screen name='Notification' component={Notice}></Stack.Screen>
+            <Stack.Screen name='Notification' component={Notice} options={{headerShadowVisible: false}}></Stack.Screen>
             <Stack.Screen name='AddEvent' component={AddEvent} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
-            <Stack.Screen name='CreateEvent' component={CreateEvent}></Stack.Screen>
+            <Stack.Screen name='CreateEvent' component={CreateEvent} options={{headerShadowVisible: false}}></Stack.Screen>
             <Stack.Screen name='JoinEvent' component={JoinEvent} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Join Events</Text>)}}></Stack.Screen>
-            <Stack.Screen name='AddFriend' component={AddFriend}></Stack.Screen>
-            <Stack.Screen name='FriendList' component={FriendList}></Stack.Screen>
-            <Stack.Screen name='Profile' component={Porfile}></Stack.Screen>
-            <Stack.Screen name='Setting' component={Setting}></Stack.Screen>
+            <Stack.Screen name='AddFriend' component={AddFriend} options={{headerShadowVisible: false}}></Stack.Screen>
+            <Stack.Screen name='FriendList' component={FriendList} options={{headerShadowVisible: false}}></Stack.Screen>
+            <Stack.Screen name='Profile' component={Porfile} options={{headerShadowVisible: false}}></Stack.Screen>
+            <Stack.Screen name='Setting' component={Setting} options={{headerShadowVisible: false}}></Stack.Screen>
         </Stack.Navigator>
     );
 }

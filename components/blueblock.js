@@ -4,14 +4,13 @@ import { globalStyles } from '../styles/global';
 import { FlatList } from 'react-native';
 import TimeSelectorItem from './TimeSelectorItem';
 
-export default function TimeSelectorItemLine({interval}) {
+export default function Blueblock({interval}) {
 	return (
         <View style={styles.container}>
             <FlatList
                 data={interval}
                 renderItem={({item})=>(
                     <View style={styles.circlecontainer}>
-                        <TimeSelectorItem />
                     </View>
                 )}>
             </FlatList>
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#E5EAEF',
         marginVertical:10,
-        width: 90,
+        width: 38,
         height: 30,
-    }
+    },
 });

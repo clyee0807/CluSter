@@ -6,6 +6,9 @@ import { Touchable } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native';
 import { useState } from 'react';
+import { globalStyles } from '../../styles/global';
+// import BottomBar from '../../components/bottomBar';
+import CalendarBottomBar from '../../components/calendarbottomBar';
 
 const Exampledata = [
     {
@@ -14,7 +17,7 @@ const Exampledata = [
             dates: ['2023/5/20', '2023/5/21', '2023/5/22','2023/5/23','2023/5/24'],
             host: 'Anna',
             member: ['Bob', 'Cathy', 'Domingo'],
-            interval: ['9:00', '10:00', '11:00','12:00','13:00','14:00','15:00'],
+            interval: ['9:00', '10:00', '11:00','12:00','13:00','14:00'],
             description: 'This is description.',
             deadline: '2023/6/11',
             eventCode: '809BBF',
@@ -38,15 +41,12 @@ const Exampledata = [
 export default function VoteScreen({navigation}) {
 	const [isclicked, setisclick] = useState([]);
   	return (
-    	<View style={styles.container}>
-			<ScrollView>
+    	<View style={styles.outercontainer}>
+			<ScrollView style={styles.topSection}>
 				<View style={styles.container}>
 					<Text style={styles.time}>{'Deadline:  '+ Exampledata[0].event.deadline }</Text>
-					{/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-
+            		<Text style={styles.instructionText}>Minimum Time Unit: 1hr</Text>
 					<TimeSelector dates={Exampledata[0].event.dates} interval={Exampledata[0].event.interval}/>
-					{/* </ScrollView> */}
-					{/* <Text>Event Screen</Text> */}
 				</View>
 				<View style={styles.toptime}>
 					<SimpleLineIcons style={{paddingHorizontal:10,}} name="trophy" size={24} color="black" />
@@ -93,6 +93,8 @@ export default function VoteScreen({navigation}) {
 					<Text style={{color:'#FFF',}}>Submit</Text>
 				</TouchableOpacity>
 			</ScrollView>
+
+			<CalendarBottomBar navigation={navigation}/>
 		</View>
   );
 }
@@ -103,15 +105,22 @@ const styles = StyleSheet.create({
 		// flex:1,
 		fontSize: 12,
 	},
+	topSection: {
+		// backgroundColor: 'pink',
+		marginBottom: 70,
+		// flex: 1,
+	},
+	outercontainer: {
+		backgroundColor: '#FFF',
+	},
 	container: {
 		backgroundColor: '#FFF',
-		// flexWrap: 'wrap',
-		// flex: 6,
-		// padding: 30,
+
 		alignContent: 'center',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	
 	toptime:{
 		// flex:1,
 		marginHorizontal: 30,
@@ -137,6 +146,12 @@ const styles = StyleSheet.create({
 		borderColor: '#809BBF',
 		margin: 5,
 	},
-	topdate: {},
+	// topdate: {},
+	instructionText: {
+		fontFamily: 'Inter_400Regular',
+		fontSize: 14,
+		color: '#A29EB6',
+		marginTop:15,
+	},
 
 });
