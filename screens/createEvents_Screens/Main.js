@@ -1,13 +1,13 @@
 // createEvent - weekday/date 
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
 import Buttons from '../../components/buttons.js';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import BottomBar from '../../components/bottomBar';
 import TextBar from '../../components/textBar.js';
-// import ModalDropdown from 'react-native-modal-dropdown';
-// import DropDownPicker from 'react-native-dropdown-picker';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from 'react-native-dropdown-select-list';
+import DatePicker from 'react-native-neat-date-picker';
+
 
 const Exampledata = [
     {
@@ -72,7 +72,65 @@ export default function CreateEvent({navigation}) {
 	}
 
 	// dropDown
-	const [dropSelected, setSdropelected] = React.useState("");
+	const [dropSelected, setdropelected] = useState("");
+
+	// time select list
+	const [beginTimeSelected, setbeginTime] = useState("");
+	const [endTimeSelected, setendTime] = useState("");
+	const timelist = [
+		{key:'1', value:'01:00'},
+		{key:'2', value:'02:00'},
+		{key:'3', value:'03:00'},
+		{key:'4', value:'04:00'},
+		{key:'5', value:'05:00'},
+		{key:'6', value:'06:00'},
+		{key:'7', value:'07:00'},
+		{key:'8', value:'08:00'},
+		{key:'9', value:'09:00'},
+		{key:'10', value:'10:00'},
+		{key:'11', value:'11:00'},
+		{key:'12', value:'12:00'},
+		{key:'13', value:'13:00'},
+		{key:'14', value:'14:00'},
+		{key:'15', value:'15:00'},
+		{key:'16', value:'16:00'},
+		{key:'17', value:'17:00'},
+		{key:'18', value:'18:00'},
+		{key:'19', value:'19:00'},
+		{key:'20', value:'20:00'},
+		{key:'21', value:'21:00'},
+		{key:'22', value:'22:00'},
+		{key:'23', value:'23:00'},
+		{key:'24', value:'24:00'},
+	];
+
+	// selectDeadline modal
+	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false)
+	const [showDatePickerRange, setShowDatePickerRange] = useState(false);
+
+	const [date, setDate] = useState('');
+	const [startDate, setStartDate] = useState('');
+	const [endDate, setEndDate] = useState('');
+
+	const openDatePickerSingle = () => setShowDatePickerSingle(true)
+	const openDatePickerRange = () => setShowDatePickerRange(true)
+
+	const onCancelSingle = () => {
+		// You should close the modal in here
+		setShowDatePickerSingle(false)
+	}
+
+	const onConfirmSingle = (output) => {
+		// You should close the modal in here
+		setShowDatePickerSingle(false)
+
+		// The parameter 'output' is an object containing date and dateString (for single mode).
+		// For range mode, the output contains startDate, startDateString, endDate, and EndDateString
+		console.log(output)
+		setDate(output.dateString)
+	}
+
+
 
 	return (
 		<View style={styles.container}>
@@ -116,7 +174,7 @@ export default function CreateEvent({navigation}) {
 					<Text style={styles.settingText}>Setting: </Text>
 					<Text style={styles.subsettingText}>Minimum Time Unit: </Text>
 					<SelectList 
-						setSelected={(val) => setSdropelected(val)} 
+						setSelected={(val) => setdropelected(val)} 
 						data={[{key:'1', value:'1 hour'},
 							  {key:'2', value:'2 hour'}]} 
 						save="value"
@@ -136,7 +194,51 @@ export default function CreateEvent({navigation}) {
 						defaultOption={{ key:'1', value:'1 hour' }}
 					/>
 					<Text style={styles.subsettingText}>Interval: </Text>
-
+					<View style={styles.timeText}>
+						<Text style={styles.beginText}>begin</Text>
+						<Text style={styles.endText}>end</Text>
+					</View>
+					<View style={styles.timeInterval}>
+						<Image source={require('../../assets/beginTime.png')}/>
+						<SelectList
+							setSelected={(val) => setbeginTime(val)} 
+							data={timelist}
+							boxStyles={{marginHorizontal:0,
+										borderColor: '#809BBF',}}
+							dropdownStyles={{marginHorizontal:5,
+								borderColor: '#809BBF',
+								fontFamily: 'SpaceGrotesk_400Regular',
+								marginTop: 2,
+								marginBottom: 10,}}
+							defaultOption={{ key:'7', value:'07:00' }}
+							search={false} />
+						<Image styles={styles.TimeImg} source={require('../../assets/endTime.png')}/>
+						<SelectList
+							setSelected={(val) => setendTime(val)} 
+							data={timelist}
+							boxStyles={{marginHorizontal:0,
+										borderColor: '#809BBF',}}
+							dropdownStyles={{marginHorizontal:5,
+								borderColor: '#809BBF',
+								fontFamily: 'SpaceGrotesk_400Regular',
+								marginTop: 2,
+								marginBottom: 10,}}
+							defaultOption={{ key:'19', value:'19:00' }}
+							search={false} />
+					</View>
+					<Text style={styles.subsettingText}>Deadline: </Text>
+					<TouchableOpacity onPress={openDatePickerSingle} style={styles.selectDate}>
+						<Text>{date}</Text>
+					</TouchableOpacity>
+					<DatePicker
+						isVisible={showDatePickerSingle}
+						mode={'single'}
+						onCancel={onCancelSingle}
+						onConfirm={onConfirmSingle}
+					/>
+					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
+						<Text style={styles.createButtonText}>create</Text>
+					</TouchableOpacity>
 				</ScrollView>
 				)}
 
@@ -169,9 +271,55 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	subsettingText: {
-		marginLeft: 38,
-
+		marginLeft: 37,
 		fontFamily: 'SpaceGrotesk_400Regular',
-		fontSize: 12,
+		fontSize: 14,
 	},
+	timeInterval:{
+		flexDirection: 'row',
+		marginHorizontal: 35,
+		marginTop: 3,
+		marginBottom: 10,
+		justifyContent: 'space-between',
+		alignContent: 'flex-start',
+	},
+	timeText:{
+		marginHorizontal: 38,
+		flexDirection: 'row',
+	},
+	beginText: {
+		marginTop: 2,
+		fontFamily: 'SpaceGrotesk_400Regular',
+		fontSize:8,
+	},
+	endText: {
+		marginTop: 2,
+		paddingLeft: 160,
+		fontFamily: 'SpaceGrotesk_400Regular',
+		fontSize:8,
+	},
+	selectDate: {
+		marginHorizontal: 35,
+		marginVertical: 5,
+		borderWidth: 1,
+		borderColor: '#809BBF',
+		borderRadius: 16,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 40,
+	},
+	createButton:{
+		marginHorizontal: 35,
+		marginVertical: 8,
+		height: 45,
+		backgroundColor: '#809BBF',
+		borderRadius: 16,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	createButtonText: {
+		fontFamily: 'SpaceGrotesk_400Regular',
+		color: '#fff',
+	},
+
 });
