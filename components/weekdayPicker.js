@@ -2,12 +2,24 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 const WeekdayPicker = ({}) => {
-	const [isPressed, setIsPressed] = useState(false);
+	const [isPressed, setIsPressed] = useState({
+        Sun: false,
+        Mon: false,
+        Tue: false,
+        Wed: false,
+        Thu: false,
+        Fri: false,
+        Sat: false,
+    });
 
-	const handlePress = () => {
-		setIsPressed(!isPressed);
+	const handlePress = (day) => {
+		setIsPressed((prevState) => ({
+            ...prevState,
+            [day]: !prevState[day],
+        }));
 	};
 
+    // console.log(isPressed);  
 
 	return (
 		<View style={styles.container}>
@@ -15,36 +27,36 @@ const WeekdayPicker = ({}) => {
             <View style={styles.headerWeekday}>
                 <View>
                     <Text style={styles.WeekdayText}>Sun</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Sun')} style={[styles.block, { backgroundColor: isPressed['Sun'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Mon</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Mon')} style={[styles.block, { backgroundColor: isPressed['Mon'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Tue</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Tue')} style={[styles.block, { backgroundColor: isPressed['Tue'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Wed</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Wed')} style={[styles.block, { backgroundColor: isPressed['Wed'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Thu</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Thu')} style={[styles.block, { backgroundColor: isPressed['Thu'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Fri</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Fri')} style={[styles.block, { backgroundColor: isPressed['Fri'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
                 <View>
                     <Text style={styles.WeekdayText}>Sat</Text>
-                    <TouchableOpacity onPress={handlePress} style={[styles.block, { backgroundColor: isPressed ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePress('Sat')} style={[styles.block, { backgroundColor: isPressed['Sat'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
 
                 </View>
             </View>
