@@ -1,7 +1,8 @@
-// event code還不是隨機生成
+// event code寫死
 import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default function Porfile({navigation}) {
     return (
@@ -12,13 +13,20 @@ export default function Porfile({navigation}) {
         />
         <Text style={globalStyles.headingText}>Event Created</Text>
         <Text style={globalStyles.instructionText}>This is your event code!</Text>
-        <View style={styles.Code}>
+        <View style={styles.row}>
             <Text style={styles.text}>809BBF</Text>
             <Feather name="copy" size={24} color="black" />
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>
 				</TouchableOpacity>
+        <View style={styles.shareContainer}>
+          <View style={styles.row_2}>
+            <Text style={styles.shareText}>share to friends</Text>
+            <TouchableOpacity style={styles.iconContainer}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>
+            <TouchableOpacity style={styles.iconContainer}><Entypo name="instagram" size={24} color="black" /></TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
 }
@@ -30,10 +38,11 @@ const styles = StyleSheet.create({
   },
   img: {
     width: Dimensions.get('window').width * 0.7,
-    height: Dimensions.get('window').width * 0.7, // Assuming square image
-    marginBottom: 35
+    height: Dimensions.get('window').width * 0.7,
+    marginTop: 50,
+    marginBottom: 10
   },
-  Code: {
+  row: {
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -59,4 +68,22 @@ const styles = StyleSheet.create({
 		fontFamily: 'SpaceGrotesk_400Regular',
 		color: '#fff',
 	},
+  shareContainer: {
+    flex: 1,
+    padding: 20,
+    marginRight: 145
+  },
+  row_2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  shareText: {
+    marginRight: 10,
+    fontFamily: 'Inter_400Regular',
+    fontSize: 14,
+    color: '#A29EB6',
+  },
+  iconContainer: {
+    marginRight: 10
+  },
 });
