@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     },
     bottomBar: {
       shadowColor: '#EEE',
-      borderRadius: 30,
+      borderTopRightRadius : 30,
+      borderTopLeftRadius : 30,
       backgroundColor: '#E5EAEF',
       height: 70,
       position: 'absolute',

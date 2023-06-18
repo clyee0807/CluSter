@@ -5,8 +5,6 @@ import { StyleSheet, View, Text, Button, TouchableOpacity, Image } from 'react-n
 import { globalStyles } from '../../styles/global';
 
 export default function AddEvent({navigation}) {
-
-	
 	return (
 		<View style={styles.container}>
 			<Text style={globalStyles.headingText}>Create or Join</Text>
@@ -21,6 +19,7 @@ export default function AddEvent({navigation}) {
 				<Text style={styles.title}>JOIN</Text>
 				<Text style={styles.description}>if you are an invited member</Text>
 			</TouchableOpacity>
+
 		</View>
 	);
 }

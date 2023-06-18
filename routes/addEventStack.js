@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet,Text } from 'react-native';
 import Home from '../screens/home';
+import { View, Text, StyleSheet } from 'react-native';
+
 import MyEvent from '../screens/myEvents_Screens/Main';
 import AddEvent from '../screens/addEvents_Screens/Main';
 import CreateEvent from '../screens/createEvents_Screens/Main';
@@ -25,7 +26,7 @@ export default function AddEventStack() {
             <Stack.Screen name='EventScreen' component={EventScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='VoteScreen' component={VoteScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='Notification' component={Notice}></Stack.Screen>
-            <Stack.Screen name='AddEvent' component={AddEvent} options={{headerShadowVisible: false, headerTitleAlign: 'center', headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }} />
+            <Stack.Screen name='AddEvent' component={AddEvent} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
             <Stack.Screen name='CreateEvent' component={CreateEvent}></Stack.Screen>
             <Stack.Screen name='JoinEvent' component={JoinEvent} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Join Events</Text>)}}></Stack.Screen>
             <Stack.Screen name='AddFriend' component={AddFriend}></Stack.Screen>
@@ -35,10 +36,11 @@ export default function AddEventStack() {
         </Stack.Navigator>
     );
 }
+
 const styles = StyleSheet.create({
-    headerTitle: {
+	headerTitle: {
         fontFamily: 'SpaceGrotesk_400Regular',
         fontSize: 20,
         fontWeight: 600,
-    },
+	},
 })
