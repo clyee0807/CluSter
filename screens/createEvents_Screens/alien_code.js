@@ -1,19 +1,62 @@
-// 顯示event code讓你複製的三眼怪頁面import React from 'react';
-import { StyleSheet, View, Text, Button, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
+// event code還不是隨機生成
+import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { globalStyles } from '../../styles/global';
-
+import { Feather } from '@expo/vector-icons';
 
 export default function Porfile({navigation}) {
     return (
       <View style={globalStyles.container}>
         <Image
           source={require('../../assets/alien.png')}
-          style={styles.image}
+          style={styles.img}
         />
-        <Text>eventCode</Text>
+        <Text style={globalStyles.headingText}>Event Created</Text>
+        <Text style={globalStyles.instructionText}>This is your event code!</Text>
+        <View style={styles.Code}>
+            <Text style={styles.text}>809BBF</Text>
+            <Feather name="copy" size={24} color="black" />
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
+						<Text style={styles.continueButtonText}>Continue</Text>
+				</TouchableOpacity>
       </View>
     );
 }
 const styles = StyleSheet.create({
-
-})
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  img: {
+    width: Dimensions.get('window').width * 0.7,
+    height: Dimensions.get('window').width * 0.7, // Assuming square image
+    marginBottom: 35
+  },
+  Code: {
+    padding: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontFamily: 'SpaceGrotesk_400Regular',
+    fontSize: 28,
+    marginLeft: 23,
+    marginRight: 10
+  },
+  continueButton:{
+    width: 350,
+		marginHorizontal: 35,
+		marginVertical: 8,
+		height: 45,
+		backgroundColor: '#809BBF',
+		borderRadius: 16,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+  continueButtonText: {
+		fontFamily: 'SpaceGrotesk_400Regular',
+		color: '#fff',
+	},
+});

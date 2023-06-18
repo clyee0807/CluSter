@@ -1,5 +1,3 @@
-//刪除好友部分還沒完全做完
-
 import React, {useState} from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal} from 'react-native';
 import { globalStyles } from '../../styles/global';
