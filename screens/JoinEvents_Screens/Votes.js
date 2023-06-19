@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, FlatList,Image } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { globalStyles } from '../../styles/global';
@@ -7,13 +7,15 @@ import CalendarBottomBar from '../../components/calendarbottomBar';
 import Timeline from '../../components/timeline';
 import TimeInterval from '../../components/TimeInterval';
 import Blueblock from '../../components/blueblock';
+import SlidableDrawer from '../../components/slidableDrawer';
+import {Calendar} from 'react-native-calendars';
 
 const Exampledata = [
     {
         event: {
             id: '4',
 			event_name: 'heyyeyaaeyaaaeyaeyaa',
-			dates: ['2023/10/1', '2023/10/2', '2023/10/8', '2023/10/9'],
+			dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
 			host: 'Jason',
 			members: ['Domingo', 'Guavaaa', 'Tony'],
 			interval: ['9:00', '11:00', '13:00', '15:00'],
@@ -35,7 +37,101 @@ const Exampledata = [
 			confirmTime: 'na'
             
         }
-    }
+    },
+	{ 
+		id: '2',
+		event_name: 'FOOBAR',
+		dates: ['2023/7/1', '2023/7/2'],
+		host: 'Guavaaa',
+		members: ['Domingo', 'Jason', 'Tony'],
+		interval: ['18:00', '19:00', '20:00', '21:00'],
+		description: 'FOOBAR',
+		deadline: '2023/5/1 23:59',
+		status: 'Settled',
+		event_code: '1A2B3C',
+		available_member: [
+		  [['Domingo', 'Guavaaa'], ['Domingo', 'Guavaaa'], ['Domingo', 'Guavaaa', 'Jason'], ['Domingo', 'Guavaaa', 'Jason', 'Tony']],
+		  [[], ['Tony'], ['Guavaaa', 'Jason', 'Tony'], ['Guavaaa', 'Jason', 'Tony']],
+		],
+		topTimeBlock: [
+		  [[0, 3]],
+		  [[0, 2], [1, 2], [1, 3]],
+		  [[0, 1], [0, 1]]
+		],
+		confirmTime: '2023-07-01 18:00'
+	  },
+	  { 
+		id: '3',
+		event_name: 'Emotional Damage',
+		dates: ['2023/6/26', '2023/6/27', '2023/6/28', '2023/6/29', '2023/6/30'],
+		host: 'Domingo',
+		members: ['Guavaaa', 'Jason', 'Tony', 'Bear'],
+		interval: ['9:00', '10:00'],
+		description: 'I will send you to Jesus.',
+		deadline: '2023/6/20  23:59',
+		status: 'In progress',
+		event_code: 'STEVEN', 
+		available_member: [
+		  [['Domingo', 'Guavaaa', 'Jason', 'Bear'], ['Domingo', 'Guavaaa', 'Tony']],
+		  [['Domingo', 'Guavaaa', 'Jason', 'Bear'], ['Domingo', 'Guavaaa', 'Tony']],
+		  [['Domingo', 'Guavaaa', 'Jason'], ['Domingo', 'Guavaaa', 'Tony']],
+		  [['Domingo', 'Jason'], ['Domingo', 'Tony']],
+		  [['Domingo', 'Jason'], ['Domingo', 'Tony']]
+		],
+		topTimeBlock: [
+		  [[0, 0], [1, 0]],
+		  [[0, 1], [1, 1], [2, 0], [2, 1]],
+		  [[3, 0], [3, 1], [4, 0], [4, 1]]
+		],
+		confirmTime: 'na'
+	  },
+	  {
+		id: '4',
+		event_name: 'heyyeyaaeyaaaeyaeyaa',
+		dates: ['2023/10/1', '2023/10/2', '2023/10/8', '2023/10/9'],
+		host: 'Jason',
+		members: ['Domingo', 'Guavaaa', 'Tony'],
+		interval: ['9:00', '11:00', '13:00', '15:00'],
+		description: 'Whats up.',
+		deadline: '2023/9/1  23:59',
+		status: 'In progress',
+		event_code: '0H0E2E', 
+		available_member: [
+		  [['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+		  [['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+		  [['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
+		  [['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
+		],
+		topTimeBlock: [
+		  [[3, 3]],
+		  [[2, 3]],
+		  [[0, 3], [1, 3]]
+		],
+		confirmTime: 'na'
+	  },
+	  {
+		id: '5',
+		event_name: 'Badminton',
+		dates: ['2023/6/26', '2023/6/27', '2023/6/28'],
+		host: 'Bear',
+		members: ['Domingo', 'Guavaaa', 'Jason'],
+		interval: ['16:00', '17:00', '18:00', '19:00'],
+		description: 'Hit badminton',
+		deadline: '2023/6/21  23:59',
+		status: 'In progress',
+		event_code: '6969SX', 
+		available_member: [
+		  [['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear', 'Jason']],
+		  [['Domingo', 'Bear'], ['Domingo', 'Bear'], ['Domingo', 'Bear'], ['Domingo', 'Bear']],
+		  [['Jason'], ['Jason'], ['Jason'], ['Jason']]
+		],
+		topTimeBlock: [
+		  [[0, 3]],
+		  [[0, 0], [0, 1], [0, 2]],
+		  [[1, 0], [1, 1], [1, 2], [1, 3]]
+		],
+		confirmTime: 'na'
+	  }
 ];
 
 export default function VoteScreen({navigation}) {
@@ -80,9 +176,67 @@ export default function VoteScreen({navigation}) {
 		}
 		navigation.navigate('EventScreen');
 	}
-	
+
+	const [showDrawer, setShowDrawer] = useState(false);
+	const [event, setEvent] = useState('none');
+
+	const closeDrawer = () => {
+		setEvent('close');
+	};
+	const showDrawerFn = () => {
+		setShowDrawer(true);
+	};
+	const onSlideEnd = () => {
+		setShowDrawer(false);
+		setEvent('none');
+	};
+	const markdates = {};
+	Exampledata.forEach(date => {
+		// console.log(date.confirmTime);
+		if(date.confirmTime!=='na' && date.confirmTime!== undefined){
+			// console.log(date.confirmTime);
+			markdates[date.confirmTime.slice(0,10)] = {selected: true, selectedDayBackgroundColor: '#809BBF'};
+		}
+	});
+
   	return (
     	<View style={styles.outercontainer}>
+			{/* <TouchableOpacity onPress={showDrawerFn}>
+				<Image source={profileImgPath} style={styles.profileImg}/>
+			</TouchableOpacity> */}
+			{showDrawer && (
+				<SlidableDrawer
+					onSlideEnd={onSlideEnd}
+					drawerOpenSpeed={4}
+					drawerHeight={0.8}
+					event={event}>
+					<Calendar
+						markedDates={markdates}
+						style={{
+							// width: 300,
+							marginHorizontal: 35,
+							marginBottom: 15,
+							borderWidth: 1,
+							borderRadius: 12,
+							borderColor: '#809BBF',
+							// backgroundColor: 'pink',
+						}}
+						headerStyle={{
+							fontFamily: 'SpaceGrotesk_400Regular',
+
+						}}
+						theme={{
+							selectedDayBackgroundColor: '#809BBF',
+							selectedDayTextColor: '#ffffff',
+							todayTextColor: '#FF63A5',
+							textDayFontSize: 14,
+							textMonthFontSize: 16,
+							arrowColor: '#1C1243',
+						}}
+						/>
+				</SlidableDrawer>
+			
+			)}
 			<FlatList
 				data={[1]}
 				style={styles.topSection}
@@ -148,7 +302,7 @@ export default function VoteScreen({navigation}) {
 				)}
 			>
 			</FlatList>
-			<CalendarBottomBar navigation={navigation}/>
+			<CalendarBottomBar showDrawerFn={showDrawerFn} navigation={navigation}/>
 		</View>
   );
 }

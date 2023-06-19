@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 export default function MyEvent({navigation}) {
-
+	const cur_user = 'Domingo';
   const [events, setEvent] = useState([
     {
 		id: '1',
@@ -161,7 +161,7 @@ export default function MyEvent({navigation}) {
 					<FlatList
 					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate('EventScreen')}>
+						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner' )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>

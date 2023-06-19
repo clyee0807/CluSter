@@ -20,6 +20,7 @@ import VoteScreen from '../screens/JoinEvents_Screens/Votes';
 
 import EventCode from '../screens/createEvents_Screens/alien_code';
 import Expired from '../screens/event_Screens/alien_expired';
+import EventJoiner from '../screens/event_Screens/Main_Joiner';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function AddEventStack() {
             <Stack.Screen name='LogIn' component={LogIn} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='MyEvent' component={MyEvent} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='EventScreen' component={EventScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
+            <Stack.Screen name='EventJoiner' component={EventJoiner}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='VoteScreen' component={VoteScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='Notification' component={Notice}options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Notificatios</Text>) }}></Stack.Screen>            
             <Stack.Screen name='AddEvent' component={AddEvent} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>

@@ -36,7 +36,7 @@ const Exampledata = [
         }
     }
 ];
-export default function EventScreen({navigation}) {
+export default function EventJoiner({navigation}) {
 	// const cur_user = ''
 	const [user, setUser] = useState([
 		{
@@ -147,7 +147,7 @@ export default function EventScreen({navigation}) {
 												<View>
 													<Text>{Exampledata[0].event.dates[item[0]]}</Text>
 													<View>
-														<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{Exampledata[0].event.interval[item[1]]}</Text></TouchableOpacity>
+														<Text style={styles.top}>{Exampledata[0].event.interval[item[1]]}</Text>
 													</View>
 												</View>
 											)}
@@ -157,9 +157,6 @@ export default function EventScreen({navigation}) {
 							></FlatList>
 							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
 								<Text style={{color:'#FFF',}}>Edit</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('Expired')}>
-								<Text style={{color:'#FFF',}}>confirmTime</Text>
 							</TouchableOpacity>
 						</View>
 					)}
@@ -202,6 +199,7 @@ const styles=StyleSheet.create({
 		justifyContent: 'center',
 		alignContent: 'center',
 		alignItems: 'center',
+        textAlign:'center',
 		borderRadius: 8,
 		borderColor: '#809BBF',
 		margin: 5,
