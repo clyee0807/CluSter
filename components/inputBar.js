@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     searching: {
         flex: 1,
         height: '100%',
-        // marginLeft: 10,
+        marginLeft: 15,
         fontSize: 16,
     },
 	
