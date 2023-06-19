@@ -262,7 +262,6 @@ export default function CreateEvent({navigation}) {
 			return [...filtSelected];
 		})
 	}
-
 	// console.log(memberList)
 
 	return (
@@ -412,7 +411,7 @@ export default function CreateEvent({navigation}) {
 
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>) : 
@@ -448,15 +447,44 @@ export default function CreateEvent({navigation}) {
 					<Text style={styles.settingText}>Event Name: </Text>
 					<TextBar placeholder="Type a name..." submitHandler={submitEventNameHandler}/>
 					<Text style={styles.settingText}>Team Members: </Text>
-					{/* 大頭照是要怎麼搞== */}
-					{/* <Dialog
-						visible={true}
-						title="Custom Dialog"
-						onTouchOutside={() => this.setState({dialogVisible: true})} >
-						<View>
-							<Text>1234</Text>
-						</View>
-					</Dialog> */}
+					<View style={styles.memberList}>
+						<TouchableOpacity onPress={()=>setShowMemberPopup(true)}><Image source={require('../../assets/profiles/plus.png')}/></TouchableOpacity>
+						<Dialog
+							visible={showMemberPopup}
+							onTouchOutside={() => setShowMemberPopup(false)} >
+							<View>
+								<Text style={styles.popupHeader}>Select Members</Text>
+								<FlatList
+									style={styles.memberPhotos}
+									data={user[0].friends}
+									renderItem={ ({item})=>(
+										<View style={styles.frendList}>
+											<TouchableOpacity onPress={()=>handleMemberList(item)}>
+											<Image source={getUserPhoto(item)} style={styles.selectPhoto}/>
+											</TouchableOpacity>
+											<Text style={styles.name}>{item}</Text>
+										</View>
+									)}
+									horizontal
+								/>
+								<TouchableOpacity onPress={()=>setShowMemberPopup(false)} style={styles.addButton}>
+									<Text style={styles.createButtonText}>Add</Text>
+								</TouchableOpacity>
+							</View>
+						</Dialog>
+						<FlatList
+							data={memberList}
+							renderItem={({item}) => (
+								<View>
+									<TouchableOpacity onPress={() => deleteMember(item)}>
+									<Image source={getUserPhoto(item)} style={styles.selectedPhoto}/>
+									</TouchableOpacity>
+									<Text style={styles.name}>{item}</Text>
+								</View>
+							)}
+							horizontal
+						/>
+					</View>
 					<Text style={styles.settingText}>Setting: </Text>
 					<Text style={styles.subsettingText}>Minimum Time Unit: </Text>
 					<SelectList 
