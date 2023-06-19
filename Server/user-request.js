@@ -1,5 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 
+// Add an event to user.events.
 export async function addEventToUser(user, event_code) {
     try {
 		// console.log("add event:", event_code, "to user", user);
@@ -21,6 +22,29 @@ export async function addEventToUser(user, event_code) {
     }
 }
 
+// Return user.events.
+export async function getUserEventsArray(username) {
+    try {
+		console.log('username =', username);
+      	const fileUri = FileSystem.documentDirectory + 'users.json';
+      	const existingContent = await FileSystem.readAsStringAsync(fileUri);
+      	const existingData = JSON.parse(existingContent);
+        
+        let ret = [];
+      	existingData.map((u) => {
+            if (u.username === username) {
+                console.log('user found');
+                console.log('user.events =', u.events);
+                ret = u.events;
+            }
+        });
+        return ret;
+    } catch (error) {
+      	console.error('Error occurred while writing to JSON file:', error);
+    }
+}
+
+// Add a notif to user.notifs.
 export async function addNotifToUser(members, notif_id) {
     try {
 		// console.log("add notif:", notif, "to users:", members);
@@ -42,6 +66,7 @@ export async function addNotifToUser(members, notif_id) {
     }
 }
 
+// Delete a notif from user.notifs.
 export async function deleteNotifFromUser(user, notif_id) {
     try {
 		// console.log("delete notif:", notif, "from user", user);

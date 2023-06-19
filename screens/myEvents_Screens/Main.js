@@ -7,90 +7,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as FileSystem from 'expo-file-system';
 
-const init_data = [
-    { id: '1',
-      event_name: 'MyEvent1',
-      dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
-      host: 'NOT911', // string, storing user_id of 'user'
-      members: ['John', 'Peggy', 'Daphne'], // array of string, storing user_id of 'user'
-      interval: ['9:00', '10:00', '11:00'], // array of string, storing times
-      description: 'This is description.', // string
-      deadline: '2023-05-04 22:00', // string, storing date and time
-      status: 'In progress',
-      event_code: '809BBF', // string
-      // Use (date, time) to access the time block.
-      // For example, (0, 0) stands for 2023/5/20 9:00.
-      available_member: [
-          [['111111', '222222', '333333'], ['111111', '222222'], []],
-          [['333333'], ['333333'], []],
-          [[], [], []],
-      ], // 3-D array of string, storing user_id of 'user'
-      confirmTime: 'na' // string, storing date and time
-    },
-    { id: '2',
-      event_name: 'MyEvent2',
-      dates: ['2023/5/20', '2023/5/21', '2023/5/22'], 
-      host: 'NOT911', 
-      members: ['Domingo', 'xincc'], 
-      interval: ['9:00', '10:00', '11:00'], 
-      description: 'This is description.', 
-      deadline: 'na', 
-      status: 'Settled',
-      event_code: '809BBF', 
-      available_member: [
-          [['111111', '222222', '333333'], ['111111', '222222'], []],
-          [['333333'], ['333333'], []],
-          [[], [], []],
-      ],
-      confirmTime: 'na' 
-    },
-    { id: '3',
-      event_name: 'MyEvent2',
-      dates: ['2023/5/20', '2023/5/21', '2023/5/22'], 
-      host: 'NOT911', 
-      members: ['111111', '222222', '333333'], 
-      interval: ['9:00', '10:00', '11:00'], 
-      description: 'This is description.', 
-      deadline: '2023-05-05  19:00', 
-      status: 'In progress',
-      event_code: '809BBF', 
-      available_member: [
-          [['111111', '222222', '333333'], ['111111', '222222'], []],
-          [['333333'], ['333333'], []],
-          [[], [], []],
-      ],
-      confirmTime: 'na' 
-    },
-    { id: '4',
-      event_name: 'MyEvent2',
-      dates: ['2023/5/20', '2023/5/21', '2023/5/22'], 
-      host: 'NOT911', 
-      members: ['111111', '222222', '333333'], 
-      interval: ['9:00', '10:00', '11:00'], 
-      description: 'This is description.', 
-      status: 'Settled',
-      deadline: 'na', 
-      event_code: '809BBF', 
-      available_member: [
-          [['111111', '222222', '333333'], ['111111', '222222'], []],
-          [['333333'], ['333333'], []],
-          [[], [], []],
-      ],
-      confirmTime: 'na' 
-    },
-]
+import { getUserEvents } from '../../Server/event-request';
+import { getUserEventsArray } from '../../Server/user-request';
 
 export default function MyEvent({navigation}) {
-
-//   const [events, setEvent] = useState(init_data);
+  const cur_user = 'Domingo';
   const [events, setEvent] = useState([]);
   useEffect(() => {
     const loadEvents = async () => {
       try {
-	    const fileUri = FileSystem.documentDirectory + 'events.json';
-	    const fileContent = await FileSystem.readAsStringAsync(fileUri);
-		const parsedContent = JSON.parse(fileContent);
-		setEvent(parsedContent);
+		const user_events = await getUserEventsArray(cur_user);
+		console.log('user_events =', user_events);
+	    const all_events = await getUserEvents(user_events);
+		console.log('all_events =', all_events);
+		setEvent(all_events);
 	  } catch (error) {
   	    console.log('Error reading JSON file:', error);
 	  }

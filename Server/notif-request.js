@@ -2,6 +2,7 @@ import * as FileSystem from 'expo-file-system';
 
 import { addNotifToUser } from './user-request';
 
+// Create a new notif using the given parameters.
 export async function createNotif(event_id, members, event_code) {
     try {
 		// console.log("creating notif :", event_id);

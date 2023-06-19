@@ -30,6 +30,7 @@ function getWeekdayDates(start, end, weekdays) {
 	return dates;
 }
 
+// Create a new event using the given parameters.
 export async function createEvent(
 	event_name, host, members, deadline, mode, dates, start_date, end_date, time_unit, start_time, end_time) {
     try {
@@ -99,6 +100,7 @@ export async function createEvent(
 		existingData.push(event);
       	const updatedContent = JSON.stringify(existingData);
       	await FileSystem.writeAsStringAsync(fileUri, updatedContent);
+		console.log(event);
       	console.log('JSON file updated successfully!');
 
 		addEventToUser(host, event.event_code);
@@ -109,6 +111,7 @@ export async function createEvent(
     }
 }
 
+// Read the data of event using event_id.
 export async function readEvent(event_id) {
     try {
 		// console.log("reading event of event_id =", event_id");
@@ -127,9 +130,10 @@ export async function readEvent(event_id) {
     }
 }
 
+// Get all event data a user is attending using user.events.
 export async function getUserEvents(user_events) {
     try {
-		// console.log("get all events in", events);
+		console.log("get all events in", user_events);
       	const fileUri = FileSystem.documentDirectory + 'events.json';
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
@@ -141,6 +145,7 @@ export async function getUserEvents(user_events) {
 			}
 		});
 
+		console.log("Successfully get events");
 		return allEvents;
 
     } catch (error) {
