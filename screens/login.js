@@ -1,21 +1,32 @@
 import React, {useState} from 'react';
-import { ImageBackground, Text,StyleSheet,TouchableOpacity, View, Dimensions,Keyboard,TouchableWithoutFeedback} from 'react-native';
+import { ImageBackground, Text,StyleSheet,TouchableOpacity, View, Dimensions,Keyboard,TouchableWithoutFeedback, TextInput, Alert} from 'react-native';
 import { globalStyles } from '../styles/global';
 import BottomBar from '../components/bottomBar';
 import TextBar from '../components/textBar.js';
 
-export default function Login({navigation}) {
-    const cur_user = 'Domingo';
+export default function Profile({navigation}) {
+    const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
+    
 
-	const account_submitEventNameHandler = (text) => {  
-		// console.log(todos);
-	
+    const [account, setAccount] = useState('');
+    const [password, setPassword] = useState('');
+
+	const account_submitHandler = (text) => {  
+		console.log(text);
+	    setAccount(text);
 	}
-    const password_submitEventNameHandler = (text) => {  
+    const password_submitHandler = (text) => {  
 		// console.log(todos);
-	
+	    setPassword(text);
 	}
 
+    const handleButtonPress = () => {
+        if (isPasswordCorrect) {
+          navigation.navigate('MyEvent',{cur_user: account});
+        } else {
+          Alert.alert('Login Failed!', 'Please enter correct account and password.');
+        }
+    };
 
     //responsible design
     const screenWidth = Dimensions.get('window').width;
@@ -34,18 +45,31 @@ export default function Login({navigation}) {
                         <View>
                             <View>
                                 <Text style={styles.hint}>Account: </Text>
-                                <TextBar style={[styles.inputContainer,{ width: screenWidth }]} placeholder="account : " submitHandler={account_submitEventNameHandler}/>
+                                <TextInput 
+                                    style={[styles.inputContainer,{ width: screenWidth*0.75 }]} 
+                                    placeholder="account : " 
+                                    placeholderTextColor="white"
+                                    onChangeText={account_submitHandler}
+                                    value={account}
+                                />
                             </View>
                             
                             <View>
                                 <Text style={styles.hint}>password: </Text>
-                                <TextBar style={[styles.inputContainer,{ width: screenWidth }]} placeholder="password : " submitHandler={password_submitEventNameHandler}/>
+                                <TextInput 
+                                    style={[styles.inputContainer,{ width: screenWidth*0.75 }]} 
+                                    placeholder="password : " 
+                                    placeholderTextColor="white"
+                                    onChangeText={password_submitHandler}
+                                    secureTextEntry={true} // Displays the input as a password field
+                                    value={password} // Display the password value as it is
+                                />
                             </View>
-                        
+                            
                         </View>
                         
                         {/* login button */}
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})}>
+                        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
                         
@@ -89,7 +113,7 @@ const styles = StyleSheet.create({
         height: 45,
         width: 145,
     	marginHorizontal: 5,
-    	marginVertical: 10,
+    	marginVertical: 20,
 		alignSelf: 'center',
 
     },
@@ -114,7 +138,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
 		alignItems: 'center',
 		alignSelf: 'center',
+        color: 'white',
 	},
 
 })
-

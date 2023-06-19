@@ -249,10 +249,6 @@ export default function VoteScreen({navigation,route}) {
 				}
 			}
 		}
-		// console.log(new_event.available_member);
-		// setEvent(new_event);
-		console.log(event.available_member);
-		//post
 		navigation.navigate('EventScreen',{eventID:eventID,cur_user:cur_user});
 	}
 
