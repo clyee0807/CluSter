@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, Button, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
+import { StyleSheet, View, Text, Modal, Image, SafeAreaView, TouchableOpacity, 
+	TouchableWithoutFeedback,Keyboard, Button } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { AntDesign } from '@expo/vector-icons';
 import BottomBar from '../../components/bottomBar';
 import { Feather } from '@expo/vector-icons';
+import SlidableDrawer from '../../components/slidableDrawer';
 
 export default function Profile({navigation}) {
 	const [user, setUser] = useState([
@@ -38,20 +40,85 @@ export default function Profile({navigation}) {
 		},
 	]);
 
+	// edit profile photo
+	const [showDrawer, setShowDrawer] = useState(false);
+	const [event, setEvent] = useState('none');
+	const [selectedPhoto, setPhoto] = useState(user[0].user_photo);
+
+	const handleSelectPhoto = (id) => {
+		setPhoto(id)
+	}
+
+	const closeDrawer = () => {
+		setEvent('close');
+	};
+	const showDrawerFn = () => {
+		setShowDrawer(true);
+	};
+	const onSlideEnd = () => {
+		setShowDrawer(false);
+		setEvent('none');
+	};
 
 	let profileImgPath;  // 根據user_photo決定要render哪一張照片(不能dynamic path)
-	if (user[0].user_photo === 1) {
+	if (selectedPhoto === 1) {
 		profileImgPath = require('../../assets/profiles/profile1.png');
-	} else if (user[0].user_photo === 2) {
+	} else if (selectedPhoto === 2) {
 		profileImgPath = require('../../assets/profiles/profile2.png');
-	} else {
+	} else if (selectedPhoto === 3) {
 		profileImgPath = require('../../assets/profiles/profile3.png');
+	} else if (selectedPhoto === 4) {
+		profileImgPath = require('../../assets/profiles/profile4.png');
+	} else if (selectedPhoto === 5) {
+		profileImgPath = require('../../assets/profiles/profile5.png');
+	} else {
+		profileImgPath = require('../../assets/profiles/profile6.png');
 	}
+	// console.log(selectedPhoto)
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.topSections}>
-				<Image source={profileImgPath} style={styles.profileImg}/>
+				{/* <SafeAreaView> */}
+					<TouchableOpacity onPress={showDrawerFn}>
+						<Image source={profileImgPath} style={styles.profileImg}/>
+					</TouchableOpacity>
+					{showDrawer && (
+						<SlidableDrawer
+							onSlideEnd={onSlideEnd}
+							drawerOpenSpeed={4}
+							drawerHeight={0.8}
+							event={event}>
+							<Text style={styles.DrawerHeader}>Edit Photo</Text>
+							<View style={styles.photoRow}>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(1)}>
+									<Image source={require('../../assets/profiles/profile1.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(2)}>
+									<Image source={require('../../assets/profiles/profile2.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(3)}>
+									<Image source={require('../../assets/profiles/profile3.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+							</View>
+							<View style={styles.photoRow}>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(4)}>
+									<Image source={require('../../assets/profiles/profile4.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(5)}>
+									<Image source={require('../../assets/profiles/profile5.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={()=>handleSelectPhoto(6)}>
+									<Image source={require('../../assets/profiles/profile6.png')} style={styles.editPhoto}/>
+								</TouchableOpacity>
+							</View>
+							<TouchableOpacity onPress={closeDrawer} style={styles.ChangePhotoButton}>
+								<Text style={styles.buttonText}>Save Change</Text>
+							</TouchableOpacity>
+						</SlidableDrawer>
+					
+					)}
+				{/* </SafeAreaView> */}
 				<Text style={styles.userName}>{user[0].username}</Text>
 				<View style={styles.eventcodeContainer}>
 					<Feather name="mail" size={20} color="black" />
@@ -127,6 +194,33 @@ const styles = StyleSheet.create({
 
     },
     buttonText: {
+		fontFamily: 'SpaceGrotesk_400Regular',
         color: '#FFF',
-    }
+    },
+	DrawerHeader: {
+		fontFamily: 'SpaceGrotesk_400Regular',
+		fontSize: 18,
+	},
+	photoRow: {
+		flexDirection: 'row',
+		// justifyContent:'space-evenly'
+	},
+	editPhoto: {
+		width: 100,
+		height: 100,
+		marginHorizontal: 10,
+		marginVertical: 10,
+	},
+	ChangePhotoButton:{
+		marginHorizontal: 35,
+		marginTop: 23,
+		marginBottom: 8,
+		height: 45,
+		width: 350,
+		backgroundColor: '#809BBF',
+		borderRadius: 16,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+
 })
