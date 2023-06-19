@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, Touchable
 import { globalStyles } from '../../styles/global';
 import { Entypo } from '@expo/vector-icons';
 
-export default function Porfile({navigation}) {
+export default function AlienExpired({navigation}) {
     const Exampledata = [{
         event: {
           id: '1',

@@ -5,7 +5,7 @@ import { globalStyles } from '../../styles/global';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
-export default function Porfile({navigation}) {
+export default function AlienCode({navigation}) {
 
     const [isCopied, setIsCopied] = useState(false);
 
