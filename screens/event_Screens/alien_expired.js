@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   continueButton:{
     width: 350,
 		marginHorizontal: 35,
-		marginVertical: 8,
+		// marginBottom: 20,
 		height: 45,
 		backgroundColor: '#809BBF',
 		borderRadius: 16,
@@ -102,9 +102,8 @@ const styles = StyleSheet.create({
 		color: '#fff',
 	},
   shareContainer: {
-    flex: 1,
     padding: 20,
-    marginRight: 145
+    marginRight: 145, // 調整適當的右邊距
   },
   row_2: {
     flexDirection: 'row',
