@@ -72,13 +72,4 @@ const styles = StyleSheet.create({
         width: 38,
         height: 30,
     }
-    // selectline: {
-    //     // alignContent: 'center',
-    //     // // justifyContent:'center',
-    //     // alignItems: 'center',
-    //     backgroundColor: '#E5EAEF',
-    //     marginVertical:10,
-    //     width: 90,
-    //     height: 30,
-    // }
 });

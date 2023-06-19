@@ -105,7 +105,7 @@ export default function EventScreen({navigation}) {
 		tmp2=[];
 	}
 
-	const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+	const [selectedButtonIndex, setSelectedButtonIndex] = useState(0);
 
 	const onPressButton = (index) => {
 		setSelectedButtonIndex(index);
@@ -118,47 +118,53 @@ export default function EventScreen({navigation}) {
 	}
 
   	return (
-		<View>
-			<View style={styles.container}>
-				<ScrollView style={styles.topSection}>
-					<FlatList
-						style={styles.dateinterval}
-						data={Exampledata[0].event.dates}
-						horizontal={true}
-						renderItem={({item,index}) =>
-							<TouchableOpacity  style={[styles.date, selectedButtonIndex === index ? styles.selectedDate : styles.date]} key={index} onPress={()=> onPressButton(index)}><Text>{item.slice(5)}</Text></TouchableOpacity>
-						}
-					/>
-					<Result ava_people={ava_people} cur_date={cur_date} interval={Exampledata[0].event.interval}/>
-					<FlatList
-					 	data={Exampledata[0].event.topTimeBlock}
-						renderItem={({item:rank,index:ranking})=>(
-							<View style={styles.toptime}>
-								<SimpleLineIcons style={{paddingHorizontal:10}} name="trophy" size={24} color="black" />
-								<FlatList
-									data={rank}
-									renderItem={({item,index}) => (
-										<View>
-											<Text>{Exampledata[0].event.dates[item[0]]}</Text>
-											<View>
-												<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{Exampledata[0].event.interval[item[1]]}</Text></TouchableOpacity>
-												
-											</View>
-										</View>
-									)}
-									nestedScrollEnabled={true}/>
-							</View>
-						)}
-					></FlatList>
-					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
-						<Text style={{color:'#FFF',}}>Edit</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
-						<Text style={{color:'#FFF',}}>confirmTime</Text>
-					</TouchableOpacity>
-				</ScrollView>
+		<View style={styles.container}>
+			<View style={styles.topSection}>
+				<FlatList
+					data={[1]}
+					renderItem={({item})=>(
+						<View>
+							<FlatList
+								style={styles.dateinterval}
+								data={Exampledata[0].event.dates}
+								horizontal={true}
+								renderItem={({item,index}) =>
+									<TouchableOpacity  style={[styles.date, selectedButtonIndex === index ? styles.selectedDate : styles.date]} key={index} onPress={()=> onPressButton(index)}><Text>{item.slice(5)}</Text></TouchableOpacity>
+								}
+							/>
+							<Result ava_people={ava_people} cur_date={cur_date} interval={Exampledata[0].event.interval}/>
+							<Text style={[globalStyles.instructionText,{paddingTop:30}]}>Choose a final even time!</Text>
+							<FlatList
+								data={Exampledata[0].event.topTimeBlock}
+								renderItem={({item:rank,index:ranking})=>(
+									<View style={styles.toptime}>
+										<SimpleLineIcons style={{paddingHorizontal:10}} name="trophy" size={24} color="black" />
+										<FlatList
+											data={rank}
+											renderItem={({item,index}) => (
+												<View>
+													<Text>{Exampledata[0].event.dates[item[0]]}</Text>
+													<View>
+														<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{Exampledata[0].event.interval[item[1]]}</Text></TouchableOpacity>
+														
+													</View>
+												</View>
+											)}
+											nestedScrollEnabled={true}/>
+									</View>
+								)}
+							></FlatList>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+								<Text style={{color:'#FFF',}}>Edit</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+								<Text style={{color:'#FFF',}}>confirmTime</Text>
+							</TouchableOpacity>
+						</View>
+					)}
+				>
+				</FlatList>
 			</View>
-			
 			<BottomBar navigation={navigation}/>
 		</View>
   	);
@@ -170,11 +176,10 @@ const styles=StyleSheet.create({
 	},
 	container: {
 		backgroundColor: '#FFF',
-		alignItems: 'center',
 	},
 	topSection: {
 		marginBottom: 70,
-		marginHorizontal:25
+		marginHorizontal:25,
 	},
 	toptime:{
 		marginVertical: 10,
