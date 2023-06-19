@@ -1,38 +1,118 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal, Pressable} from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal, Pressable, Image} from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons'; 
 
 export default function FriendList({navigation}) {
     
-    const [user, setUser] = useState([
-      { username: 'Domingo',
-        user_id: '8787',
-        user_photo: '1' ,
-        events: ['MyEvent1', 'MyEvent2', 'MyEvent3'],
-        friends: ['John', 'Peggy', 'Daphne'],
-        email: 'Domingo8787@gmail.com',
-        phone_number: '0978787878' ,
-        language: 'Chinise' ,
-        notifs: 'na'
+    const user = [
+      {
+        id: '1',
+        username: 'Domingo', // string
+        // user_id: 'IAMGAY', // string, removed since we won't have multiple users with same username
+        user_photo: 0, // integer, used when accessing database. We use integers to access photos in case of multiple photos with same name.
+        events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'], // array of string, storing event_code of 'event'
+        friends: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing user_id of 'user'
+        email: "IAMGAY@gmail.com", // string, unchangeable
+        phone_number: "0911451419", // string, unchangeable
+        language: "English", // string
+        notifs: [2, 4, 5], // array of integer, storing id of "notifs"
+        notif_on: true // bool
+      },
+      {
+        id: '2',
+        username: 'Guavaaa',
+        user_photo: 1,
+        events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'],
+        friends: [],
+        email: "IAMNOTGAY@gmail.com",
+        phone_number: "0986960440",
+        language: "English",
+        notifs: [1, 2, 3, 4, 5],
+        notif_on: true
+      },
+      {
+        id: '3',
+        username: 'Jason',
+        user_photo: 2,
+        events: ['809BBF', '1A2B3C', 'STEVEN', '6969SX'],
+        friends: ['Guavaaa', 'Domingo', 'Tony'],
+        email: "IHAVEGF@gmail.com",
+        phone_number: "0969696969",
+        language: "English",
+        notifs: [1, 2, 3, 5],
+        notif_on: false
+      },
+      {
+        id: '4',
+        username: 'Tony',
+        user_photo: 3,
+        events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E'],
+        friends: ['Domingo', 'Guavaaa', 'Jason'],
+        email: "tonylin@gmail.com",
+        phone_number: "0920151425",
+        language: "English",
+        notifs: [1, 2, 3, 4],
+        notif_on: false
+      },
+      {
+        id: '5',
+        username: 'Bear',
+        user_photo: 4,
+        events: ['809BBF', 'STEVEN', '6969SX'],
+        friends: ['Domingo', 'Guavaaa'],
+        email: "B6E1A5R2@gmail.com",
+        phone_number: "0912345689",
+        language: "English",
+        notifs: [1, 3, 5],
+        notif_on: true
       }
-    ]);
+    ];
 
     const [friends,setFriends] = useState(user[0].friends);
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
 
-    const renderFriend = ({ item }) => (
-      <View style={styles.friendContainer}>
-        <View style={styles.rows}>
-          <Text style={globalStyles.headingText}>{item}</Text>
-          <TouchableOpacity onPress={() => openConfirmModal(item)}>
-            <AntDesign name="minus" size={30} color="black" />
-          </TouchableOpacity>
+    const renderFriend = ({ item }) => {
+      const friendObj = user.find((user) => user.username === item);
+      let photoSource = null;
+      switch (friendObj.user_photo) {
+        case 1:
+          photoSource = require('../../assets/profiles/profile1.png');
+          break;
+        case 2:
+          photoSource = require('../../assets/profiles/profile2.png');
+          break;
+        case 3:
+          photoSource = require('../../assets/profiles/profile3.png');
+          break;
+        case 4:
+          photoSource = require('../../assets/profiles/profile4.png');
+          break;
+        case 5:
+          photoSource = require('../../assets/profiles/profile5.png');
+          break;
+        case 6:
+          photoSource = require('../../assets/profiles/profile6.png');
+          break;
+        default:
+          photoSource = require('../../assets/profiles/profile1.png');
+          break;
+      }
+      return (
+        <View style={styles.friendContainer}>
+          <View style={styles.rows}>
+            <Image source={photoSource} style={styles.friendPhoto} />
+            <Text style={globalStyles.headingText}>{item}</Text>
+            <TouchableOpacity onPress={() => openConfirmModal(item)}>
+              <AntDesign name="minus" size={30} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.separator} />
         </View>
-        <View style={styles.separator} />
-      </View>
-    );
+      )
+    };
+
     const openConfirmModal = (friend) => {
       setSelectedFriend(friend);
       setConfirmModalVisible(true);
@@ -91,7 +171,7 @@ const styles = StyleSheet.create({
   rows: {
 		flexDirection: 'row',
 		justifyContent: 'space-between', 
-		alignItems: 'flex-start',
+		alignItems: 'center',
 	},
   friendContainer: {
     flexDirection: 'column',
@@ -131,4 +211,8 @@ const styles = StyleSheet.create({
   modalButtonText: {
     fontSize: 16,
   },
+  friendPhoto: {
+    width: 60,
+    height: 60,
+  }
 })
