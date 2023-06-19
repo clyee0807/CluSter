@@ -161,7 +161,7 @@ export default function MyEvent({navigation}) {
 					<FlatList
 					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate('EventScreen')}>
+						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': 'EventScreen' )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>
@@ -172,7 +172,10 @@ export default function MyEvent({navigation}) {
 							) : (
 								<Text style={styles.time}>{'Event Date:  ' + item.confirmTime}</Text>
 							)}
-							<Text key={item.id} style={styles.name}>{item.members.join(' ')}</Text>
+							<View style={styles.rows}>
+								<Text key={item.id} style={styles.name}>{item.members.join(' ')}</Text>
+								<Text style={styles.hostName}>{'host: ' + item.host}</Text>
+							</View>
 						</View>
 						</TouchableOpacity>
 						)}
@@ -199,6 +202,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between', 
 		alignItems: 'flex-start',
+		marginRight: 20,
 	},
 	notificationIcon: {
 		marginTop: 40,
@@ -224,7 +228,7 @@ const styles = StyleSheet.create({
 	},
 	status: {
 		fontFamily: 'Inter_400Regular',
-		margin: 15,
+		marginVertical: 15,
 		marginTop: 12,
 	},
 	time: {
@@ -236,6 +240,13 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontFamily: 'Inter_400Regular',
+		fontSize: 12,
+		marginLeft: 15,
+		marginBottom: 10,
+	},
+	hostName: {
+		fontFamily: 'Inter_400Regular',
+		color: '#A29EB6',
 		fontSize: 12,
 		marginLeft: 15,
 		marginBottom: 10,
