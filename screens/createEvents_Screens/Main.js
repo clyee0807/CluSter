@@ -412,7 +412,7 @@ export default function CreateEvent({navigation}) {
 
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>) : 
