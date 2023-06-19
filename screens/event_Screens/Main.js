@@ -32,7 +32,7 @@ const Exampledata = [
                 [[0, 1]],
                 [[1, 0], [1, 1]]
             ],
-            confirmTime: (0, 0)
+            confirmTime: [0, 0]
         }
     }
 ];
@@ -153,7 +153,7 @@ export default function EventScreen({navigation}) {
 					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
 						<Text style={{color:'#FFF',}}>Edit</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('Expired')}>
 						<Text style={{color:'#FFF',}}>confirmTime</Text>
 					</TouchableOpacity>
 				</ScrollView>

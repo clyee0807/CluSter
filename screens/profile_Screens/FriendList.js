@@ -1,13 +1,10 @@
-//刪除好友部分還沒完全做完
-
 import React, {useState} from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal} from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons'; 
 
 export default function FriendList({navigation}) {
-
-    const [user] = useState([
+    const [user, setUser] = useState([
       { username: 'Domingo',
         user_id: '8787',
         user_photo: '1' ,
@@ -19,17 +16,20 @@ export default function FriendList({navigation}) {
         notifs: 'na'
       }
     ]);
-
     const friends = user[0].friends;
     const renderFriend = ({ item }) => (
       <View style={styles.friendContainer}>
         <View style={styles.rows}>
           <Text style={globalStyles.headingText}>{item}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('AddFriend')}><AntDesign name="minus" size={30} color="black"/></TouchableOpacity>
+          <TouchableOpacity onPress={() => removeFriend(item)}><AntDesign name="minus" size={30} color="black"/></TouchableOpacity>
         </View>
         <View style={styles.separator} />
       </View>
     );
+    const removeFriend = (friend) => {
+      const updatedFriends = friends.filter((item) => item !== friend);
+      setUser((prevState) => [{ ...prevState[0], friends: updatedFriends }]);
+    };
 
     return (
       <View style={styles.container}>
