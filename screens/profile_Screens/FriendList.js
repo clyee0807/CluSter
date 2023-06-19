@@ -147,10 +147,10 @@ export default function FriendList({navigation}) {
             <View style={styles.modalContent}>
               <Text style={styles.modalText}>Are you sure you want to remove {selectedFriend}?</Text>
               <View style={styles.modalButtons}>
-                <Pressable style={styles.modalButton} onPress={removeFriend}>
-                  <Text style={styles.modalButtonText}>Confirm</Text>
+                <Pressable style={[styles.modalButton,{borderRadius:10,backgroundColor: '#809BBF'}]} onPress={removeFriend}>
+                  <Text style={[styles.modalButtonText,{color: 'white'}]}>Confirm</Text>
                 </Pressable>
-                <Pressable style={styles.modalButton} onPress={closeConfirmModal}>
+                <Pressable style={[styles.modalButton,{borderWidth:1,borderRadius:10,borderColor:'#809BBF',backgroundColor: 'white'}]} onPress={closeConfirmModal}>
                   <Text style={styles.modalButtonText}>Cancel</Text>
                 </Pressable>
               </View>

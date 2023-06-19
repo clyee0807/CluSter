@@ -78,7 +78,7 @@ export default function VoteScreen({navigation}) {
 				}
 			}
 		}
-		navigation.navigate('EventScreen');
+		navigation.navigate('EventScreen');  // 這裡要傳eventID
 	}
 	
   	return (

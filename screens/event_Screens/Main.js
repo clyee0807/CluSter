@@ -1,5 +1,4 @@
 // my event 點進去會顯示result
-
 import React, {useState}from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, TouchableOpacity,ScrollView } from 'react-native';
 import { globalStyles } from '../../styles/global';
@@ -36,7 +35,10 @@ const Exampledata = [
         }
     }
 ];
-export default function EventScreen({navigation}) {
+export default function EventScreen({navigation, route}) {
+	const {eventID, cur_user} = route.params;
+	// console.log(eventID)
+
 	const [user, setUser] = useState([
 		{
 			id: '1',

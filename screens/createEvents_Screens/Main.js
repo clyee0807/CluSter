@@ -15,7 +15,7 @@ import WeekdayPicker from '../../components/weekdayPicker.js';
 import { Dialog } from 'react-native-simple-dialogs';
 
 
-export default function CreateEvent({navigation}) {
+export default function CreateEvent({cur_user, navigation, eventID}) {
 	
 	const [events, setEvent] = useState([
 		{

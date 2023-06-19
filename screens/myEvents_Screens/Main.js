@@ -161,7 +161,7 @@ export default function MyEvent({navigation}) {
 					<FlatList
 					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': 'EventScreen' )}>
+						<TouchableOpacity onPress={() => navigation.navigate((item.status === 'Settled') ?'Expired': 'EventScreen', {eventID: item.id, cur_user: 'amy' } )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>
