@@ -3,7 +3,8 @@ import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, Touchable
 import { globalStyles } from '../../styles/global';
 import { Entypo } from '@expo/vector-icons';
 
-export default function Porfile({navigation}) {
+export default function Porfile({navigation,route}) {
+    const {cur_user} = route.params;
     const Exampledata = [{
         event: {
           id: '1',
@@ -54,7 +55,7 @@ export default function Porfile({navigation}) {
           style={styles.img}
         />
         {content}
-        <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>
 				</TouchableOpacity>
         <View style={styles.shareContainer}>

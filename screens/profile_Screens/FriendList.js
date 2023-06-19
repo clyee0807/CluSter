@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal, Pressable, I
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons'; 
 
-export default function FriendList({navigation}) {
-    
+export default function FriendList({navigation,route}) {
+    const {cur_user} = route.params;
     const user = [
       {
         id: '1',
@@ -133,7 +133,7 @@ export default function FriendList({navigation}) {
       <View style={styles.container}>
         <View style={styles.rows}>
           <Text style={globalStyles.headingText}>friend list</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('AddFriend')}><AntDesign name="pluscircle" size={24} color="black" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('AddFriend',{cur_user: cur_user})}><AntDesign name="pluscircle" size={24} color="black" /></TouchableOpacity>
         </View>
         <View style={{ borderBottomColor: '#C5C5C5', borderBottomWidth: 1, padding: 8}} />
         <View style={{marginBottom: 80}}>

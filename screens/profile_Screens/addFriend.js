@@ -6,7 +6,8 @@ import { Feather } from '@expo/vector-icons';
 import { globalStyles } from '../../styles/global';
 import InputBar from '../../components/inputBar';
 
-export default function AddFriend() {
+export default function AddFriend({navigation,route}) {
+  const {cur_user} = route.params;
   const [isCopied, setIsCopied] = useState(false);
 
     const handleCopy = () => {

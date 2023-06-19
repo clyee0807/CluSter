@@ -6,7 +6,8 @@ import SearchBar from '../../components/searchBar.js';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-export default function MyEvent({navigation}) {
+export default function MyEvent({navigation,route}) {
+	// const {cur_user} = route.params;
 	const cur_user = 'Domingo';
   const [events, setEvent] = useState([
     {
@@ -153,7 +154,7 @@ export default function MyEvent({navigation}) {
 			<View style={styles.topSections}>
 				<View style={styles.rows}>
 					<Text style={globalStyles.titleText}>MY EVENTs</Text>
-					<TouchableOpacity onPress={() => navigation.navigate('Notification')}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
+					<TouchableOpacity onPress={() => navigation.navigate('Notification',{cur_user: cur_user})}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
 				</View>
 				<Text style={globalStyles.instructionText}>Your all events will be displayed here.</Text>
 				<SearchBar submitHandler={submitHandler}/>
@@ -161,7 +162,7 @@ export default function MyEvent({navigation}) {
 					<FlatList
 					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner' )}>
+						<TouchableOpacity onPress={() => navigation.navigate((item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner',  {eventID: item.id, cur_user: 'Domingo' } )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>
@@ -182,7 +183,7 @@ export default function MyEvent({navigation}) {
 					/>
 				</View>
 			</View>
-			<BottomBar navigation={navigation}/>
+			<BottomBar cur_user={cur_user} navigation={navigation}/>
 		</View>
 		</TouchableWithoutFeedback>
 	);

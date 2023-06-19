@@ -4,17 +4,19 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import { globalStyles } from '../../styles/global';
 
-export default function AddEvent({navigation}) {
+export default function AddEvent({navigation,route}) {
+	const {cur_user} = route.params;
+	// console.log(cur_user);
 	return (
 		<View style={styles.container}>
 			<Text style={globalStyles.headingText}>Create or Join</Text>
 			<Text style={globalStyles.instructionText}>Would you like to join or create a new event?</Text>
-			<TouchableOpacity style={styles.CreateButtun} onPress={() => navigation.navigate('CreateEvent')}>
+			<TouchableOpacity style={styles.CreateButtun} onPress={() => navigation.navigate('CreateEvent',{cur_user: cur_user})}>
 				<Image source={require('../../assets/create.png')} ></Image>
 				<Text style={styles.title}>CREATE</Text>
 				<Text style={styles.description}>if you are an initiator</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.JoinButton} onPress={() => navigation.navigate('JoinEvent')}>
+			<TouchableOpacity style={styles.JoinButton} onPress={() => navigation.navigate('JoinEvent',{cur_user: cur_user})}>
 				<Image source={require('../../assets/join.png')}></Image>
 				<Text style={styles.title}>JOIN</Text>
 				<Text style={styles.description}>if you are an invited member</Text>

@@ -10,33 +10,30 @@ import Blueblock from '../../components/blueblock';
 import SlidableDrawer from '../../components/slidableDrawer';
 import {Calendar} from 'react-native-calendars';
 
-const Exampledata = [
+const events = [
     {
-        event: {
-            id: '4',
-			event_name: 'heyyeyaaeyaaaeyaeyaa',
-			dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
-			host: 'Jason',
-			members: ['Domingo', 'Guavaaa', 'Tony'],
-			interval: ['9:00', '11:00', '13:00', '15:00'],
-			description: 'Whats up.',
-			deadline: '2023/9/1  23:59',
-			status: 'In progress',
-			event_code: '0H0E2E', 
-			available_member: [
-			[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
-			[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
-			[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
-			[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
-			],
-			topTimeBlock: [
-			[[3, 3]],
-			[[2, 3]],
-			[[0, 3], [1, 3]]
-			],
-			confirmTime: 'na'
-            
-        }
+		id: '4',
+		event_name: 'heyyeyaaeyaaaeyaeyaa',
+		dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
+		host: 'Jason',
+		members: ['Domingo', 'Guavaaa', 'Tony'],
+		interval: ['9:00', '11:00', '13:00', '15:00'],
+		description: 'Whats up.',
+		deadline: '2023/9/1  23:59',
+		status: 'In progress',
+		event_code: '0H0E2E', 
+		available_member: [
+		[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+		[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+		[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
+		[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
+		],
+		topTimeBlock: [
+		[[3, 3]],
+		[[2, 3]],
+		[[0, 3], [1, 3]]
+		],
+		confirmTime: 'na'  
     },
 	{ 
 		id: '2',
@@ -59,8 +56,8 @@ const Exampledata = [
 		  [[0, 1], [0, 1]]
 		],
 		confirmTime: '2023-07-01 18:00'
-	  },
-	  { 
+	},
+	{ 
 		id: '3',
 		event_name: 'Emotional Damage',
 		dates: ['2023/6/26', '2023/6/27', '2023/6/28', '2023/6/29', '2023/6/30'],
@@ -84,8 +81,8 @@ const Exampledata = [
 		  [[3, 0], [3, 1], [4, 0], [4, 1]]
 		],
 		confirmTime: 'na'
-	  },
-	  {
+	},
+	{
 		id: '4',
 		event_name: 'heyyeyaaeyaaaeyaeyaa',
 		dates: ['2023/10/1', '2023/10/2', '2023/10/8', '2023/10/9'],
@@ -108,8 +105,8 @@ const Exampledata = [
 		  [[0, 3], [1, 3]]
 		],
 		confirmTime: 'na'
-	  },
-	  {
+	},
+	{
 		id: '5',
 		event_name: 'Badminton',
 		dates: ['2023/6/26', '2023/6/27', '2023/6/28'],
@@ -131,21 +128,98 @@ const Exampledata = [
 		  [[1, 0], [1, 1], [1, 2], [1, 3]]
 		],
 		confirmTime: 'na'
-	  }
+	}
 ];
+var event = {
+	id: '4',
+	event_name: 'heyyeyaaeyaaaeyaeyaa',
+	dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
+	host: 'Jason',
+	members: ['Domingo', 'Guavaaa', 'Tony'],
+	interval: ['9:00', '11:00', '13:00', '15:00'],
+	description: 'Whats up.',
+	deadline: '2023/9/1  23:59',
+	status: 'In progress',
+	event_code: '0H0E2E', 
+	available_member: [
+	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
+	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
+	],
+	topTimeBlock: [
+	[[3, 3]],
+	[[2, 3]],
+	[[0, 3], [1, 3]]
+	],
+	confirmTime: 'na'  
+}
+var event = {
+	id: '4',
+	event_name: 'heyyeyaaeyaaaeyaeyaa',
+	dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
+	host: 'Jason',
+	members: ['Domingo', 'Guavaaa', 'Tony'],
+	interval: ['9:00', '11:00', '13:00', '15:00'],
+	description: 'Whats up.',
+	deadline: '2023/9/1  23:59',
+	status: 'In progress',
+	event_code: '0H0E2E', 
+	available_member: [
+	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
+	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
+	],
+	topTimeBlock: [
+	[[3, 3]],
+	[[2, 3]],
+	[[0, 3], [1, 3]]
+	],
+	confirmTime: 'na'  
+};
 
-export default function VoteScreen({navigation}) {
-	const cur_user = 'Guavaaa';
-
-	const initialArray = Array(Exampledata[0].event.interval.length)
+export default function VoteScreen({navigation,route}) {
+	// const cur_user = 'Guavaaa';
+	const {cur_user,eventID} = route.params;
+	// console.log(cur_user);
+	// const {cur_user,eventID} = route.params;
+	// const [event, setEvent]=useState(
+	// {
+	// 	id: '4',
+	// 	event_name: 'heyyeyaaeyaaaeyaeyaa',
+	// 	dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
+	// 	host: 'Jason',
+	// 	members: ['Domingo', 'Guavaaa', 'Tony'],
+	// 	interval: ['9:00', '11:00', '13:00', '15:00'],
+	// 	description: 'Whats up.',
+	// 	deadline: '2023/9/1  23:59',
+	// 	status: 'In progress',
+	// 	event_code: '0H0E2E', 
+	// 	available_member: [
+	// 	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	// 	[['Guavaaa'], ['Guavaaa'], ['Guavaaa'], ['Domingo', 'Guavaaa']],
+	// 	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Jason', 'Tony']],
+	// 	[['Jason'], ['Jason'], ['Jason'], ['Domingo', 'Guavaaa','Jason', 'Tony']],
+	// 	],
+	// 	topTimeBlock: [
+	// 	[[3, 3]],
+	// 	[[2, 3]],
+	// 	[[0, 3], [1, 3]]
+	// 	],
+	// 	confirmTime: 'na'  
+    // })
+	
+	const initialArray = Array(event.interval.length)
     .fill(0)
-    .map(() => Array(Exampledata[0].event.dates.length).fill(0));
+    .map(() => Array(event.dates.length).fill(0));
+
 	const [isclicked, setisclick] = useState(initialArray);
 
 	useEffect(() => {
-		for (let i = 0; i < Exampledata[0].event.available_member.length; i++) {
-		  for (let j = 0; j < Exampledata[0].event.available_member[i].length; j++) {
-			if (Exampledata[0].event.available_member[i][j].find(member => member === cur_user) !== undefined) {
+		for (let i = 0; i < event.available_member.length; i++) {
+		  for (let j = 0; j < event.available_member[i].length; j++) {
+			if (event.available_member[i][j].find(member => member === cur_user) !== undefined) {
 			  setisclick(prevArray => {
 				const tmp = [...prevArray];
 				tmp[i][j] = 1;
@@ -164,34 +238,39 @@ export default function VoteScreen({navigation}) {
 		});
 	}
 	function submithandler(){
-		for (let i = 0; i < Exampledata[0].event.available_member.length; i++) {
-			for (let j = 0; j < Exampledata[0].event.available_member[i].length; j++) {
-				if(isclicked[i][j]===1 && !Exampledata[0].event.available_member[i][j].includes(cur_user)){
-					Exampledata[0].event.available_member[i][j].push(cur_user);
+		var new_event = event;
+		for (let i = 0; i < event.available_member.length; i++) {
+			for (let j = 0; j < event.available_member[i].length; j++) {
+				if(isclicked[i][j]===1 && !event.available_member[i][j].includes(cur_user)){
+					event.available_member[i][j].push(cur_user);
 				}
-				else if(isclicked[i][j] === 0 && Exampledata[0].event.available_member[i][j].includes(cur_user)){
-					Exampledata[0].event.available_member[i][j].filter(({element}) => element !== cur_user)
+				else if(isclicked[i][j] === 0 && event.available_member[i][j].includes(cur_user)){
+					event.available_member[i][j].filter(({element}) => element !== cur_user)
 				}
 			}
 		}
-		navigation.navigate('EventScreen');
+		// console.log(new_event.available_member);
+		// setEvent(new_event);
+		console.log(event.available_member);
+		//post
+		navigation.navigate('EventScreen',{eventID:eventID,cur_user:cur_user});
 	}
 
 	const [showDrawer, setShowDrawer] = useState(false);
-	const [event, setEvent] = useState('none');
+	const [drawerevent, setDrawerEvent] = useState('none');
 
 	const closeDrawer = () => {
-		setEvent('close');
+		setDrawerEvent('close');
 	};
 	const showDrawerFn = () => {
 		setShowDrawer(true);
 	};
 	const onSlideEnd = () => {
 		setShowDrawer(false);
-		setEvent('none');
+		setDrawerEvent('none');
 	};
 	const markdates = {};
-	Exampledata.forEach(date => {
+	events.forEach(date => {
 		// console.log(date.confirmTime);
 		if(date.confirmTime!=='na' && date.confirmTime!== undefined){
 			// console.log(date.confirmTime);
@@ -209,7 +288,7 @@ export default function VoteScreen({navigation}) {
 					onSlideEnd={onSlideEnd}
 					drawerOpenSpeed={4}
 					drawerHeight={0.8}
-					event={event}>
+					event={drawerevent}>
 					<Calendar
 						markedDates={markdates}
 						style={{
@@ -243,22 +322,22 @@ export default function VoteScreen({navigation}) {
 				renderItem={({item})=>(
 					<View>
 						<View style={styles.container}>
-							<Text style={styles.time}>{'Deadline:  '+ Exampledata[0].event.deadline }</Text>
+							<Text style={styles.time}>{'Deadline:  '+ event.deadline }</Text>
 							<Text style={styles.instructionText}>Minimum Time Unit: 1hr</Text>
 							{/* <TimeSelector dates={Exampledata[0].event.dates} interval={Exampledata[0].event.interval}/> */}
 							<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 								<View style={styles.timeselectorcontainer}>
-									<Timeline style={styles.timeline} data={Exampledata[0].event.dates} direction='horizontal' customStyle={styles.timeline}/>
+									<Timeline style={styles.timeline} data={event.dates} direction='horizontal' customStyle={styles.timeline}/>
 									<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-										<TimeInterval interval={Exampledata[0].event.interval}/>
+										<TimeInterval interval={event.interval}/>
 										<FlatList
 											horizontal = {true}
 											style={{paddingBottom:20}}
-											data={Exampledata[0].event.dates}
+											data={event.dates}
 											renderItem={({item,index:column_index})=>(
 												<View style={styles.container}>
 													<FlatList
-														data={Exampledata[0].event.interval}
+														data={event.interval}
 														renderItem={({item,index:row_index})=>(
 															<View style={styles.circlecontainer}>
 																<TouchableOpacity style={styles.clickbox} onPress={()=>{clickhandler(row_index,column_index)}}>
@@ -271,13 +350,13 @@ export default function VoteScreen({navigation}) {
 												</View>
 											)}>
 									</FlatList>
-									<Blueblock interval={Exampledata[0].event.interval}/>
+									<Blueblock interval={event.interval}/>
 									</ScrollView>
 								</View>
 								</ScrollView>
 						</View>
 						<FlatList
-								data={Exampledata[0].event.topTimeBlock}
+								data={event.topTimeBlock}
 								renderItem={({item:rank,index:ranking})=>(
 									<View style={styles.toptime}>
 										<SimpleLineIcons style={{paddingHorizontal:10}} name="trophy" size={24} color="black" />
@@ -285,9 +364,9 @@ export default function VoteScreen({navigation}) {
 											data={rank}
 											renderItem={({item,index}) => (
 												<View>
-													<Text>{Exampledata[0].event.dates[item[0]]}</Text>
+													<Text>{event.dates[item[0]]}</Text>
 													<View style={styles.top}>
-														<Text>{Exampledata[0].event.interval[item[1]]}</Text>
+														<Text>{event.interval[item[1]]}</Text>
 													</View>
 												</View>
 											)}
@@ -302,7 +381,7 @@ export default function VoteScreen({navigation}) {
 				)}
 			>
 			</FlatList>
-			<CalendarBottomBar showDrawerFn={showDrawerFn} navigation={navigation}/>
+			<CalendarBottomBar showDrawerFn={showDrawerFn} cur_user={cur_user} navigation={navigation}/>
 		</View>
   );
 }

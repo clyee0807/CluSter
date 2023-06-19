@@ -4,7 +4,8 @@ import { globalStyles } from '../styles/global';
 import BottomBar from '../components/bottomBar';
 import TextBar from '../components/textBar.js';
 
-export default function Profile({navigation}) {
+export default function Login({navigation}) {
+    const cur_user = 'Domingo';
 
 	const account_submitEventNameHandler = (text) => {  
 		// console.log(todos);
@@ -44,7 +45,7 @@ export default function Profile({navigation}) {
                         </View>
                         
                         {/* login button */}
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyEvent')}>
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
                         

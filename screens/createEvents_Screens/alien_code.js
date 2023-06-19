@@ -5,8 +5,8 @@ import { globalStyles } from '../../styles/global';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
-export default function Porfile({navigation}) {
-
+export default function AlienCode({navigation,route}) {
+    const {cur_user} = route.params;
     const [isCopied, setIsCopied] = useState(false);
 
     const handleCopy = () => {
@@ -30,7 +30,7 @@ export default function Porfile({navigation}) {
             <Text style={styles.text}>809BBF</Text>
             <TouchableOpacity onPress={handleCopy}><Feather name="copy" size={24} color="black" /></TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>
 				</TouchableOpacity>
         <View style={styles.shareContainer}>

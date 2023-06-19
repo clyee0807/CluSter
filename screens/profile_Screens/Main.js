@@ -8,7 +8,8 @@ import BottomBar from '../../components/bottomBar';
 import { Feather } from '@expo/vector-icons';
 import SlidableDrawer from '../../components/slidableDrawer';
 
-export default function Profile({navigation}) {
+export default function Profile({navigation,route}) {
+	const {cur_user} = route.params;
 	const [user, setUser] = useState([
 		{
 			id: '1',
@@ -129,8 +130,8 @@ export default function Profile({navigation}) {
 					<Text style={styles.eventcode}>0912345678</Text>
 				</View>
 				<View style={styles.rowButton}>
-					<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Setting')}><Text style={styles.buttonText}>Setting</Text></TouchableOpacity>
-					<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendList')}><Text style={styles.buttonText}>Friends</Text></TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Setting',{cur_user: cur_user})}><Text style={styles.buttonText}>Setting</Text></TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendList',{cur_user: cur_user})}><Text style={styles.buttonText}>Friends</Text></TouchableOpacity>
 				</View>
 			</View>
 			<BottomBar navigation={navigation}/>

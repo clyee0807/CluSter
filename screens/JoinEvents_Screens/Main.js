@@ -5,7 +5,8 @@ import { globalStyles } from '../../styles/global';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { AntDesign } from '@expo/vector-icons';
 
-export default function JoinEvent({navigation}) {
+export default function JoinEvent({navigation,route}) {
+	const {cur_user} = route.params;
     return (
 		<TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
 			<View style={globalStyles.container}>
@@ -16,7 +17,7 @@ export default function JoinEvent({navigation}) {
 				<AntDesign name="lock" size={24} color="black" />
 				<TextInput style={styles.eventcode} placeholder="Please enter event code"/>
 			</View>
-			<TouchableOpacity style={styles.enter} onPress={() => {navigation.navigate('VoteScreen')}}><Text style={styles.entercolor}>Enter</Text></TouchableOpacity>
+			<TouchableOpacity style={styles.enter} onPress={() => {navigation.navigate('VoteScreen',{eventID:'event.eventID',cur_user: cur_user})}}><Text style={styles.entercolor}>Enter</Text></TouchableOpacity>
 			</View>
 		</TouchableWithoutFeedback>
     );

@@ -9,35 +9,34 @@ import TimeSelector from '../../components/TimeSelector';
 import BottomBar from '../../components/bottomBar';
 
 
-const Exampledata = [
-    {
-        event: {
-            eventName: 'MyEvent',
-            dates: ['2023/5/20', '2023/5/21', '2023/5/22'],
-            host: 'Anna',
-            member: ['Bob', 'Cathy', 'Domingo'],
-            interval: ['9:00', '10:00', '11:00','12:00','13:00','14:00'],
-            description: 'This is description.',
-            deadline: '2023/6/11',
-            eventCode: '809BBF',
-            // Use (date, time) to access the time block.
-            // For example, (0, 0) stands for 2023/5/20 9:00.
-            availablePeople: [
-                [['Bob', 'Cathy', 'Domingo'], ['Bob', 'Cathy'], [],[],[],[]],
-                [['Domingo'], ['Domingo'], [],[],[],[]],
-                [[], [], [],[],[],[]],
-            ],
-            topTimeBlock: [
-                [[0, 0]], 
-                [[0, 1]],
-                [[1, 0], [1, 1]]
-            ],
-            confirmTime: ['na','na']
-        }
-    }
-];
-export default function EventJoiner({navigation}) {
-	// const cur_user = ''
+const event = {
+    id: '1',
+    event_name: 'MyEvent1',
+    dates: ['2023-07-20', '2023-07-21', '2023-07-22'], // array of string, storing dates
+    host: 'Domingo', // string, storing username of 'user'
+    members: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing username of 'user'
+    interval: ['9:00', '10:00', '11:00'], // array of string, storing times
+    deadline: '2023-07-04 22:00', // string, storing date and time
+    status: 'In progress', // string, indicating the event is in progress or settled
+    event_code: '809BBF', // string
+    // Use (date, time) to access the time block.
+    // For example, (0, 0) stands for 2023/5/20 9:00.
+    available_member: [
+      [['Domingo', 'Guavaaa', 'Jason', 'Tony', 'Bear'], ['Domingo', 'Guavaaa', 'Jason', 'Tony'], ['Domingo', 'Guavaaa', 'Jason', 'Tony']],
+      [['Guavaaa', 'Jason', 'Bear'], ['Guavaaa', 'Tony'], ['Guavaaa', 'Tony']],
+      [['Guavaaa', 'Jason', 'Bear'], ['Guavaaa'], []],
+    ], // 3-D array of string, storing username of 'user'
+    topTimeBlock: [
+      [[0, 0]],
+      [[0, 1], [0, 2]],
+      [[1, 0], [2, 0]]
+    ], // 3-D array of number, storimg correpsonding time block
+    confirmTime: 'na' // string, storing date and time
+};
+export default function EventJoiner({navigation, route}) {
+    const {eventID, cur_user} = route.params;
+    // console.log(eventID);
+	// console.log(cur_user);
 	const [user, setUser] = useState([
 		{
 			id: '1',
@@ -55,7 +54,7 @@ export default function EventJoiner({navigation}) {
 		},
 		{
 			id: '2',
-			username: 'Bob', // string
+			username: 'Guavaaa', // string
 			user_id: '520KEI', // string
 			user_photo: 2, // integer, used when accessing database
 			// We use integers to access photos in case of multiple photos with same name.
@@ -69,7 +68,7 @@ export default function EventJoiner({navigation}) {
 		},
 		{
 			id: '3',
-			username: 'Cathy', // string
+			username: 'Bear', // string
 			user_id: '123456', // string
 			user_photo: 3, // integer, used when accessing database
 			// We use integers to access photos in case of multiple photos with same name.
@@ -89,9 +88,9 @@ export default function EventJoiner({navigation}) {
 	const [chosentime, setchosen]=useState(['na','na']);
 	// confirmTime = chosenTime;
 
-	for(let i=0;i<Exampledata[0].event.availablePeople.length;i++){
-		for(let j=0;j<Exampledata[0].event.availablePeople[i].length;j++){
-			Exampledata[0].event.availablePeople[i][j].forEach((item)=>{
+	for(let i=0;i<event.available_member.length;i++){
+		for(let j=0;j<event.available_member[i].length;j++){
+			event.available_member[i][j].forEach((item)=>{
 				for(let k=0;k<user.length;k++){
 					if(user[k].username === item){
 						// console.log(user[k].username)
@@ -128,16 +127,16 @@ export default function EventJoiner({navigation}) {
 						<View>
 							<FlatList
 								style={styles.dateinterval}
-								data={Exampledata[0].event.dates}
+								data={event.dates}
 								horizontal={true}
 								renderItem={({item,index}) =>
 									<TouchableOpacity  style={[styles.date, selectedButtonIndex === index ? styles.selectedDate : styles.date]} key={index} onPress={()=> onPressButton(index)}><Text>{item.slice(5)}</Text></TouchableOpacity>
 								}
 							/>
-							<Result ava_people={ava_people} cur_date={cur_date} interval={Exampledata[0].event.interval}/>
+							<Result ava_people={ava_people} cur_date={cur_date} interval={event.interval}/>
 							<Text style={[globalStyles.instructionText,{paddingTop:30}]}>Choose a final even time!</Text>
 							<FlatList
-								data={Exampledata[0].event.topTimeBlock}
+								data={event.topTimeBlock}
 								renderItem={({item:rank,index:ranking})=>(
 									<View style={styles.toptime}>
 										<SimpleLineIcons style={{paddingHorizontal:10}} name="trophy" size={24} color="black" />
@@ -145,9 +144,9 @@ export default function EventJoiner({navigation}) {
 											data={rank}
 											renderItem={({item,index}) => (
 												<View>
-													<Text>{Exampledata[0].event.dates[item[0]]}</Text>
+													<Text>{event.dates[item[0]]}</Text>
 													<View>
-														<Text style={styles.top}>{Exampledata[0].event.interval[item[1]]}</Text>
+														<Text style={styles.top}>{event.interval[item[1]]}</Text>
 													</View>
 												</View>
 											)}
@@ -155,7 +154,7 @@ export default function EventJoiner({navigation}) {
 									</View>
 								)}
 							></FlatList>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen',{eventID:eventID,cur_user: cur_user})}>
 								<Text style={{color:'#FFF',}}>Edit</Text>
 							</TouchableOpacity>
 						</View>

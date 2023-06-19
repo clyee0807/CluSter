@@ -15,8 +15,8 @@ import WeekdayPicker from '../../components/weekdayPicker.js';
 import { Dialog } from 'react-native-simple-dialogs';
 
 
-export default function CreateEvent({navigation}) {
-	
+export default function CreateEvent({navigation,route}) {
+	const {cur_user} = route.params;
 	const [events, setEvent] = useState([
 		{
 			id: '1',
@@ -411,7 +411,7 @@ export default function CreateEvent({navigation}) {
 
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('EventCode',{event_code:'event.event_code',cur_user: cur_user})} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>) : 
@@ -559,13 +559,13 @@ export default function CreateEvent({navigation}) {
 										weekDaysColor: '#1C1243',
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('EventCode',{event_code: 'event.event_code',cur_user: cur_user})} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>
 				)}
 
-		<BottomBar navigation={navigation}/>
+		<BottomBar cur_user={cur_user} navigation={navigation}/>
 		</View>
 	);
 }

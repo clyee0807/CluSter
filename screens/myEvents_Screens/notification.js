@@ -92,7 +92,7 @@ export default function Notice({navigation}) {
               <View style={[{width : cardWidth*0.9,borderRadius: 16,} ]}> 
               
                 {/* <TouchableOpacity style={{backgroundColor : 'pink'}} onPress={() => navigation.navigate('EventScreen')}>  */}
-                <TouchableOpacity style={{ borderRadius: 16}} onPress={() => navigation.navigate('EventScreen')}> 
+                <TouchableOpacity style={{ borderRadius: 16}} onPress={() => navigation.navigate('EventScreen',{eventID:eventID,cur_user: cur_user})}> 
 
                   <View style={styles.rows}>
 
