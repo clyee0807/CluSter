@@ -91,6 +91,7 @@ export default function Notice({navigation}) {
 		
               <View style={[{width : cardWidth*0.9,borderRadius: 16,} ]}> 
               
+                {/* <TouchableOpacity style={{backgroundColor : 'pink'}} onPress={() => navigation.navigate('EventScreen')}>  */}
                 <TouchableOpacity style={{ borderRadius: 16}} onPress={() => navigation.navigate('EventScreen')}> 
 
                   <View style={styles.rows}>
@@ -171,7 +172,6 @@ const styles = StyleSheet.create({
 		height: 100,
 		borderRadius: 16,
 		backgroundColor: '#fff',
-		// backgroundColor: 'pink',
 		marginHorizontal: 4,
 		marginVertical: 6,
 		shadowOffset: { width: 0, height: 2 },
