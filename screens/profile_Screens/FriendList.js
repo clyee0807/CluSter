@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal} from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Modal, Pressable} from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons'; 
 
 export default function FriendList({navigation}) {
+    
     const [user, setUser] = useState([
       { username: 'Domingo',
         user_id: '8787',
@@ -16,19 +17,36 @@ export default function FriendList({navigation}) {
         notifs: 'na'
       }
     ]);
-    const friends = user[0].friends;
+
+    const [friends,setFriends] = useState(user[0].friends);
+    const [selectedFriend, setSelectedFriend] = useState(null);
+    const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+
     const renderFriend = ({ item }) => (
       <View style={styles.friendContainer}>
         <View style={styles.rows}>
           <Text style={globalStyles.headingText}>{item}</Text>
-          <TouchableOpacity onPress={() => removeFriend(item)}><AntDesign name="minus" size={30} color="black"/></TouchableOpacity>
+          <TouchableOpacity onPress={() => openConfirmModal(item)}>
+            <AntDesign name="minus" size={30} color="black" />
+          </TouchableOpacity>
         </View>
         <View style={styles.separator} />
       </View>
     );
-    const removeFriend = (friend) => {
-      const updatedFriends = friends.filter((item) => item !== friend);
-      setUser((prevState) => [{ ...prevState[0], friends: updatedFriends }]);
+    const openConfirmModal = (friend) => {
+      setSelectedFriend(friend);
+      setConfirmModalVisible(true);
+    };
+  
+    const closeConfirmModal = () => {
+      setConfirmModalVisible(false);
+      setSelectedFriend(null);
+    };
+  
+    const removeFriend = () => {
+      const updatedFriends = friends.filter((item) => item !== selectedFriend);
+      setFriends(updatedFriends);
+      closeConfirmModal();
     };
 
     return (
@@ -44,6 +62,21 @@ export default function FriendList({navigation}) {
             renderItem={renderFriend}
           />
         </View>
+        <Modal visible={confirmModalVisible} transparent animationType="fade">
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Are you sure you want to remove {selectedFriend}?</Text>
+              <View style={styles.modalButtons}>
+                <Pressable style={styles.modalButton} onPress={removeFriend}>
+                  <Text style={styles.modalButtonText}>Confirm</Text>
+                </Pressable>
+                <Pressable style={styles.modalButton} onPress={closeConfirmModal}>
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
       
     );
@@ -69,5 +102,33 @@ const styles = StyleSheet.create({
     borderBottomColor: '#C5C5C5',
     borderBottomWidth: 1,
     padding: 8
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 8,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  modalButton: {
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 4,
+    backgroundColor: '#DDDDDD',
+  },
+  modalButtonText: {
+    fontSize: 16,
   },
 })
