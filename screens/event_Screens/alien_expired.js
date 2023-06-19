@@ -1,4 +1,4 @@
-// 
+//status寫死的
 import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Entypo } from '@expo/vector-icons';
@@ -46,7 +46,6 @@ export default function Porfile({navigation}) {
         </>
       )
     }
-
 
     return (
       <View style={globalStyles.container}>
