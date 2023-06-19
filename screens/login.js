@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import { ImageBackground, Text,StyleSheet,TouchableOpacity, View, Dimensions,Keyboard,TouchableWithoutFeedback} from 'react-native';
+import { ImageBackground, Text,StyleSheet,TouchableOpacity, View, Dimensions,Keyboard,TouchableWithoutFeedback,Alert} from 'react-native';
 import { globalStyles } from '../styles/global';
 import BottomBar from '../components/bottomBar';
 import TextBar from '../components/textBar.js';
 
-export default function Profile({navigation}) {
+export default function Login({navigation}) {
+    const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
+    const handleButtonPress = () => {
+        if (isPasswordCorrect) {
+          navigation.navigate('MyEvent');
+        } else {
+          Alert.alert('Login Failed!', 'Please enter correct account and password.');
+        }
+    };
 
 	const account_submitEventNameHandler = (text) => {  
 		// console.log(todos);
@@ -37,14 +45,14 @@ export default function Profile({navigation}) {
                             </View>
                             
                             <View>
-                                <Text style={styles.hint}>password: </Text>
+                                <Text style={styles.hint}>Password: </Text>
                                 <TextBar style={[styles.inputContainer,{ width: screenWidth }]} placeholder="password : " submitHandler={password_submitEventNameHandler}/>
                             </View>
                         
                         </View>
                         
                         {/* login button */}
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyEvent')}>
+                        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
                         
