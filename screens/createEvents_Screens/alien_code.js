@@ -22,9 +22,9 @@ export default function Porfile({navigation}) {
 				</TouchableOpacity>
         <View style={styles.shareContainer}>
           <View style={styles.row_2}>
-            <Text style={styles.shareText}>share to friends</Text>
-            <TouchableOpacity style={styles.iconContainer}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>
-            <TouchableOpacity style={styles.iconContainer}><Entypo name="instagram" size={24} color="black" /></TouchableOpacity>
+            <Text style={[globalStyles.instructionText,{marginRight: 10}]}>share to friends</Text>
+            <TouchableOpacity style={{marginRight: 10}}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>
+            <TouchableOpacity style={{marginRight: 10}}><Entypo name="instagram" size={24} color="black" /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -76,14 +76,5 @@ const styles = StyleSheet.create({
   row_2: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  shareText: {
-    marginRight: 10,
-    fontFamily: 'Inter_400Regular',
-    fontSize: 14,
-    color: '#A29EB6',
-  },
-  iconContainer: {
-    marginRight: 10
   },
 });

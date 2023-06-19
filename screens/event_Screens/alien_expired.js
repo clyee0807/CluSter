@@ -4,35 +4,49 @@ import { globalStyles } from '../../styles/global';
 import { Entypo } from '@expo/vector-icons';
 
 export default function Porfile({navigation}) {
-    const Exampledata = [
-      {
-          event: {
-              eventName: 'MyEvent',
-              dates: ['2023/5/20', '2023/5/21', '2023/5/22'],
-              host: 'Anna',
-              member: ['Bob', 'Cathy', 'Domingo'],
-              interval: ['9:00', '10:00', '11:00'],
-              description: 'This is description.',
-              deadline: 'na',
-              eventCode: '809BBF',
-              // Use (date, time) to access the time block.
-              // For example, (0, 0) stands for 2023/5/20 9:00.
-              availablePeople: [
-                  [['Bob', 'Cathy', 'Domingo'], ['Bob', 'Cathy'], []],
-                  [['Domingo'], ['Domingo'], []],
-                  [[], [], []],
-              ],
-              topTimeBlock: [
-                  [(0, 0)], 
-                  [(0, 1)],
-                  [(1, 0), (1, 1)]
-              ],
-              confirmTime: [0, 2]
-          }
-      }
-    ];
+    const Exampledata = [{
+        event: {
+          id: '1',
+          event_name: 'MyEvent1',
+          dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
+          host: 'NOT911', // string, storing user_id of 'user'
+          members: ['John', 'Peggy', 'Daphne'], // array of string, storing user_id of 'user'
+          interval: ['9:00', '10:00', '11:00'], // array of string, storing times
+          description: 'This is description.', // string
+          deadline: '2023-05-04 22:00', // string, storing date and time
+          status: 'In progress',
+          event_code: '809BBF', // string
+          // Use (date, time) to access the time block.
+          // For example, (0, 0) stands for 2023/5/20 9:00.
+          available_member: [
+              [['111111', '222222', '333333'], ['111111', '222222'], []],
+              [['333333'], ['333333'], []],
+              [[], [], []],
+          ], // 3-D array of string, storing user_id of 'user'
+          confirmTime: [0,0] // string, storing date and time
+        }
+    }];
     const confirmDate = Exampledata[0].event.dates[Exampledata[0].event.confirmTime[0]];
     const confirmInterval = Exampledata[0].event.interval[Exampledata[0].event.confirmTime[1]];
+
+    let content = null;
+    if(Exampledata[0].event.status=='In progress') {
+      content = (
+        <>
+          <Text style={globalStyles.instructionText}>The host is deciding the date.</Text>
+          <Text style={[styles.text, { marginTop: 15, marginBottom: 10 }]}>Confirming...</Text>
+        </>
+      )
+    } else {
+      content = (
+        <>
+          <Text style={globalStyles.instructionText}>The chosen date is</Text>
+          <Text style={[styles.text, { marginTop: 15, marginBottom: 10 }]}>{confirmDate}</Text>
+          <Text style={[styles.text, { marginBottom: 15 }]}>{confirmInterval}</Text>
+        </>
+      )
+    }
+
 
     return (
       <View style={globalStyles.container}>
@@ -40,18 +54,18 @@ export default function Porfile({navigation}) {
           source={require('../../assets/alien.png')}
           style={styles.img}
         />
-        <Text style={globalStyles.instructionText}>The chosen date is</Text>
-        <Text style={[styles.text, { marginTop: 15, marginBottom: 10 }]}>{confirmDate}</Text>
-        <Text style={[styles.text, { marginBottom: 15 }]}>{confirmInterval}</Text>
+        {content}
         <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>
 				</TouchableOpacity>
         <View style={styles.shareContainer}>
-          <View style={styles.row_2}>
-            <Text style={styles.shareText}>share to friends</Text>
-            <TouchableOpacity style={styles.iconContainer}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>
-            <TouchableOpacity style={styles.iconContainer}><Entypo name="instagram" size={24} color="black" /></TouchableOpacity>
-          </View>
+          {Exampledata[0].event.status !== 'In progress' && (
+            <View style={styles.row_2}>
+              <Text style={[globalStyles.instructionText,{marginRight: 10}]}>share to friends</Text>
+              <TouchableOpacity style={{marginRight: 10}}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>
+              <TouchableOpacity style={{marginRight: 10}}><Entypo name="instagram" size={24} color="black" /></TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -96,14 +110,5 @@ const styles = StyleSheet.create({
   row_2: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  shareText: {
-    marginRight: 10,
-    fontFamily: 'Inter_400Regular',
-    fontSize: 14,
-    color: '#A29EB6',
-  },
-  iconContainer: {
-    marginRight: 10
   },
 });
