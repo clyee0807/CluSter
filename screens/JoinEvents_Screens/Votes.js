@@ -74,7 +74,7 @@ export default function VoteScreen({navigation}) {
 					Exampledata[0].event.available_member[i][j].push(cur_user);
 				}
 				else if(isclicked[i][j] === 0 && Exampledata[0].event.available_member[i][j].includes(cur_user)){
-					Exampledata[0].event.available_member[i][j].filter(element => element !== cur_user)
+					Exampledata[0].event.available_member[i][j].filter(({element}) => element !== cur_user)
 				}
 			}
 		}
