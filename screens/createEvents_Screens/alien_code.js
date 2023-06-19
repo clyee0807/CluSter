@@ -1,10 +1,23 @@
 // event code寫死
-import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, ToastAndroid, Modal } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 export default function Porfile({navigation}) {
+
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = () => {
+      setIsCopied(true);
+      showToastMessage('copied', ToastAndroid.LONG); // 顯示 Toast 訊息
+    };
+
+    const showToastMessage = (message, duration) => {
+      ToastAndroid.show(message, duration);
+    };
+
     return (
       <View style={globalStyles.container}>
         <Image
@@ -15,7 +28,7 @@ export default function Porfile({navigation}) {
         <Text style={globalStyles.instructionText}>This is your event code!</Text>
         <View style={styles.row}>
             <Text style={styles.text}>809BBF</Text>
-            <Feather name="copy" size={24} color="black" />
+            <TouchableOpacity onPress={handleCopy}><Feather name="copy" size={24} color="black" /></TouchableOpacity>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>

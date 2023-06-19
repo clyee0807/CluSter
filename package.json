@@ -31,6 +31,7 @@
     "react-native-simple-dialogs": "^2.0.1",
     "react-native-simple-timeline": "^0.1.4",
     "react-native-slidable-drawer-panel": "^1.0.6",
+    "react-native-toast-message": "^2.1.6",
     "react-schedule-selector": "^3.0.2",
     "styled-components": "^5.3.11",
     "typescript": "^4.9.4"
