@@ -7,6 +7,8 @@ import Result from '../../components/result';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import TimeSelector from '../../components/TimeSelector';
 import BottomBar from '../../components/bottomBar';
+
+
 const Exampledata = [
     {
         event: {
@@ -35,6 +37,85 @@ const Exampledata = [
     }
 ];
 export default function EventScreen({navigation}) {
+	const [user, setUser] = useState([
+		{
+			id: '1',
+			username: 'Domingo', // string
+			user_id: 'NOT911', // string
+			user_photo: 1, // integer, used when accessing database
+			// We use integers to access photos in case of multiple photos with same name.
+			events: ['809BBF'], // array of string, storing event_code of 'event'
+			friends: ['520KEI'], // array of string, storing user_id of 'user'
+			email: "test1234@gmail.com", // string, unchangeable
+			phone_number: "0911451419", // string, unchangeable
+			language: "English", // string
+			notifs: [0, 1], // array of integer, storing notif_id of "notifs"
+			notif_on: true // bool
+		},
+		{
+			id: '2',
+			username: 'Bob', // string
+			user_id: '520KEI', // string
+			user_photo: 2, // integer, used when accessing database
+			// We use integers to access photos in case of multiple photos with same name.
+			events: ['809BBF'], // array of string, storing event_code of 'event'
+			friends: ['520KEI'], // array of string, storing user_id of 'user'
+			email: "test1234@gmail.com", // string, unchangeable
+			phone_number: "0911451419", // string, unchangeable
+			language: "English", // string
+			notifs: [0, 1], // array of integer, storing notif_id of "notifs"
+			notif_on: true // bool
+		},
+		{
+			id: '3',
+			username: 'Cathy', // string
+			user_id: '123456', // string
+			user_photo: 3, // integer, used when accessing database
+			// We use integers to access photos in case of multiple photos with same name.
+			events: ['809BBF'], // array of string, storing event_code of 'event'
+			friends: ['520KEI'], // array of string, storing user_id of 'user'
+			email: "test1234@gmail.com", // string, unchangeable
+			phone_number: "0911451419", // string, unchangeable
+			language: "English", // string
+			notifs: [0, 1], // array of integer, storing notif_id of "notifs"
+			notif_on: true // bool
+		},
+	]);
+	var ava_people=[];
+	var tmp=[];
+	var tmp2=[];
+	const [cur_date,setcurdate]=useState(0);
+	const [chosentime, setchosen]=useState(['na','na'])
+
+	for(let i=0;i<Exampledata[0].event.availablePeople.length;i++){
+		for(let j=0;j<Exampledata[0].event.availablePeople[i].length;j++){
+			Exampledata[0].event.availablePeople[i][j].forEach((item)=>{
+				for(let k=0;k<user.length;k++){
+					if(user[k].username === item){
+						// console.log(user[k].username)
+						tmp.push(user[k].user_photo);
+						break;
+					}
+				}
+			})
+			tmp2.push(tmp);
+			tmp=[]
+		}
+		ava_people.push(tmp2)
+		tmp2=[];
+	}
+
+	const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+
+	const onPressButton = (index) => {
+		setSelectedButtonIndex(index);
+		setcurdate(index);
+	}
+
+	const onChooseDate = (rank,time) => {
+		setchosen([rank,time]);
+		// console.log(chosentime);
+	}
 
   	return (
 		<View>
@@ -44,54 +125,36 @@ export default function EventScreen({navigation}) {
 						style={styles.dateinterval}
 						data={Exampledata[0].event.dates}
 						horizontal={true}
-						renderItem={({item}) =>
-							<Text style={styles.date}>{item.slice(5)}</Text>
+						renderItem={({item,index}) =>
+							<TouchableOpacity  style={[styles.date, selectedButtonIndex === index ? styles.selectedDate : styles.date]} key={index} onPress={()=> onPressButton(index)}><Text>{item.slice(5)}</Text></TouchableOpacity>
 						}
 					/>
-					<Result dates={Exampledata[0].event.dates} available_member={Exampledata[0].event.available_member} interval={Exampledata[0].event.interval}/>
-					<View style={styles.toptime}>
-						<SimpleLineIcons style={{paddingHorizontal:10,}} name="trophy" size={24} color="black" />
-						<FlatList
-							data={Exampledata[0].event.topTimeBlock[0]}
-							renderItem={({item}) => (
-								<View>
-									<Text>{Exampledata[0].event.dates[item[0]]}</Text>
-									<View style={styles.top}>
-										<Text>{Exampledata[0].event.interval[item[1]]}</Text>
-									</View>
-								</View>
-							)}
-							nestedScrollEnabled={true}/>
-					</View>
-					<View style={styles.toptime}>
-						<SimpleLineIcons style={{paddingHorizontal:10,}} name="trophy" size={24} color="black" />
-						<FlatList
-							data={Exampledata[0].event.topTimeBlock[1]}
-							renderItem={({item}) => (
-								<View>
-									<Text>{Exampledata[0].event.dates[item[0]]}</Text>
-									<View style={styles.top}>
-										<Text>{Exampledata[0].event.interval[item[1]]}</Text>
-									</View>
-								</View>
-							)}
-							nestedScrollEnabled={true}/>
-					</View>
-					<View style={styles.toptime}>
-						<SimpleLineIcons style={{paddingHorizontal:10,}} name="trophy" size={24} color="black" />
-						<FlatList
-							data={Exampledata[0].event.topTimeBlock[2]}
-							renderItem={({item}) => (
-								<View>
-									<Text>{Exampledata[0].event.dates[item[0]]}</Text>
-									<View style={styles.top}>
-										<Text>{Exampledata[0].event.interval[item[1]]}</Text>
-									</View>
-								</View>
-							)} nestedScrollEnabled={true}/>
-					</View>
-					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('EventScreen')}>
-						<Text style={{color:'#FFF',}}>Submit</Text>
+					<Result ava_people={ava_people} cur_date={cur_date} interval={Exampledata[0].event.interval}/>
+					<FlatList
+					 	data={Exampledata[0].event.topTimeBlock}
+						renderItem={({item:rank,index:ranking})=>(
+							<View style={styles.toptime}>
+								<SimpleLineIcons style={{paddingHorizontal:10}} name="trophy" size={24} color="black" />
+								<FlatList
+									data={rank}
+									renderItem={({item,index}) => (
+										<View>
+											<Text>{Exampledata[0].event.dates[item[0]]}</Text>
+											<View>
+												<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{Exampledata[0].event.interval[item[1]]}</Text></TouchableOpacity>
+												
+											</View>
+										</View>
+									)}
+									nestedScrollEnabled={true}/>
+							</View>
+						)}
+					></FlatList>
+					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+						<Text style={{color:'#FFF',}}>Edit</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+						<Text style={{color:'#FFF',}}>confirmTime</Text>
 					</TouchableOpacity>
 				</ScrollView>
 			</View>
@@ -103,35 +166,24 @@ export default function EventScreen({navigation}) {
 const styles=StyleSheet.create({
 	time: {
 		fontFamily: 'Inter_400Regular',
-		// flex:1,
 		fontSize: 12,
-	},
-	dateinterval: {
-		paddingHorizontal: 20,
 	},
 	container: {
 		backgroundColor: '#FFF',
-		// flex: 1,
-		// padding: 30,
-		// alignContent: 'center',
 		alignItems: 'center',
-		// justifyContent: 'center',
 	},
 	topSection: {
-		// backgroundColor: 'pink',
-		// alignItems: 'center',
 		marginBottom: 70,
-		// flex: 1,
+		marginHorizontal:25
 	},
 	toptime:{
-		// flex:1,
-		marginHorizontal: 30,
+		marginVertical: 10,
 		flexDirection: 'row',
 	},
 	submit: {
 		height: 40,
-		margin:20,
-		width: 330,
+		margin:5,
+		width: 350,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#809BBF',
@@ -140,23 +192,47 @@ const styles=StyleSheet.create({
 	},
 	top: {
 		borderWidth: 1,
-		width:50,
+		// width:50,
 		justifyContent: 'center',
 		alignContent: 'center',
 		alignItems: 'center',
 		borderRadius: 8,
 		borderColor: '#809BBF',
 		margin: 5,
+		paddingHorizontal:10,
+		paddingVertical:2,
+	},
+	selectedTop: {
+		borderWidth: 1,
+		// width:50,
+		justifyContent: 'center',
+		alignContent: 'center',
+		alignItems: 'center',
+		borderRadius: 8,
+		borderColor: '#809BBF',
+		backgroundColor: '#809BBF',
+		margin: 5,
+		paddingHorizontal:10,
+		paddingVertical:2,
 	},
 	date: {
 		borderWidth: 1,
 		height:30,
-		justifyContent: 'center',
-		alignContent: 'center',
 		alignItems: 'center',
 		borderRadius: 8,
 		borderColor: '#809BBF',
+		backgroundColor: '#FFF',
 		margin: 5,
-		padding:5
+		padding: 5
+	},
+	selectedDate: {
+		borderWidth: 1,
+		height:30,
+		alignItems: 'center',
+		borderRadius: 8,
+		borderColor: '#809BBF',
+		backgroundColor: '#809BBF',
+		margin: 5,
+		padding: 5
 	},
 })

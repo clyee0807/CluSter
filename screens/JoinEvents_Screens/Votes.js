@@ -109,13 +109,15 @@ const styles = StyleSheet.create({
 		// backgroundColor: 'pink',
 		marginBottom: 70,
 		// flex: 1,
+		marginHorizontal:25,
+		// justifyContent:'center',
 	},
 	outercontainer: {
 		backgroundColor: '#FFF',
 	},
 	container: {
 		backgroundColor: '#FFF',
-
+		// margin:30,
 		alignContent: 'center',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -123,13 +125,13 @@ const styles = StyleSheet.create({
 	
 	toptime:{
 		// flex:1,
-		marginHorizontal: 30,
+		marginVertical: 10,
 		flexDirection: 'row',
 	},
 	submit: {
 		height: 40,
-		margin:30,
-		width: 330,
+		// margin:30,
+		width: 350,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#809BBF',

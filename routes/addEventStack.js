@@ -28,14 +28,14 @@ export default function AddEventStack() {
             <Stack.Screen name='MyEvent' component={MyEvent} options={{ headerShown: false}}></Stack.Screen>
             <Stack.Screen name='EventScreen' component={EventScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
             <Stack.Screen name='VoteScreen' component={VoteScreen}options={{headerShadowVisible: false,headerTitleAlign: 'center',headerTitle: () => ( <Text style={styles.headerTitle}>Event</Text>)}}></Stack.Screen>
-            <Stack.Screen name='Notification' component={Notice}></Stack.Screen>
+            <Stack.Screen name='Notification' component={Notice} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
             <Stack.Screen name='AddEvent' component={AddEvent} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
             <Stack.Screen name='CreateEvent' component={CreateEvent} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Create Events</Text>)}}></Stack.Screen>
             <Stack.Screen name='JoinEvent' component={JoinEvent} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Join Events</Text>)}}></Stack.Screen>
-            <Stack.Screen name='AddFriend' component={AddFriend}></Stack.Screen>
+            <Stack.Screen name='AddFriend' component={AddFriend} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
             <Stack.Screen name='FriendList' component={FriendList} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Friends</Text>)}}></Stack.Screen>
             <Stack.Screen name='Profile' component={Profile} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Profile</Text>) }}></Stack.Screen>
-            <Stack.Screen name='Setting' component={Setting}></Stack.Screen>
+            <Stack.Screen name='Setting' component={Setting} options={{headerTitleAlign: 'center', headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>Add Events</Text>) }}></Stack.Screen>
 
             <Stack.Screen name='EventCode' component={EventCode} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>My Events</Text>)}}></Stack.Screen>
             <Stack.Screen name='Expired' component={Expired} options={{headerTitleAlign: 'center',headerShadowVisible: false,headerTitle: () => ( <Text style={styles.headerTitle}>My Events</Text>)}}></Stack.Screen>

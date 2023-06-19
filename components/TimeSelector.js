@@ -19,7 +19,7 @@ export default function TimeSelector({dates,interval}) {
                 <TimeInterval interval={interval}/>
                 <FlatList
                     horizontal = {true}
-                    style={{paddingBottom:30}}
+                    style={{paddingBottom:20}}
                     data={dates}
                     renderItem={({item})=>(
                         <TimeSelectorItemLine interval={interval}/>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 2,
         // padding: 170,
-        margin: 20,
+        // margin: 30,
         marginTop: 3,
         alignContent: 'center',
         // alignItems: 'center',
