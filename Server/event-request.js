@@ -2,6 +2,9 @@ import * as FileSystem from 'expo-file-system';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
+import { addEventToUser } from './user-request';
+import { createNotif } from './notif-request';
+
 function generateRandomString() {
 	const uuid = uuidv4().replace(/-/g, ''); // Remove dashes from the UUID
 	const alphanumericOnly = uuid.replace(/[^A-Z0-9]/gi, ''); // Filter out non-alphanumeric characters
@@ -32,22 +35,20 @@ export async function createEvent(
     try {
 		// console.log("creating event : ", event_name);
       	const fileUri = FileSystem.documentDirectory + 'events.json';
-      	// Read the existing JSON file
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
         
-      	// Modify the data
       	let event = {
 			id: (existingData.length + 1).toString(),
 			event_name: event_name,
-			dates: [], // need to be changed
+			dates: [],
 			host: host,
 			members: members,
-			interval: [], // need to be changed
+			interval: [],
 			deadline: deadline,
 			status: 'In progress',
 			event_code: generateRandomString(),
-			available_member: [], // need to be changed
+			available_member: [],
 			topTimeBlock: [
 				[],
 				[],
@@ -55,13 +56,10 @@ export async function createEvent(
 			],
 			confirmTime: 'na'
 		}
-		// event.dates
-		// console.log('DATES');
+		// console.log('DATES: mode =', mode);
 		if (mode === 'Specific Dates') {
-			// console.log('mode = date');
 			event.dates = dates;
 		} else {
-			// console.log(start_date, " ~ ", end_date);
 			let weekdays = [];
 			if (dates['Sunday'] === true) weekdays.push(0);
 			if (dates['Monday'] === true) weekdays.push(1);
@@ -72,8 +70,7 @@ export async function createEvent(
 			if (dates['Saturday'] === true) weekdays.push(6);
 			event.dates = getWeekdayDates(start_date, end_date, weekdays);
 		}
-		// event.interval
-		// console.log('INTERVAL');
+		// console.log('INTERVAL: time_unit =', time_unit);
 		let [hour_s, minute_s] = start_time.split(':');
 		let [hour_e, minute_e] = end_time.split(':');
 		hour_s = Number(hour_s), minute_s = Number(minute_s);
@@ -90,7 +87,6 @@ export async function createEvent(
 				i += 2;
 			}
 		}
-		// event.available_member
 		// console.log('AVAIL_MEM');
 		for (let i = 0; i < event.dates.length; i++) {
 			const arr_temp = [];
@@ -99,21 +95,53 @@ export async function createEvent(
 			}
 			event.available_member.push(arr_temp);
 		}
-		// push back to JSON
-		// console.log("pushing event:", event);
+		
 		existingData.push(event);
-		// console.log("current existing data:", existingData);
-      	// Convert the modified data back to JSON string
       	const updatedContent = JSON.stringify(existingData);
-		// console.log("stringify success!");
-      	// Write the updated JSON content to the file
-		// console.log("file Uri = ", fileUri);
       	await FileSystem.writeAsStringAsync(fileUri, updatedContent);
       	console.log('JSON file updated successfully!');
 
-		// TODO: users update
+		addEventToUser(host, event.event_code);
+		createNotif(event.id, event.members, event.event_code);
 
-		// TODO: notif update
+    } catch (error) {
+      	console.error('Error occurred while writing to JSON file:', error);
+    }
+}
+
+export async function readEvent(event_id) {
+    try {
+		// console.log("reading event of event_id =", event_id");
+      	const fileUri = FileSystem.documentDirectory + 'events.json';
+      	const existingContent = await FileSystem.readAsStringAsync(fileUri);
+      	const existingData = JSON.parse(existingContent);
+        
+      	existingData.map((event) => {
+			if (event.event_id === event_id) {
+				return event;
+			}
+		});
+
+    } catch (error) {
+      	console.error('Error occurred while writing to JSON file:', error);
+    }
+}
+
+export async function getUserEvents(user_events) {
+    try {
+		// console.log("get all events in", events);
+      	const fileUri = FileSystem.documentDirectory + 'events.json';
+      	const existingContent = await FileSystem.readAsStringAsync(fileUri);
+      	const existingData = JSON.parse(existingContent);
+        
+		const allEvents = [];
+      	existingData.map((event) => {
+			if (user_events.includes(event.event_code)) {
+				allEvents.push(event);
+			}
+		});
+
+		return allEvents;
 
     } catch (error) {
       	console.error('Error occurred while writing to JSON file:', error);

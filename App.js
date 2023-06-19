@@ -4,8 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SpaceGrotesk_400Regular } from '@expo-google-fonts/space-grotesk';
 import { useEffect } from 'react';
-import { createJSONFile, readJSONFile } from './expo-file-system';
-import { createEvent } from './event-request';
+import { createJSONFile, readJSONFile } from './Server/expo-file-system';
+import { createEvent } from './Server/event-request';
 
 import AddEventStack from './routes/addEventStack';
 
@@ -15,11 +15,11 @@ const init_events = [
   {
     id: '1',
     event_name: 'MyEvent1',
-    dates: ['2023/7/20', '2023/7/21', '2023/7/22'], // array of string, storing dates
+    dates: ['2023-07-20', '2023-07-21', '2023-07-22'], // array of string, storing dates
     host: 'Domingo', // string, storing username of 'user'
     members: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing username of 'user'
     interval: ['9:00', '10:00', '11:00'], // array of string, storing times
-    deadline: '2023/7/4 22:00', // string, storing date and time
+    deadline: '2023-07-04 22:00', // string, storing date and time
     status: 'In progress', // string, indicating the event is in progress or settled
     event_code: '809BBF', // string
     // Use (date, time) to access the time block.
@@ -39,11 +39,11 @@ const init_events = [
   { 
     id: '2',
     event_name: 'FOOBAR',
-    dates: ['2023/7/1', '2023/7/2'],
+    dates: ['2023-07-01', '2023-07-02'],
     host: 'Guavaaa',
     members: ['Domingo', 'Jason', 'Tony'],
     interval: ['18:00', '19:00', '20:00', '21:00'],
-    deadline: '2023/5/1 23:59',
+    deadline: '2023-05-01 23:59',
     status: 'Settled',
     event_code: '1A2B3C',
     available_member: [
@@ -55,12 +55,12 @@ const init_events = [
       [[0, 2], [1, 2], [1, 3]],
       [[0, 1], [0, 1]]
     ],
-    confirmTime: '2023/7/1 18:00'
+    confirmTime: '2023-07-01 18:00'
   },
   { 
     id: '3',
     event_name: 'Emotional Damage',
-    dates: ['2023/6/26', '2023/6/27', '2023/6/28', '2023/6/29', '2023/6/30'],
+    dates: ['2023-06-26', '2023-06-27', '2023-06-28', '2023-06-29', '2023-06-30'],
     host: 'Domingo',
     members: ['Guavaaa', 'Jason', 'Tony', 'Bear'],
     interval: ['9:00', '10:00'],
@@ -84,11 +84,11 @@ const init_events = [
   {
     id: '4',
     event_name: 'heyyeyaaeyaaaeyaeyaa',
-    dates: ['2023/10/1', '2023/10/2', '2023/10/8', '2023/10/9'],
+    dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
     host: 'Jason',
     members: ['Domingo', 'Guavaaa', 'Tony'],
     interval: ['9:00', '11:00', '13:00', '15:00'],
-    deadline: '2023/9/1  23:59',
+    deadline: '2023-09-01  23:59',
     status: 'In progress',
     event_code: '0H0E2E', 
     available_member: [
@@ -107,11 +107,11 @@ const init_events = [
   {
     id: '5',
     event_name: 'Badminton',
-    dates: ['2023/6/26', '2023/6/27', '2023/6/28'],
+    dates: ['2023-06-26', '2023-06-27', '2023-06-28'],
     host: 'Bear',
     members: ['Domingo', 'Guavaaa', 'Jason'],
     interval: ['16:00', '17:00', '18:00', '19:00'],
-    deadline: '2023/6/21  23:59',
+    deadline: '2023-06-21  23:59',
     status: 'In progress',
     event_code: '6969SX', 
     available_member: [
@@ -132,7 +132,7 @@ const init_users = [
   {
     id: '1',
     username: 'Domingo', // string
-    // user_id: 'IAMGAY', // string, removed since we won't have multiple users with same username
+    password: '1111', // string
     user_photo: 0, // integer, used when accessing database. We use integers to access photos in case of multiple photos with same name.
     events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'], // array of string, storing event_code of 'event'
     friends: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing user_id of 'user'
@@ -145,6 +145,7 @@ const init_users = [
   {
     id: '2',
     username: 'Guavaaa',
+    password: '2222',
     user_photo: 1,
     events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'],
     friends: [],
@@ -157,6 +158,7 @@ const init_users = [
   {
     id: '3',
     username: 'Jason',
+    password: '3333',
     user_photo: 2,
     events: ['809BBF', '1A2B3C', 'STEVEN', '6969SX'],
     friends: ['Guavaaa', 'Domingo', 'Tony'],
@@ -169,6 +171,7 @@ const init_users = [
   {
     id: '4',
     username: 'Tony',
+    password: '4444',
     user_photo: 3,
     events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E'],
     friends: ['Domingo', 'Guavaaa', 'Jason'],
@@ -181,6 +184,7 @@ const init_users = [
   {
     id: '5',
     username: 'Bear',
+    password: '5555',
     user_photo: 4,
     events: ['809BBF', 'STEVEN', '6969SX'],
     friends: ['Domingo', 'Guavaaa'],
