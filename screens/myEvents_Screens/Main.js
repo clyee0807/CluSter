@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import BottomBar from '../../components/bottomBar';
 import SearchBar from '../../components/searchBar.js';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import * as FileSystem from 'expo-file-system';
 
-export default function MyEvent({navigation}) {
-
-  const [events, setEvent] = useState([
+const init_data = [
     { id: '1',
       event_name: 'MyEvent1',
       dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
@@ -79,7 +78,25 @@ export default function MyEvent({navigation}) {
       ],
       confirmTime: 'na' 
     },
-	]);
+]
+
+export default function MyEvent({navigation}) {
+
+//   const [events, setEvent] = useState(init_data);
+  const [events, setEvent] = useState([]);
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+	    const fileUri = FileSystem.documentDirectory + 'events.json';
+	    const fileContent = await FileSystem.readAsStringAsync(fileUri);
+		const parsedContent = JSON.parse(fileContent);
+		setEvent(parsedContent);
+	  } catch (error) {
+  	    console.log('Error reading JSON file:', error);
+	  }
+	};
+	loadEvents();
+  }, []);
 
   const submitHandler = (text) => {  
     // console.log(todos);
