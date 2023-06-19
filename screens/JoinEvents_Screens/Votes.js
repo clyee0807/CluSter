@@ -65,9 +65,19 @@ export default function VoteScreen({navigation}) {
 			const tmp = [...prevArray];
 			tmp[row][column] = tmp[row][column] === 1 ? 0 : 1;
 			return tmp;
-		  });
+		});
 	}
 	function submithandler(){
+		for (let i = 0; i < Exampledata[0].event.available_member.length; i++) {
+			for (let j = 0; j < Exampledata[0].event.available_member[i].length; j++) {
+				if(isclicked[i][j]===1 && !Exampledata[0].event.available_member[i][j].includes(cur_user)){
+					Exampledata[0].event.available_member[i][j].push(cur_user);
+				}
+				else if(isclicked[i][j] === 0 && Exampledata[0].event.available_member[i][j].includes(cur_user)){
+					Exampledata[0].event.available_member[i][j].filter(element => element !== cur_user)
+				}
+			}
+		}
 		navigation.navigate('EventScreen');
 	}
 	

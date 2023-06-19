@@ -32,7 +32,7 @@ const Exampledata = [
                 [[0, 1]],
                 [[1, 0], [1, 1]]
             ],
-            confirmTime: (0, 0)
+            confirmTime: ['na','na']
         }
     }
 ];
@@ -85,7 +85,8 @@ export default function EventScreen({navigation}) {
 	var tmp=[];
 	var tmp2=[];
 	const [cur_date,setcurdate]=useState(0);
-	const [chosentime, setchosen]=useState(['na','na'])
+	const [chosentime, setchosen]=useState(['na','na']);
+	// confirmTime = chosenTime;
 
 	for(let i=0;i<Exampledata[0].event.availablePeople.length;i++){
 		for(let j=0;j<Exampledata[0].event.availablePeople[i].length;j++){
@@ -146,7 +147,6 @@ export default function EventScreen({navigation}) {
 													<Text>{Exampledata[0].event.dates[item[0]]}</Text>
 													<View>
 														<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{Exampledata[0].event.interval[item[1]]}</Text></TouchableOpacity>
-														
 													</View>
 												</View>
 											)}
