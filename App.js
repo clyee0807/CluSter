@@ -17,7 +17,7 @@ const init_events = [
     event_name: 'MyEvent1',
     dates: ['2023-07-20', '2023-07-21', '2023-07-22'], // array of string, storing dates
     host: 'Domingo', // string, storing username of 'user'
-    members: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing username of 'user'
+    members: ['Domingo', 'Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing username of 'user'
     interval: ['9:00', '10:00', '11:00'], // array of string, storing times
     deadline: '2023-07-04 22:00', // string, storing date and time
     status: 'In progress', // string, indicating the event is in progress or settled
@@ -38,10 +38,10 @@ const init_events = [
   },
   { 
     id: '2',
-    event_name: 'FOOBAR',
+    event_name: 'foobar',
     dates: ['2023-07-01', '2023-07-02'],
     host: 'Guavaaa',
-    members: ['Domingo', 'Jason', 'Tony'],
+    members: ['Domingo', 'Guavaaa', 'Jason', 'Tony'],
     interval: ['18:00', '19:00', '20:00', '21:00'],
     deadline: '2023-05-01 23:59',
     status: 'Settled',
@@ -62,7 +62,7 @@ const init_events = [
     event_name: 'Emotional Damage',
     dates: ['2023-06-26', '2023-06-27', '2023-06-28', '2023-06-29', '2023-06-30'],
     host: 'Domingo',
-    members: ['Guavaaa', 'Jason', 'Tony', 'Bear'],
+    members: ['Domingo', 'Guavaaa', 'Jason', 'Tony', 'Bear'],
     interval: ['9:00', '10:00'],
     deadline: '2023/6/20  23:59',
     status: 'In progress',
@@ -83,10 +83,10 @@ const init_events = [
   },
   {
     id: '4',
-    event_name: 'heyyeyaaeyaaaeyaeyaa',
+    event_name: 'hey',
     dates: ['2023-10-01', '2023-10-02', '2023-10-08', '2023-10-09'],
     host: 'Jason',
-    members: ['Domingo', 'Guavaaa', 'Tony'],
+    members: ['Domingo', 'Guavaaa', 'Jason', 'Tony'],
     interval: ['9:00', '11:00', '13:00', '15:00'],
     deadline: '2023-09-01  23:59',
     status: 'In progress',
@@ -109,7 +109,7 @@ const init_events = [
     event_name: 'Badminton',
     dates: ['2023-06-26', '2023-06-27', '2023-06-28'],
     host: 'Bear',
-    members: ['Domingo', 'Guavaaa', 'Jason'],
+    members: ['Domingo', 'Guavaaa', 'Jason', 'Bear'],
     interval: ['16:00', '17:00', '18:00', '19:00'],
     deadline: '2023-06-21  23:59',
     status: 'In progress',
@@ -135,7 +135,7 @@ const init_users = [
     password: '1111', // string
     user_photo: 0, // integer, used when accessing database. We use integers to access photos in case of multiple photos with same name.
     events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'], // array of string, storing event_code of 'event'
-    friends: ['Guavaaa', 'Jason', 'Tony', 'Bear'], // array of string, storing user_id of 'user'
+    friends: ['Guavaaa', 'Jason', 'Tony'], // array of string, storing user_id of 'user'
     email: "IAMGAY@gmail.com", // string, unchangeable
     phone_number: "0911451419", // string, unchangeable
     language: "English", // string

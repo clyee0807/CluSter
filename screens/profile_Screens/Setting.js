@@ -1,8 +1,10 @@
 //notification, language功能還沒做
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons';
+
+import { toggleUserNotif, getUser } from '../../Server/user-request';
 
 
 export default function Setting() {
@@ -23,11 +25,27 @@ export default function Setting() {
 }
 
 const ToggleButton = () => {
+  const cur_user = 'Domingo';
   const [isEnabled, setIsEnabled] = useState(false);
 
-  const toggleSwitch = () => {
+  const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState);
+    await toggleUserNotif(cur_user);
   };
+
+  useEffect(() => {
+    const loadEvents = async () => {
+  		try {
+	  	  const user_data = await getUser(cur_user);
+        const userEnabled = user_data.notif_on;
+		    setIsEnabled(userEnabled);
+		    console.log('user read successfully');
+		  } catch (error) {
+			  console.log('Error reading JSON file:', error);
+		  }
+	  };
+    loadEvents();
+  }, []);
 
   return (
     <View>

@@ -1,6 +1,6 @@
 // createEvent - weekday/date 
-import React, { useState, useMemo } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
+import React, { useState, useMemo, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button, FlatList } from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import { SelectList } from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-neat-date-picker';
@@ -12,41 +12,66 @@ import Buttons from '../../components/buttons.js';
 import BottomBar from '../../components/bottomBar';
 import TextBar from '../../components/textBar.js';
 import WeekdayPicker from '../../components/weekdayPicker.js';
+import { Dialog } from 'react-native-simple-dialogs';
 
-
-const Exampledata = [
-    {
-        event: {
-            eventName: 'MyEvent',
-            dates: ['2023/5/20', '2023/5/21', '2023/5/22'],
-            host: 'Anna',
-            member: ['Bob', 'Cathy', 'Domingo'],
-            interval: ['9:00', '10:00', '11:00'],
-            description: 'This is description.',
-            deadline: 'na',
-            eventCode: '809BBF',
-            // Use (date, time) to access the time block.
-            // For example, (0, 0) stands for 2023/5/20 9:00.
-            availablePeople: [
-                [['Bob', 'Cathy', 'Domingo'], ['Bob', 'Cathy'], []],
-                [['Domingo'], ['Domingo'], []],
-                [[], [], []],
-            ],
-            topTimeBlock: [
-                [(0, 0)], 
-                [(0, 1)],
-                [(1, 0), (1, 1)]
-            ],
-            confirmTime: (0, 0)
-        }
-    }
-];
-
-
+import { createEvent } from '../../Server/event-request.js';
+import { getUser, getAllUser } from '../../Server/user-request.js';
 
 export default function CreateEvent({navigation}) {
-	const [selectedDate, setSelected] = useState([]);
-	const [mode, setMode] = useState('Specific Dates'); 
+	const cur_user = 'Domingo';  // 存host member
+
+	const [events, setEvent] = useState();
+	const [user, setUser] = useState(['Guavaaa', 'Jason', 'Tony', 'Bear']);
+	const [allUser, setAllUser] = useState([]);
+
+	useEffect(() => {
+		const loadEvents = async () => {
+		  try {
+			const all_user = await getAllUser();
+			setAllUser(all_user);
+			const user_data = await getUser(cur_user);
+			const user_friends = user_data.friends;
+			setUser(user_friends);
+			console.log('user read successfully');
+		  } catch (error) {
+			  console.log('Error reading JSON file:', error);
+		  }
+		};
+		loadEvents();
+	  }, []);
+
+
+	function getUserPhoto(userName) {
+		// console.log(userName)
+		// console.log(allUser)
+		let photoID;
+		for(let i=0; i<allUser.length; i++){  // userlist
+			if(allUser[i].username === userName){  // 要拿user's friend list
+				photoID = allUser[i].user_photo;
+				// console.log(photoID)
+				break;
+			}
+		}
+		  
+		let profileImgPath;  // 根據user_photo決定要render哪一張照片
+		if (photoID === 1) {
+			profileImgPath = require('../../assets/profiles/profile1.png');
+		} else if (photoID === 2) {
+			profileImgPath = require('../../assets/profiles/profile2.png');
+		} else if (photoID === 3) {
+			profileImgPath = require('../../assets/profiles/profile3.png');
+		} else if (photoID === 4) {
+			profileImgPath = require('../../assets/profiles/profile4.png');
+		} else if (photoID === 5) {
+			profileImgPath = require('../../assets/profiles/profile5.png');
+		} else {
+			profileImgPath = require('../../assets/profiles/profile6.png');
+		}
+		return profileImgPath;
+	}
+	
+	const [selectedDate, setSelected] = useState([]);  // 選所有要的日期
+	const [mode, setMode] = useState('Specific Dates');  // 存mode
 
 	const handleSetMode = (buttonMode) =>{
 		setMode(buttonMode);
@@ -71,17 +96,20 @@ export default function CreateEvent({navigation}) {
 		markdates[date] = {selected: true, selectedDayBackgroundColor: '#809BBF'};
 	});
 
+	const [eventName, setEventName] = useState('My Event');  // 設定event name
 	const submitEventNameHandler = (text) => {  
-		// console.log(todos);
+		// console.log(text);
+		setEventName(text);
+
 	
 	}
 
 	// dropDown
-	const [dropSelected, setdropelected] = useState("");
+	const [dropSelected, setdropelected] = useState("");   // 選minimum time unit
 
 	// time select list
-	const [beginTimeSelected, setbeginTime] = useState("");
-	const [endTimeSelected, setendTime] = useState("");
+	const [beginTimeSelected, setbeginTime] = useState("");  // 選interval的begin time
+	const [endTimeSelected, setendTime] = useState("");    // 選interval的end time
 	const timelist = [
 		{key:'1', value:'01:00'},
 		{key:'2', value:'02:00'},
@@ -110,9 +138,9 @@ export default function CreateEvent({navigation}) {
 	];
 
 	// selectDeadline modal
-	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false);
+	const [showDatePickerSingle, setShowDatePickerSingle] = useState(false);  
 
-	const [date, setDate] = useState('2023-06-20');
+	const [date, setDate] = useState('2023-06-20');  // 選deadline
 
 	const openDatePickerSingle = () => setShowDatePickerSingle(true);
 	const onCancelSingle = () => {
@@ -147,7 +175,64 @@ export default function CreateEvent({navigation}) {
 		setEndDate(output.dateString)
 	}
 
+	// 選members
+	const [showMemberPopup, setShowMemberPopup] = useState(false);
+	const [memberList, setMemberList] = useState([]);   // 存member list
 
+	const handleMemberList = (name) => {
+		if(!memberList.includes(name)){
+			setMemberList((prevState) => {
+				return [...prevState, name];
+			})
+		}
+	}
+
+	const deleteMember = (name) => {
+		setMemberList((prevState) => {
+			let filtSelected = prevState.filter(item => item !== name);
+			return [...filtSelected];
+		})
+	}
+	// console.log(memberList)
+	
+	// 選weekDay
+	const [isPressed, setIsPressed] = useState({
+        Sun: false,
+        Mon: false,
+        Tue: false,
+        Wed: false,
+        Thu: false,
+        Fri: false,
+        Sat: false,
+    });
+
+	const handlePress = (day) => {
+		setIsPressed((prevState) => ({
+            ...prevState,
+            [day]: !prevState[day],
+        }));
+	};
+
+	// console.log(isPressed);
+
+	// save data to backend
+	const createButtonHandler = async () => {
+		await createEvent(eventName,  // event name
+			cur_user,   // host
+			memberList,  // members
+			date,  // deadline
+			mode,  // mode
+			selectedDate, // dates or weekday
+			isPressed,  // weekDay
+			endDate,  // end_date
+			dropSelected,  // time unit
+			beginTimeSelected,  // start time
+			endTimeSelected,  // end time
+		);
+		// console.log(123)
+		navigation.navigate('EventCode');
+	}
+				
 
 	return (
 		<View style={styles.container}>
@@ -157,10 +242,88 @@ export default function CreateEvent({navigation}) {
 			</View>
 			{(mode==='Days of the Week') ? 
 				(<ScrollView style={styles.topSection}>
-					<WeekdayPicker/>
+					{/* <WeekdayPicker/> */}
+					<View style={styles.weekDayContainer}>
+						<Text style={styles.headerText}>WeekDays</Text>
+						<View style={styles.headerWeekday}>
+								<View>
+									<Text style={styles.WeekdayText}>Sun</Text>
+									<TouchableOpacity onPress={() => handlePress('Sun')} style={[styles.block, { backgroundColor: isPressed['Sun'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+								</View>
+								<View>
+									<Text style={styles.WeekdayText}>Mon</Text>
+									<TouchableOpacity onPress={() => handlePress('Mon')} style={[styles.block, { backgroundColor: isPressed['Mon'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+								</View>
+								<View>
+									<Text style={styles.WeekdayText}>Tue</Text>
+									<TouchableOpacity onPress={() => handlePress('Tue')} style={[styles.block, { backgroundColor: isPressed['Tue'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+								</View>
+								<View>
+									<Text style={styles.WeekdayText}>Wed</Text>
+									<TouchableOpacity onPress={() => handlePress('Wed')} style={[styles.block, { backgroundColor: isPressed['Wed'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+								</View>
+								<View>
+									<Text style={styles.WeekdayText}>Thu</Text>
+									<TouchableOpacity onPress={() => handlePress('Thu')} style={[styles.block, { backgroundColor: isPressed['Thu'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+								</View>
+								<View>
+									<Text style={styles.WeekdayText}>Fri</Text>
+									<TouchableOpacity onPress={() => handlePress('Fri')} style={[styles.block, { backgroundColor: isPressed['Fri'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+								</View>
+								<View>
+								<Text style={styles.WeekdayText}>Sat</Text>
+								<TouchableOpacity onPress={() => handlePress('Sat')} style={[styles.block, { backgroundColor: isPressed['Sat'] ? '#809BBF' : '#fff' }]}></TouchableOpacity>
+
+							</View>
+						</View>
+					</View>
+
 					<Text style={styles.settingText}>Event Name: </Text>
 					<TextBar placeholder="Type a name..." submitHandler={submitEventNameHandler}/>
 					<Text style={styles.settingText}>Team Members: </Text>
+					<View style={styles.memberList}>
+						<TouchableOpacity onPress={()=>setShowMemberPopup(true)}><Image source={require('../../assets/profiles/plus.png')}/></TouchableOpacity>
+						<Dialog
+							visible={showMemberPopup}
+							onTouchOutside={() => setShowMemberPopup(false)} >
+							<View>
+								<Text style={styles.popupHeader}>Select Members</Text>
+								<FlatList
+									style={styles.memberPhotos}
+									data={user}   // 要拿user's friend list
+									renderItem={ ({item})=>(
+										<View style={styles.frendList}>
+											<TouchableOpacity onPress={()=>handleMemberList(item)}>
+											<Image source={getUserPhoto(item)} style={styles.selectPhoto}/>
+											</TouchableOpacity>
+											<Text style={styles.name}>{item}</Text>
+										</View>
+									)}
+									horizontal
+								/>
+								<TouchableOpacity onPress={()=>setShowMemberPopup(false)} style={styles.addButton}>
+									<Text style={styles.createButtonText}>Add</Text>
+								</TouchableOpacity>
+							</View>
+						</Dialog>
+						<FlatList
+							data={memberList}
+							renderItem={({item}) => (
+								<View>
+									<TouchableOpacity onPress={() => deleteMember(item)}>
+									<Image source={getUserPhoto(item)} style={styles.selectedPhoto}/>
+									</TouchableOpacity>
+									<Text style={styles.name}>{item}</Text>
+								</View>
+							)}
+							horizontal
+						/>
+					</View>
 					{/* 大頭照是要怎麼搞== */}
 					<Text style={styles.settingText}>Setting: </Text>
 					<Text style={styles.subsettingText}>Minimum Time Unit: </Text>
@@ -294,7 +457,44 @@ export default function CreateEvent({navigation}) {
 					<Text style={styles.settingText}>Event Name: </Text>
 					<TextBar placeholder="Type a name..." submitHandler={submitEventNameHandler}/>
 					<Text style={styles.settingText}>Team Members: </Text>
-					{/* 大頭照是要怎麼搞== */}
+					<View style={styles.memberList}>
+						<TouchableOpacity onPress={()=>setShowMemberPopup(true)}><Image source={require('../../assets/profiles/plus.png')}/></TouchableOpacity>
+						<Dialog
+							visible={showMemberPopup}
+							onTouchOutside={() => setShowMemberPopup(false)} >
+							<View>
+								<Text style={styles.popupHeader}>Select Members</Text>
+								<FlatList
+									style={styles.memberPhotos}
+									data={user}  // 要拿user's friend list
+									renderItem={ ({item})=>(
+										<View style={styles.frendList}>
+											<TouchableOpacity onPress={()=>handleMemberList(item)}>
+											<Image source={getUserPhoto(item)} style={styles.selectPhoto}/>
+											</TouchableOpacity>
+											<Text style={styles.name}>{item}</Text>
+										</View>
+									)}
+									horizontal
+								/>
+								<TouchableOpacity onPress={()=>setShowMemberPopup(false)} style={styles.addButton}>
+									<Text style={styles.createButtonText}>Add</Text>
+								</TouchableOpacity>
+							</View>
+						</Dialog>
+						<FlatList
+							data={memberList}
+							renderItem={({item}) => (
+								<View>
+									<TouchableOpacity onPress={() => deleteMember(item)}>
+									<Image source={getUserPhoto(item)} style={styles.selectedPhoto}/>
+									</TouchableOpacity>
+									<Text style={styles.name}>{item}</Text>
+								</View>
+							)}
+							horizontal
+						/>
+					</View>
 					<Text style={styles.settingText}>Setting: </Text>
 					<Text style={styles.subsettingText}>Minimum Time Unit: </Text>
 					<SelectList 
@@ -311,7 +511,7 @@ export default function CreateEvent({navigation}) {
 									borderRadius: 16, }}
 						dropdownStyles={{marginHorizontal:32,
 									borderColor: '#809BBF',
-									fontFamily: 'SpaceGrotesk_400Regular',
+									// fontFamily: 'SpaceGrotesk_400Regular',
 									marginTop: 2,
 									marginBottom: 10,
 									}}
@@ -332,7 +532,7 @@ export default function CreateEvent({navigation}) {
 										borderColor: '#809BBF',}}
 							dropdownStyles={{marginHorizontal:5,
 								borderColor: '#809BBF',
-								fontFamily: 'SpaceGrotesk_400Regular',
+								// fontFamily: 'SpaceGrotesk_400Regular',
 								marginTop: 2,
 								marginBottom: 10,}}
 							defaultOption={{ key:'7', value:'07:00' }}
@@ -345,7 +545,7 @@ export default function CreateEvent({navigation}) {
 										borderColor: '#809BBF',}}
 							dropdownStyles={{marginHorizontal:5,
 								borderColor: '#809BBF',
-								fontFamily: 'SpaceGrotesk_400Regularr',
+								// fontFamily: 'SpaceGrotesk_400Regularr',
 								marginTop: 2,
 								marginBottom: 10,}}
 							defaultOption={{ key:'19', value:'19:00' }}
@@ -369,7 +569,7 @@ export default function CreateEvent({navigation}) {
 										weekDaysColor: '#1C1243',
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
+					<TouchableOpacity onPress={createButtonHandler} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>
@@ -385,7 +585,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		flex: 1,
 	},
-	topSection: {
+	topSection: { 
 		// backgroundColor: 'pink',
 		marginBottom: 70,
 		// flex: 1,
@@ -397,6 +597,47 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around', 
 		alignItems: 'flex-start',
 	},
+	memberList: {
+		flexDirection: 'row',
+		marginHorizontal: 35,
+		marginBottom: 8,
+	},
+	popupHeader: {
+		fontFamily: 'SpaceGrotesk_400Regular',
+		fontSize: 18,
+		textAlign: 'center',
+		marginBottom: 5,
+	},
+	frendList: {
+		marginHorizontal: 5,
+	},
+	selectPhoto: {
+		height: 60,
+		width: 60,
+		// marginHorizontal: 5,
+		marginTop: 8,
+	},
+	name:{
+		fontFamily: 'SpaceGrotesk_400Regular',
+		fontSize: 10,
+		textAlign: 'center',
+	},
+	selectedPhoto: {
+		height: 40,
+		width: 40,
+		margin: 2,
+	},
+	addButton: {
+		backgroundColor: '#809BBF',
+		borderRadius: 5,
+		width: 100,
+		height: 30,
+		marginTop: 15,
+		alignItems: 'center',
+		justifyContent: 'center',
+		alignSelf: 'center',
+	},
+	
 	settingText: {
 		marginLeft: 35,
 		marginBottom: 10,
@@ -467,5 +708,40 @@ const styles = StyleSheet.create({
 		fontFamily: 'SpaceGrotesk_400Regular',
 		color: '#fff',
 	},
+	weekDayContainer: {
+        marginHorizontal:32,
+        marginTop: 10,	
+        marginBottom: 15,
+        // height: 100,
+        borderColor: '#809BBF',
+        borderWidth: 1,
+        borderRadius: 16,
+    },
+    headerText: {
+        fontFamily: 'SpaceGrotesk_400Regular',
+        textAlign: 'center',
+        fontSize: 16,
+        marginVertical: 15,
+    },
+    headerWeekday: {
+        // backgroundColor: 'pink',
+        marginHorizontal: 20,
+        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    WeekdayText: {
+        fontFamily: 'SpaceGrotesk_400Regular',
+        fontSize: 12,
+        color: '#b6c1cd',
+    },
+    block:{
+        borderColor: '#809BBF',
+        borderWidth: 1,
+        borderRadius: 8,
+        marginTop: 5,
+        width: 25,
+        height: 180,
+    }
 
 });

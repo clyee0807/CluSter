@@ -9,14 +9,15 @@ import Blueblock from './blueblock';
 import ResultPeople from './resultpeople';
 
 
-export default function Result({available_member,interval}) {
+export default function Result({ava_people,cur_date,interval}) {
 	return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.container}>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <Text style={{paddingBottom:20}}>Minimum Time Unit: 1hr</Text>
+                <ScrollView  horizontal showsHorizontalScrollIndicator={false}>
                     <TimeInterval interval={interval}/>
-                    <ResultPeople interval={interval}/>
-                    <Blueblock interval={interval}/>
+                    <ResultPeople style={{flex:1}} ava_people={ava_people} cur_date={cur_date} interval={interval}/>
+                    {/* <Blueblock interval={interval}/> */}
                 </ScrollView>
             </View>
         </ScrollView>
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
         borderColor: '#809BBF',
         borderRadius: 16,
         borderWidth: 2,
-        // padding: 170,
-        margin: 20,
+        paddingBottom: 30,
+        // margin: 20,
         marginTop: 3,
         alignContent: 'center',
-        // alignItems: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
     },
     timeline: {

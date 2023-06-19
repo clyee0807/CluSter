@@ -11,26 +11,38 @@ import { getUserEvents } from '../../Server/event-request';
 import { getUserEventsArray } from '../../Server/user-request';
 
 export default function MyEvent({navigation}) {
-  const cur_user = 'Domingo';
-  const [events, setEvent] = useState([]);
-  useEffect(() => {
-    const loadEvents = async () => {
-      try {
-		const user_events = await getUserEventsArray(cur_user);
-		console.log('user_events =', user_events);
-	    const all_events = await getUserEvents(user_events);
-		console.log('all_events =', all_events);
-		setEvent(all_events);
-	  } catch (error) {
-  	    console.log('Error reading JSON file:', error);
-	  }
-	};
-	loadEvents();
-  }, []);
 
-  const submitHandler = (text) => {  
-    // console.log(todos);
+	const cur_user = 'Domingo';
+	const [events, setEvent] = useState([]);
+	const [filtEvent, setFiltEvent] = useState(events);
 
+	useEffect(() => {
+	  const loadEvents = async () => {
+		try {
+		  const user_events = await getUserEventsArray(cur_user);
+		  const all_events = await getUserEvents(user_events);
+		  setEvent(all_events);
+		  setFiltEvent(all_events);
+		  console.log('events read successfully');
+		} catch (error) {
+			console.log('Error reading JSON file:', error);
+		}
+	  };
+	  loadEvents();
+	}, []);
+
+	const submitHandler = (text) => {  
+		if(text === ''){
+			setFiltEvent((prevState) => {
+				return [...events]
+			})
+		} else {
+			setFiltEvent((prevState) => {
+				let filted = events.filter(item => item.event_name.includes(text));
+				return [...filted]
+			})
+		}
+					
 	}
 
 
@@ -47,9 +59,9 @@ export default function MyEvent({navigation}) {
 				<SearchBar submitHandler={submitHandler}/>
 				<View style={styles.list}>
 					<FlatList
-					data={events}
+					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate('EventScreen')}>
+						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner' )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>
@@ -60,7 +72,10 @@ export default function MyEvent({navigation}) {
 							) : (
 								<Text style={styles.time}>{'Event Date:  ' + item.confirmTime}</Text>
 							)}
-							<Text key={item.id} style={styles.name}>{item.members.join(' ')}</Text>
+							<View style={styles.rows}>
+								<Text key={item.id} style={styles.name}>{item.members.join(' ')}</Text>
+								<Text style={styles.hostName}>{'host: ' + item.host}</Text>
+							</View>
 						</View>
 						</TouchableOpacity>
 						)}
@@ -87,6 +102,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between', 
 		alignItems: 'flex-start',
+		marginRight: 20,
 	},
 	notificationIcon: {
 		marginTop: 40,
@@ -112,7 +128,7 @@ const styles = StyleSheet.create({
 	},
 	status: {
 		fontFamily: 'Inter_400Regular',
-		margin: 15,
+		marginVertical: 15,
 		marginTop: 12,
 	},
 	time: {
@@ -124,6 +140,13 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontFamily: 'Inter_400Regular',
+		fontSize: 12,
+		marginLeft: 15,
+		marginBottom: 10,
+	},
+	hostName: {
+		fontFamily: 'Inter_400Regular',
+		color: '#A29EB6',
 		fontSize: 12,
 		marginLeft: 15,
 		marginBottom: 10,

@@ -32,13 +32,19 @@ function getWeekdayDates(start, end, weekdays) {
 
 // Create a new event using the given parameters.
 export async function createEvent(
-	event_name, host, members, deadline, mode, dates, start_date, end_date, time_unit, start_time, end_time) {
+	event_name, host, members, deadline, mode, dates, days, end_date, time_unit, start_time, end_time) {
     try {
-		// console.log("creating event : ", event_name);
+		// console.log("createEvent: start, event_name =", event_name);
       	const fileUri = FileSystem.documentDirectory + 'events.json';
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
         
+		let start_date = new Date();
+		const year = start_date.getFullYear();
+		const month = String(start_date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+		const day = String(start_date.getDate()).padStart(2, '0');
+		start_date = year.toString + '-' + month + '-' + day;
+
       	let event = {
 			id: (existingData.length + 1).toString(),
 			event_name: event_name,
@@ -57,38 +63,31 @@ export async function createEvent(
 			],
 			confirmTime: 'na'
 		}
-		// console.log('DATES: mode =', mode);
+		members.push(host);
+
 		if (mode === 'Specific Dates') {
 			event.dates = dates;
 		} else {
 			let weekdays = [];
-			if (dates['Sunday'] === true) weekdays.push(0);
-			if (dates['Monday'] === true) weekdays.push(1);
-			if (dates['Tuesday'] === true) weekdays.push(2);
-			if (dates['Wednesday'] === true) weekdays.push(3);
-			if (dates['Thursday'] === true) weekdays.push(4);
-			if (dates['Friday'] === true) weekdays.push(5);
-			if (dates['Saturday'] === true) weekdays.push(6);
+			if (days['Sunday'] === true) weekdays.push(0);
+			if (days['Monday'] === true) weekdays.push(1);
+			if (days['Tuesday'] === true) weekdays.push(2);
+			if (days['Wednesday'] === true) weekdays.push(3);
+			if (days['Thursday'] === true) weekdays.push(4);
+			if (days['Friday'] === true) weekdays.push(5);
+			if (days['Saturday'] === true) weekdays.push(6);
 			event.dates = getWeekdayDates(start_date, end_date, weekdays);
 		}
-		// console.log('INTERVAL: time_unit =', time_unit);
-		let [hour_s, minute_s] = start_time.split(':');
-		let [hour_e, minute_e] = end_time.split(':');
-		hour_s = Number(hour_s), minute_s = Number(minute_s);
-		hour_e = Number(hour_e), minute_e = Number(minute_e);
-		for (let i = hour_s; i <= hour_e; ) {
-			if (minute_s < minute_e) {
-				const hour_string = i.toString(), minute_string = j.toString();
-				const timeString = hour_string + ':' + minute_string;
-				interval.push(timeString);
-			}
-			if (time_unit === '1 hour') {
-				i++;
+		console.log('time_unit =' ,time_unit);
+		for (let i = Number(start_time); i < Number(end_time); ) {
+			const timeString = i.toString() + ":00";
+			event.interval.push(timeString);
+			if (time_unit === '1') {
+				i = i + 1;
 			} else {
-				i += 2;
+				i = i + 2;
 			}
 		}
-		// console.log('AVAIL_MEM');
 		for (let i = 0; i < event.dates.length; i++) {
 			const arr_temp = [];
 			for (let j = 0; j < event.interval.length; j++) {
@@ -101,39 +100,41 @@ export async function createEvent(
       	const updatedContent = JSON.stringify(existingData);
       	await FileSystem.writeAsStringAsync(fileUri, updatedContent);
 		console.log(event);
-      	console.log('JSON file updated successfully!');
+      	console.log('createEvent: events.json updated successfully.');
 
 		addEventToUser(host, event.event_code);
 		createNotif(event.id, event.members, event.event_code);
-
+		console.log('createEvent: success');
     } catch (error) {
-      	console.error('Error occurred while writing to JSON file:', error);
+      	console.error('createEvent: Error occurred while writing to JSON file:', error);
     }
 }
 
-// Read the data of event using event_id.
-export async function readEvent(event_id) {
+// Get the data of event using event_id.
+export async function getEvent(event_id) {
     try {
-		// console.log("reading event of event_id =", event_id");
+		console.log("getEvent: start, event_id =", event_id);
       	const fileUri = FileSystem.documentDirectory + 'events.json';
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
         
+		let ret = '';
       	existingData.map((event) => {
-			if (event.event_id === event_id) {
-				return event;
+			if (event.id === event_id) {
+				ret = event;
 			}
 		});
-
+		console.log('getEvent: success');
+		return ret;
     } catch (error) {
-      	console.error('Error occurred while writing to JSON file:', error);
+      	console.error('getEvent: Error occurred while writing to JSON file:', error);
     }
 }
 
 // Get all event data a user is attending using user.events.
 export async function getUserEvents(user_events) {
     try {
-		console.log("get all events in", user_events);
+		// console.log("getUserEvents: start, user_events =", user_events);
       	const fileUri = FileSystem.documentDirectory + 'events.json';
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
@@ -145,10 +146,10 @@ export async function getUserEvents(user_events) {
 			}
 		});
 
-		console.log("Successfully get events");
+		console.log("getUserEvents: success");
 		return allEvents;
 
     } catch (error) {
-      	console.error('Error occurred while writing to JSON file:', error);
+      	console.error('getUserEvents: Error occurred while writing to JSON file:', error);
     }
 }

@@ -18,7 +18,7 @@ export default function Home({navigation}) {
 
   return (
       <ImageBackground source={require('../assets/Home.png')} style={styles.backgroundImage}>
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('MyEvent')}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('LogIn')}>
           <Text style={styles.title}>CluSter</Text>
           <Text style={styles.subtitle}>Tap to Start</Text>
           <Text style={styles.slogan}>Transcending the Universe, Our Encounter Awaits.</Text>

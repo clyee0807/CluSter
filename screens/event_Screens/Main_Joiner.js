@@ -1,6 +1,6 @@
 // my event 點進去會顯示result
 
-import React, { useState, useEffect }from 'react';
+import React, {useState,useEffect}from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, TouchableOpacity,ScrollView } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import Result from '../../components/result';
@@ -11,34 +11,8 @@ import BottomBar from '../../components/bottomBar';
 import { getEvent } from '../../Server/event-request';
 import { getAllUser } from '../../Server/user-request';
 
-// const Exampledata = [
-//     {
-//         event: {
-//             eventName: 'MyEvent',
-//             dates: ['2023/5/20', '2023/5/21', '2023/5/22'],
-//             host: 'Anna',
-//             member: ['Bob', 'Cathy', 'Domingo'],
-//             interval: ['9:00', '10:00', '11:00','12:00','13:00','14:00'],
-//             description: 'This is description.',
-//             deadline: '2023/6/11',
-//             eventCode: '809BBF',
-//             // Use (date, time) to access the time block.
-//             // For example, (0, 0) stands for 2023/5/20 9:00.
-//             availablePeople: [
-//                 [['Bob', 'Cathy', 'Domingo'], ['Bob', 'Cathy'], [],[],[],[]],
-//                 [['Domingo'], ['Domingo'], [],[],[],[]],
-//                 [[], [], [],[],[],[]],
-//             ],
-//             topTimeBlock: [
-//                 [[0, 0]], 
-//                 [[0, 1]],
-//                 [[1, 0], [1, 1]]
-//             ],
-//             confirmTime: ['na','na']
-//         }
-//     }
-// ];
-export default function EventScreen({navigation}) {
+
+export default function EventJoiner({navigation}) {
 	const eventID = '1';
 	const [event, setEvent] = useState({
 		id: '1',
@@ -80,7 +54,6 @@ export default function EventScreen({navigation}) {
 		}
 		loadEvents();
 	}, []);
-
 
 	var ava_people=[];
 	var tmp=[];
@@ -147,7 +120,7 @@ export default function EventScreen({navigation}) {
 												<View>
 													<Text>{event.dates[item[0]]}</Text>
 													<View>
-														<TouchableOpacity style={(chosentime[0] === ranking && chosentime[1] === index?styles.selectedTop:styles.top)} onPress={() => onChooseDate(ranking,index)}><Text>{event.interval[item[1]]}</Text></TouchableOpacity>
+														<Text style={styles.top}>{event.interval[item[1]]}</Text>
 													</View>
 												</View>
 											)}
@@ -157,9 +130,6 @@ export default function EventScreen({navigation}) {
 							></FlatList>
 							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
 								<Text style={{color:'#FFF',}}>Edit</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('Expired')}>
-								<Text style={{color:'#FFF',}}>confirmTime</Text>
 							</TouchableOpacity>
 						</View>
 					)}
@@ -202,6 +172,7 @@ const styles=StyleSheet.create({
 		justifyContent: 'center',
 		alignContent: 'center',
 		alignItems: 'center',
+        textAlign:'center',
 		borderRadius: 8,
 		borderColor: '#809BBF',
 		margin: 5,
