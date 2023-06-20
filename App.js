@@ -61,7 +61,7 @@ const init_events = [
     id: '3',
     event_name: 'Emotional Damage',
     dates: ['2023-06-26', '2023-06-27', '2023-06-28', '2023-06-29', '2023-06-30'],
-    host: 'Domingo',
+    host: 'Guavaaa',
     members: ['Domingo', 'Guavaaa', 'Jason', 'Tony', 'Bear'],
     interval: ['9:00', '10:00'],
     deadline: '2023/6/20  23:59',

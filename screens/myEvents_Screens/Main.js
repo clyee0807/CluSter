@@ -115,6 +115,7 @@ export default function MyEvent({navigation,route}) {
 							<View style={styles.rows}>
 								<Text key={item.id} style={styles.name}>{item.members.join(' ')}</Text>
 								<Text style={styles.hostName}>{'host: ' + item.host}</Text>
+								{/* {console.log(item.host)} */}
 							</View>
 						</View>
 						</TouchableOpacity>
