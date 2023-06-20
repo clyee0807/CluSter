@@ -109,14 +109,14 @@ const init_events = [
     event_name: 'Badminton',
     dates: ['2023-06-26', '2023-06-27', '2023-06-28'],
     host: 'Bear',
-    members: ['Domingo', 'Guavaaa', 'Jason', 'Bear'],
+    members: ['Guavaaa', 'Jason', 'Bear'],
     interval: ['16:00', '17:00', '18:00', '19:00'],
     deadline: '2023-06-21  23:59',
     status: 'In progress',
     event_code: '6969SX', 
     available_member: [
-      [['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear'], ['Domingo', 'Guavaaa', 'Bear', 'Jason']],
-      [['Domingo', 'Bear'], ['Domingo', 'Bear'], ['Domingo', 'Bear'], ['Domingo', 'Bear']],
+      [['Guavaaa', 'Bear'], ['Guavaaa', 'Bear'], ['Guavaaa', 'Bear'], ['Guavaaa', 'Bear', 'Jason']],
+      [['Bear'], ['Bear'], ['Bear'], ['Bear']],
       [['Jason'], ['Jason'], ['Jason'], ['Jason']]
     ],
     topTimeBlock: [
@@ -134,7 +134,7 @@ const init_users = [
     username: 'Domingo', // string
     password: '1111', // string
     user_photo: 0, // integer, used when accessing database. We use integers to access photos in case of multiple photos with same name.
-    events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E', '6969SX'], // array of string, storing event_code of 'event'
+    events: ['809BBF', '1A2B3C', 'STEVEN', '0H0E2E'], // array of string, storing event_code of 'event'
     friends: ['Guavaaa', 'Jason', 'Tony'], // array of string, storing user_id of 'user'
     email: "IAMGAY@gmail.com", // string, unchangeable
     phone_number: "0911451419", // string, unchangeable

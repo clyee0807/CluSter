@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getEvent } from '../../Server/event-request';
 import { getUserNotifsArray, getUser, deleteNotifFromUser } from '../../Server/user-request';
 import { getAllNotifs } from '../../Server/notif-request';
+import { useFocusEffect } from '@react-navigation/native';
 
 // CREATE TABLE notifs(
 //   notif_id int,
@@ -22,8 +23,10 @@ import { getAllNotifs } from '../../Server/notif-request';
 
 
 
-export default function Notice({navigation}) {
-  const cur_user = 'Domingo';
+export default function Notice({navigation,route}) {
+  const {cur_user} = route.params;
+  const eventID = '1A2B3C';
+  // const cur_user = 'Domingo';
   //type: 0 for event, 1 for personal invitation
   const [notifs, setNotifs] = useState([]); // notifs = notif + host + host.user_photo
   
@@ -58,6 +61,41 @@ export default function Notice({navigation}) {
 		};
 		loadEvents();
 	}, []);
+
+  useFocusEffect(
+		React.useCallback(() => {
+		  const loadEvents = async () => {
+        try {
+          const user_data = await getUser(cur_user);
+          
+          if (user_data.notif_on === true) {
+            const notif_array = await getUserNotifsArray(cur_user);
+            let all_notifs = await getAllNotifs(notif_array);
+            console.log('all_notifs =', all_notifs);
+  
+            for (let i = 0; i < notif_array.length; i++) {
+              const event = await getEvent(all_notifs[i].id);
+              all_notifs[i]['event_name'] = event.event_name;
+              all_notifs[i]['host'] = event.host;
+              all_notifs[i]['deadline'] = event.deadline;
+  
+              const user = await getUser(event.host);
+              all_notifs[i]['host_pic'] = user.user_photo;
+            }
+            setNotifs(all_notifs);
+          } else {
+            setNotifs([]);
+          }
+          
+          console.log('notifs read successfully');
+        } catch (error) {
+          console.log('Error reading JSON file:', error);
+        }
+      };
+      loadEvents();
+		  return () => {};
+		}, [])
+	);
 
   function getPicPath(num){
       let profileImgPath ;  // 根據user_photo決定要render哪一張照片(不能dynamic path)
@@ -115,7 +153,7 @@ export default function Notice({navigation}) {
               <View style={[{width : cardWidth*0.9,borderRadius: 16,} ]}> 
               
                 {/* <TouchableOpacity style={{backgroundColor : 'pink'}} onPress={() => navigation.navigate('EventScreen')}>  */}
-                <TouchableOpacity style={{ borderRadius: 16}} onPress={() => navigation.navigate('EventScreen')}> 
+                {/* <TouchableOpacity style={{ borderRadius: 16}} onPress={() => navigation.navigate('EventScreen',{eventID:eventID,cur_user: cur_user})}>  */}
 
                   <View style={styles.rows}>
 
@@ -142,7 +180,7 @@ export default function Notice({navigation}) {
 
                   </View>
                    
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
 
               </View>
               

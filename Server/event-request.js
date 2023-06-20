@@ -97,6 +97,7 @@ export async function createEvent(
 		}
 		
 		existingData.push(event);
+		console.log('existingData =', existingData);
       	const updatedContent = JSON.stringify(existingData);
       	await FileSystem.writeAsStringAsync(fileUri, updatedContent);
 		console.log(event);
@@ -105,8 +106,34 @@ export async function createEvent(
 		addEventToUser(host, event.event_code);
 		createNotif(event.id, event.members, event.event_code);
 		console.log('createEvent: success');
+		return event;
     } catch (error) {
       	console.error('createEvent: Error occurred while writing to JSON file:', error);
+    }
+}
+
+// Join the event using event_id.
+export async function joinEvent(username, event_code) {
+    try {
+		// console.log("joinEvent: start, event_id =", event_id);
+      	const fileUri = FileSystem.documentDirectory + 'events.json';
+      	const existingContent = await FileSystem.readAsStringAsync(fileUri);
+      	const existingData = JSON.parse(existingContent);
+        
+		let ret = 'na';
+      	existingData.map((event) => {
+			if (event.event_code === event_code) {
+				if (!event.members.includes(username)) {
+					event.members.push(username);
+				}
+				ret = event.id;
+			}
+		});
+
+		console.log('joinEvent: success');
+		return ret;
+    } catch (error) {
+      	console.error('joinEvent: Error occurred while writing to JSON file:', error);
     }
 }
 
@@ -122,13 +149,74 @@ export async function getEvent(event_id) {
       	existingData.map((event) => {
 			if (event.id === event_id) {
 				ret = event;
+				// console.log(event.id);
 			}
 		});
+		console.log('event =', ret);
 		console.log('getEvent: success');
 		return ret;
     } catch (error) {
       	console.error('getEvent: Error occurred while writing to JSON file:', error);
     }
+}
+
+// Update the attendance of the event
+export async function updateAvailable(updatedEvent) {
+	try {
+		// console.log("updateAvailable: start, event_id =", event_id);
+      	const fileUri = FileSystem.documentDirectory + 'events.json';
+      	const existingContent = await FileSystem.readAsStringAsync(fileUri);
+      	const existingData = JSON.parse(existingContent);
+        
+		existingData.map((event) => {
+			if (event.id === updatedEvent.id) {
+				for (let i = 0; i < event.dates.length; i++) {
+					for (let j = 0; j < event.interval.length; j++) {
+						let temp = [];
+						for (let k = 0; k < updatedEvent.available_member[i][j].length; k++) {
+							temp.push(updatedEvent.available_member[i][j][k]);
+						}
+						event.available_member[i][j]= temp;
+					}
+				}
+				event.available_member = updatedEvent.available_member;
+				event.topTimeBlock = [[], [], []];
+				let layer = 0;
+				for (let k = event.members.length; k > 0; k--) {
+					let flag = false;
+					for (let i = 0; i < event.dates.length; i++) {
+						for (let j = 0; j < event.interval.length; j++) {
+							if (event.available_member[i][j].length === k) {
+								flag = true;
+								event.topTimeBlock[layer].push([i, j]);
+							}
+						}
+					}
+					if (flag === true) {
+						if (layer === 2) {
+							break;
+						} else {
+							layer++;
+						}
+					} 
+				}
+				console.log('updatedAvailable =', event.available_member);
+				return event;
+			}
+		});
+		const updatedContent = JSON.stringify(existingData);
+      	await FileSystem.writeAsStringAsync(fileUri, updatedContent);
+		// existingData.map((event)=>{
+		// 	if(event.id === updatedEvent.id){
+		// 		console.log('Update event: ',event.available_member);
+		// 	}
+		// })
+		console.log('updateAvailable: success');
+    } catch (error) {
+      	console.error('updateAvailable: Error occurred while writing to JSON file:', error);
+    }
+
+	
 }
 
 // Get all event data a user is attending using user.events.

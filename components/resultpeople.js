@@ -12,8 +12,14 @@ export default function ResultPeople({ava_people,cur_date,interval}) {
 			profileImgPath = require('../assets/profiles/profile1.png');
 		} else if (num === 2) {
 			profileImgPath = require('../assets/profiles/profile2.png');
-		} else {
+		} else if (num === 3) {
 			profileImgPath = require('../assets/profiles/profile3.png');
+		} else if (num === 4) {
+			profileImgPath = require('../assets/profiles/profile4.png');
+		} else if (num === 5) {
+			profileImgPath = require('../assets/profiles/profile5.png');
+		} else {
+			profileImgPath = require('../assets/profiles/profile6.png');
 		}
 		return profileImgPath;
 	}

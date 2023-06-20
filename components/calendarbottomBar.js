@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-export default function CalendarBottomBar({showDrawerFn,navigation}) {
+export default function CalendarBottomBar({showDrawerFn,navigation,cur_user}) {
 
   const [keyboardStatus, setKeyboardStatus] = useState('');
 
@@ -26,11 +26,11 @@ export default function CalendarBottomBar({showDrawerFn,navigation}) {
     return (
       <View style={[styles.container, { marginBottom: keyboardStatus=='Keyboard Shown'?-100:0}]}>
         <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('MyEvent')}><Ionicons name="home-outline" size={30} color="#A29EB6" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})}><Ionicons name="home-outline" size={30} color="#A29EB6" /></TouchableOpacity>
           <View style={styles.calendarcontainer}>
             <TouchableOpacity onPress={() => showDrawerFn()}><Feather name="calendar" size={24} color="white" /></TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}><Ionicons name="person-outline" size={30} color="#A29EB6" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile',{cur_user: cur_user})}><Ionicons name="person-outline" size={30} color="#A29EB6" /></TouchableOpacity>
         </View>
       </View>
     );

@@ -5,33 +5,50 @@ import React, { useState, useEffect } from 'react';
 import { Switch, Alert, StyleSheet, View, Text, Button, TouchableOpacity, ToastAndroid, TextInput} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { globalStyles } from '../../styles/global';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getUser, addFriendToUser } from '../../Server/user-request';
 
-export default function AddFriend({navigation}) {
-  const cur_user = 'Domingo';
+export default function AddFriend({navigation,route}) {
+  const {cur_user} = route.params;
   const [user, setUser] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
 
-  useEffect(() => {
-	  const loadEvents = async () => {
-  		try {
-	  	  const user_data = await getUser(cur_user);
-		    setUser(user_data);
-		    console.log('user read successfully');
-		  } catch (error) {
-			  console.log('Error reading JSON file:', error);
-		  }
-	  };
-	  loadEvents();
-	}, []);
+  // useEffect(() => {
+	//   const loadEvents = async () => {
+  // 		try {
+	//   	  const user_data = await getUser(cur_user);
+	// 	    setUser(user_data);
+	// 	    console.log('user read successfully');
+	// 	  } catch (error) {
+	// 		  console.log('Error reading JSON file:', error);
+	// 	  }
+	//   };
+	//   loadEvents();
+	// }, []);
+
+  useFocusEffect(
+		React.useCallback(() => {
+		  const loadEvents = async () => {
+        try {
+          const user_data = await getUser(cur_user);
+          setUser(user_data);
+          console.log('user read successfully');
+        } catch (error) {
+          console.log('Error reading JSON file:', error);
+        }
+      };
+      loadEvents();
+		  return () => {};
+		}, [])
+	);
 
   const handleButtonPress = async () => {
     const result = await addFriendToUser(cur_user, FriendCode);
 
       if (result === true) {
         Alert.alert('Successfully add friend!');
-        navigation.navigate('FriendList');
+        navigation.navigate('FriendList',{cur_user:cur_user});
       } else {
         Alert.alert('Friend not found!', 'Please enter correct friend code.');
         // [{ style: globalStyles.paragraph }]

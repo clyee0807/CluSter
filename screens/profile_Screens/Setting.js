@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Switch, StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { AntDesign } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { toggleUserNotif, getUser } from '../../Server/user-request';
 
@@ -33,19 +34,36 @@ const ToggleButton = () => {
     await toggleUserNotif(cur_user);
   };
 
-  useEffect(() => {
-    const loadEvents = async () => {
-  		try {
-	  	  const user_data = await getUser(cur_user);
-        const userEnabled = user_data.notif_on;
-		    setIsEnabled(userEnabled);
-		    console.log('user read successfully');
-		  } catch (error) {
-			  console.log('Error reading JSON file:', error);
-		  }
-	  };
-    loadEvents();
-  }, []);
+  // useEffect(() => {
+  //   const loadEvents = async () => {
+  // 		try {
+	//   	  const user_data = await getUser(cur_user);
+  //       const userEnabled = user_data.notif_on;
+	// 	    setIsEnabled(userEnabled);
+	// 	    console.log('user read successfully');
+	// 	  } catch (error) {
+	// 		  console.log('Error reading JSON file:', error);
+	// 	  }
+	//   };
+  //   loadEvents();
+  // }, []);
+
+  useFocusEffect(
+		React.useCallback(() => {
+		  const loadEvents = async () => {
+        try {
+          const user_data = await getUser(cur_user);
+          const userEnabled = user_data.notif_on;
+          setIsEnabled(userEnabled);
+          console.log('user read successfully');
+        } catch (error) {
+          console.log('Error reading JSON file:', error);
+        }
+      };
+      loadEvents();
+		  return () => {};
+		}, [])
+	);
 
   return (
     <View>

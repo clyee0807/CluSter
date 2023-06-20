@@ -1,19 +1,21 @@
 // my event 點進去會顯示result
 
-import React, {useState,useEffect}from 'react';
+import React, { useState, useEffect }from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, TouchableOpacity,ScrollView } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import Result from '../../components/result';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import TimeSelector from '../../components/TimeSelector';
 import BottomBar from '../../components/bottomBar';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getEvent } from '../../Server/event-request';
 import { getAllUser } from '../../Server/user-request';
 
 
-export default function EventJoiner({navigation}) {
-	const eventID = '1';
+export default function EventScreen({navigation, route}) {
+    const {eventID, cur_user} = route.params;
+	// const eventID = '1';
 	const [event, setEvent] = useState({
 		id: '1',
 		event_name: 'MyEvent1',
@@ -40,21 +42,40 @@ export default function EventJoiner({navigation}) {
 	  });
 	const [user, setUser] = useState([]);
 	
-	useEffect(() => {
-		const loadEvents = async () => {
-			try {
-				const cur_event = await getEvent(eventID);
-				setEvent(cur_event);
-				const user_data = await getAllUser(cur_event.members);
-				setUser(user_data);
-				console.log("user set successfully!");
-			} catch (error) {
-			    console.log('Error reading JSON file:', error);
-			}
-		}
-		loadEvents();
-	}, []);
+	// useEffect(() => {
+	// 	const loadEvents = async () => {
+	// 		try {
+	// 			const cur_event = await getEvent(eventID);
+	// 			setEvent(cur_event);
+	// 			const user_data = await getAllUser(cur_event.members);
+	// 			setUser(user_data);
+	// 			console.log("user set successfully!");
+	// 		} catch (error) {
+	// 		    console.log('Error reading JSON file:', error);
+	// 		}
+	// 	}
+	// 	loadEvents();
+	// }, []);
 
+	useFocusEffect(
+		React.useCallback(() => {
+			const loadEvents = async () => {
+				try {
+					const cur_event = await getEvent(eventID);
+					setEvent(cur_event);
+					const user_data = await getAllUser(cur_event.members);
+					setUser(user_data);
+					// console.log('result ava: ',event.available_member);
+					console.log("user set successfully!");
+				} catch (error) {
+					console.log('Error reading JSON file:', error);
+				}
+			}
+			loadEvents();
+		  return () => {};
+		}, [])
+	);
+	
 	var ava_people=[];
 	var tmp=[];
 	var tmp2=[];
@@ -120,7 +141,7 @@ export default function EventJoiner({navigation}) {
 												<View>
 													<Text>{event.dates[item[0]]}</Text>
 													<View>
-														<Text style={styles.top}>{event.interval[item[1]]}</Text>
+														<Text  style={styles.top}>{event.interval[item[1]]}</Text>
 													</View>
 												</View>
 											)}
@@ -128,7 +149,7 @@ export default function EventJoiner({navigation}) {
 									</View>
 								)}
 							></FlatList>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen',{eventID:eventID,cur_user: cur_user})}>
 								<Text style={{color:'#FFF',}}>Edit</Text>
 							</TouchableOpacity>
 						</View>
@@ -136,7 +157,7 @@ export default function EventJoiner({navigation}) {
 				>
 				</FlatList>
 			</View>
-			<BottomBar navigation={navigation}/>
+			<BottomBar eventID={eventID} cur_user={cur_user} navigation={navigation}/>
 		</View>
   	);
 }
@@ -172,7 +193,6 @@ const styles=StyleSheet.create({
 		justifyContent: 'center',
 		alignContent: 'center',
 		alignItems: 'center',
-        textAlign:'center',
 		borderRadius: 8,
 		borderColor: '#809BBF',
 		margin: 5,

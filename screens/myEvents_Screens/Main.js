@@ -6,30 +6,70 @@ import SearchBar from '../../components/searchBar.js';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as FileSystem from 'expo-file-system';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getUserEvents } from '../../Server/event-request';
 import { getUserEventsArray } from '../../Server/user-request';
 
-export default function MyEvent({navigation}) {
+export default function MyEvent({navigation,route}) {
 
-	const cur_user = 'Domingo';
+	const {cur_user} = route.params;
 	const [events, setEvent] = useState([]);
 	const [filtEvent, setFiltEvent] = useState(events);
 
-	useEffect(() => {
-	  const loadEvents = async () => {
-		try {
-		  const user_events = await getUserEventsArray(cur_user);
-		  const all_events = await getUserEvents(user_events);
-		  setEvent(all_events);
-		  setFiltEvent(all_events);
-		  console.log('events read successfully');
-		} catch (error) {
-			console.log('Error reading JSON file:', error);
-		}
-	  };
-	  loadEvents();
-	}, []);
+	// useFocusEffect(() => {
+	// 	React.useCallback(() => {
+	// 		const loadEvents = async () => {
+	// 			try {
+	// 			  	const user_events = await getUserEventsArray(cur_user);
+	// 			  	console.log('events =', user_events);
+	// 			  	const all_events = await getUserEvents(user_events);
+	// 			  	setEvent(all_events);
+	// 			  	setFiltEvent(all_events);
+	// 			  	console.log('events read successfully');
+	// 			} catch (error) {
+	// 				console.log('Error reading JSON file:', error);
+	// 			}
+	// 		};
+	// 		loadEvents();
+	// 	}, [])
+	// });
+	// const [flag,setflag]=useState(0);
+	// setflag(!flag);
+	// useEffect(() => {
+	// 	const loadEvents = async () => {
+	// 		try {
+	// 			const user_events = await getUserEventsArray(cur_user);
+	// 			console.log('events =', user_events);
+	// 			const all_events = await getUserEvents(user_events);
+	// 			setEvent(all_events);
+	// 			setFiltEvent(all_events);
+	// 			console.log('events read successfully');
+	// 		} catch (error) {
+	// 			console.log('Error reading JSON file:', error);
+	// 		}
+	// 	};
+	// 	loadEvents();
+	// },[]);
+
+	useFocusEffect(
+		React.useCallback(() => {
+		  const loadEvents = async () => {
+			try {
+			  const user_events = await getUserEventsArray(cur_user);
+			  console.log('events =', user_events);
+			  const all_events = await getUserEvents(user_events);
+			  setEvent(all_events);
+			  setFiltEvent(all_events);
+			  console.log('events read successfully');
+			} catch (error) {
+			  console.log('Error reading JSON file:', error);
+			}
+		  };
+		  loadEvents();
+		  return () => {};
+		}, [])
+	);
 
 	const submitHandler = (text) => {  
 		if(text === ''){
@@ -53,7 +93,7 @@ export default function MyEvent({navigation}) {
 			<View style={styles.topSections}>
 				<View style={styles.rows}>
 					<Text style={globalStyles.titleText}>MY EVENTs</Text>
-					<TouchableOpacity onPress={() => navigation.navigate('Notification')}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
+					<TouchableOpacity onPress={() => navigation.navigate('Notification',{cur_user: cur_user})}><Ionicons name="notifications-outline" style={styles.notificationIcon} size={24} color="#A29EB6" /></TouchableOpacity>
 				</View>
 				<Text style={globalStyles.instructionText}>Your all events will be displayed here.</Text>
 				<SearchBar submitHandler={submitHandler}/>
@@ -61,7 +101,7 @@ export default function MyEvent({navigation}) {
 					<FlatList
 					data={filtEvent}
 					renderItem={ ({item})=>(
-						<TouchableOpacity onPress={() => navigation.navigate( (item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner' )}>
+						<TouchableOpacity onPress={() => navigation.navigate((item.status === 'Settled') ?'Expired': (cur_user===item.host)?'EventScreen':'EventJoiner',  {eventID: item.id, cur_user: cur_user } )}>
 						<View style={styles.eventCard}>
 							<View style={styles.rows}>
 								<Text style={styles.event_name}>{item.event_name}</Text>
@@ -82,7 +122,7 @@ export default function MyEvent({navigation}) {
 					/>
 				</View>
 			</View>
-			<BottomBar navigation={navigation}/>
+			<BottomBar cur_user={cur_user} navigation={navigation}/>
 		</View>
 		</TouchableWithoutFeedback>
 	);

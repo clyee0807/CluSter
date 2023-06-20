@@ -8,8 +8,11 @@ export async function userLogin(username, password) {
       	const existingContent = await FileSystem.readAsStringAsync(fileUri);
       	const existingData = JSON.parse(existingContent);
         
+        // console.log('account =', username, ', password =', password, ', type(password) =', typeof(password));
+        
         let loginSuccess = false;
       	existingData.map((u) => {
+            // console.log('user.account =', u.username, ', user.password =', u.password);
             if (u.username === username && u.password === password) {
                 loginSuccess = true;
             }

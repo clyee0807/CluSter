@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, Button, TouchableOpacity, Keyboard } from 'reac
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function BottomBar({navigation}) {
-
+export default function BottomBar({navigation,cur_user}) {
+  // console.log(cur_user);
   const [keyboardStatus, setKeyboardStatus] = useState('');
 
   useEffect(() => {
@@ -25,9 +25,9 @@ export default function BottomBar({navigation}) {
     return (
       <View style={[styles.container, { marginBottom: keyboardStatus=='Keyboard Shown'?-100:0}]}>
         <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('MyEvent')}><Ionicons name="home-outline" size={30} color="#A29EB6" /></TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}><AntDesign name="pluscircle" size={30} color="#A29EB6" /></TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}><Ionicons name="person-outline" size={30} color="#A29EB6" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})}><Ionicons name="home-outline" size={30} color="#A29EB6" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('AddEvent',{cur_user: cur_user})}><AntDesign name="pluscircle" size={30} color="#A29EB6" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile',{cur_user: cur_user})}><Ionicons name="person-outline" size={30} color="#A29EB6" /></TouchableOpacity>
         </View>
       </View>
     );

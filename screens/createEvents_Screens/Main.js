@@ -13,32 +13,51 @@ import BottomBar from '../../components/bottomBar';
 import TextBar from '../../components/textBar.js';
 import WeekdayPicker from '../../components/weekdayPicker.js';
 import { Dialog } from 'react-native-simple-dialogs';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { createEvent } from '../../Server/event-request.js';
 import { getUser, getAllUser } from '../../Server/user-request.js';
 
-export default function CreateEvent({navigation}) {
-	const cur_user = 'Domingo';  // 存host member
-
+export default function CreateEvent({navigation,route}) {
+	const {cur_user} = route.params;
 	const [events, setEvent] = useState();
 	const [user, setUser] = useState(['Guavaaa', 'Jason', 'Tony', 'Bear']);
 	const [allUser, setAllUser] = useState([]);
 
-	useEffect(() => {
-		const loadEvents = async () => {
-		  try {
-			const all_user = await getAllUser();
-			setAllUser(all_user);
-			const user_data = await getUser(cur_user);
-			const user_friends = user_data.friends;
-			setUser(user_friends);
-			console.log('user read successfully');
-		  } catch (error) {
-			  console.log('Error reading JSON file:', error);
-		  }
-		};
-		loadEvents();
-	  }, []);
+	useFocusEffect(
+		React.useCallback(() => {
+			const loadEvents = async () => {
+				try {
+				    const all_user = await getAllUser();
+				  	setAllUser(all_user);
+				  	const user_data = await getUser(cur_user);
+				  	const user_friends = user_data.friends;
+				  	setUser(user_friends);
+				  	console.log('user read successfully');
+				} catch (error) {
+					console.log('Error reading JSON file:', error);
+				}
+			};
+			loadEvents();
+			return () => {};
+		}, [])
+	);
+
+	// useEffect(() => {
+	// 	const loadEvents = async () => {
+	// 	  try {
+	// 		const all_user = await getAllUser();
+	// 		setAllUser(all_user);
+	// 		const user_data = await getUser(cur_user);
+	// 		const user_friends = user_data.friends;
+	// 		setUser(user_friends);
+	// 		console.log('user read successfully');
+	// 	  } catch (error) {
+	// 		  console.log('Error reading JSON file:', error);
+	// 	  }
+	// 	};
+	// 	loadEvents();
+	// }, []);
 
 
 	function getUserPhoto(userName) {
@@ -98,7 +117,7 @@ export default function CreateEvent({navigation}) {
 
 	const [eventName, setEventName] = useState('My Event');  // 設定event name
 	const submitEventNameHandler = (text) => {  
-		// console.log(text);
+		console.log(text);
 		setEventName(text);
 
 	
@@ -217,7 +236,7 @@ export default function CreateEvent({navigation}) {
 
 	// save data to backend
 	const createButtonHandler = async () => {
-		await createEvent(eventName,  // event name
+		const event = await createEvent(eventName,  // event name
 			cur_user,   // host
 			memberList,  // members
 			date,  // deadline
@@ -229,8 +248,8 @@ export default function CreateEvent({navigation}) {
 			beginTimeSelected,  // start time
 			endTimeSelected,  // end time
 		);
-		// console.log(123)
-		navigation.navigate('EventCode');
+		console.log(event.code);
+		navigation.navigate('EventCode',{cur_user:cur_user, event_code: event.event_code});
 	}
 				
 
@@ -421,7 +440,7 @@ export default function CreateEvent({navigation}) {
 
 						}}
 					/>
-					<TouchableOpacity onPress={() => navigation.navigate('EventCode')} style={styles.createButton}>
+					<TouchableOpacity onPress={() => navigation.navigate('EventCode',{event_code:'event.event_code',cur_user: cur_user})} style={styles.createButton}>
 						<Text style={styles.createButtonText}>create</Text>
 					</TouchableOpacity>
 				</ScrollView>) : 
@@ -575,7 +594,7 @@ export default function CreateEvent({navigation}) {
 				</ScrollView>
 				)}
 
-		<BottomBar navigation={navigation}/>
+		<BottomBar cur_user={cur_user} navigation={navigation}/>
 		</View>
 	);
 }

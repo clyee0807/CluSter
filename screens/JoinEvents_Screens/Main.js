@@ -1,11 +1,28 @@
 // enter event code
 import React from 'react';
+import { useState } from 'react'
 import { StyleSheet, View, Text, Button, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { AntDesign } from '@expo/vector-icons';
 
-export default function JoinEvent({navigation}) {
+import { joinEvent } from '../../Server/event-request';
+
+export default function JoinEvent({navigation,route}) {
+	const {cur_user} = route.params;
+	const [input, setInput]=useState('na');
+
+	const changeHandler = (text) => {
+		setInput(text);
+	}
+
+	const EnterHandler = async () => {
+		const event_id = await joinEvent(cur_user, input);
+		if (event_id !== 'na') {
+			navigation.navigate('VoteScreen',{eventID: event_id, cur_user: cur_user});
+		}
+	}
+
     return (
 		<TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
 			<View style={globalStyles.container}>
@@ -14,9 +31,9 @@ export default function JoinEvent({navigation}) {
 			<Text style={styles.instructionText}>Enter event code then the event will be added to your event list automatically.</Text>
 			<View style={styles.eventcodeContainer}>
 				<AntDesign name="lock" size={24} color="black" />
-				<TextInput style={styles.eventcode} placeholder="Please enter event code"/>
+				<TextInput onChangeText={changeHandler} style={styles.eventcode} placeholder="Please enter event code"/>
 			</View>
-			<TouchableOpacity style={styles.enter} onPress={() => {navigation.navigate('VoteScreen')}}><Text style={styles.entercolor}>Enter</Text></TouchableOpacity>
+			<TouchableOpacity style={styles.enter} onPress={EnterHandler}><Text style={styles.entercolor}>Enter</Text></TouchableOpacity>
 			</View>
 		</TouchableWithoutFeedback>
     );

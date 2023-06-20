@@ -2,35 +2,82 @@
 import { StyleSheet, View, Text, Button, Image, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { Entypo } from '@expo/vector-icons';
+import { useState } from 'react';
+import { getEvent } from '../../Server/event-request';
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function Porfile({navigation}) {
-    const Exampledata = [{
-        event: {
-          id: '1',
-          event_name: 'MyEvent1',
-          dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
-          host: 'NOT911', // string, storing user_id of 'user'
-          members: ['John', 'Peggy', 'Daphne'], // array of string, storing user_id of 'user'
-          interval: ['9:00', '10:00', '11:00'], // array of string, storing times
-          description: 'This is description.', // string
-          deadline: '2023-05-04 22:00', // string, storing date and time
-          status: 'In progress',
-          event_code: '809BBF', // string
-          // Use (date, time) to access the time block.
-          // For example, (0, 0) stands for 2023/5/20 9:00.
-          available_member: [
-              [['111111', '222222', '333333'], ['111111', '222222'], []],
-              [['333333'], ['333333'], []],
-              [[], [], []],
-          ], // 3-D array of string, storing user_id of 'user'
-          confirmTime: [0,0] // string, storing date and time
+import React, { useCallback } from 'react';
+export default function Porfile({navigation,route}) {
+    const {cur_user,eventID} = route.params;
+    // console.log(eventID)
+
+    const [event,setEvent]=useState({
+      id: '1',
+      event_name: 'MyEvent1',
+      dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
+      host: 'NOT911', // string, storing user_id of 'user'
+      members: ['John', 'Peggy', 'Daphne'], // array of string, storing user_id of 'user'
+      interval: ['9:00', '10:00', '11:00'], // array of string, storing times
+      description: 'This is description.', // string
+      deadline: '2023-05-04 22:00', // string, storing date and time
+      status: 'In progress',
+      event_code: '809BBF', // string
+      // Use (date, time) to access the time block.
+      // For example, (0, 0) stands for 2023/5/20 9:00.
+      available_member: [
+          [['111111', '222222', '333333'], ['111111', '222222'], []],
+          [['333333'], ['333333'], []],
+          [[], [], []],
+      ], // 3-D array of string, storing user_id of 'user'
+      confirmTime: [0,0] // string, storing date and time
+    })
+    // const Exampledata = [{
+    //     event: {
+    //       id: '1',
+    //       event_name: 'MyEvent1',
+    //       dates: ['2023/5/20', '2023/5/21', '2023/5/22'], // array of string, storing dates
+    //       host: 'NOT911', // string, storing user_id of 'user'
+    //       members: ['John', 'Peggy', 'Daphne'], // array of string, storing user_id of 'user'
+    //       interval: ['9:00', '10:00', '11:00'], // array of string, storing times
+    //       description: 'This is description.', // string
+    //       deadline: '2023-05-04 22:00', // string, storing date and time
+    //       status: 'In progress',
+    //       event_code: '809BBF', // string
+    //       // Use (date, time) to access the time block.
+    //       // For example, (0, 0) stands for 2023/5/20 9:00.
+    //       available_member: [
+    //           [['111111', '222222', '333333'], ['111111', '222222'], []],
+    //           [['333333'], ['333333'], []],
+    //           [[], [], []],
+    //       ], // 3-D array of string, storing user_id of 'user'
+    //       confirmTime: [0,0] // string, storing date and time
+    //     }
+    // }];
+
+    // console.log(123)
+    useFocusEffect(
+      React.useCallback(() => {
+        const loadEvents = async () => {
+          try {
+            // console.log('enter ');
+            const cur_event = await getEvent(eventID);
+            console.log('result ava: ',cur_event);
+            setEvent(cur_event);
+            console.log("user set successfully!");          
+          } catch (error) {
+            console.log('Error reading JSON file:', error);
+          }
         }
-    }];
-    const confirmDate = Exampledata[0].event.dates[Exampledata[0].event.confirmTime[0]];
-    const confirmInterval = Exampledata[0].event.interval[Exampledata[0].event.confirmTime[1]];
+        loadEvents();
+        return () => {};
+      }, [])
+    );
+
+    const confirmDate = event.dates[event.confirmTime[0]];
+    const confirmInterval = event.interval[event.confirmTime[1]];
 
     let content = null;
-    if(Exampledata[0].event.status=='In progress') {
+    if(event.status=='In progress') {
       content = (
         <>
           <Text style={globalStyles.instructionText}>The host is deciding the date.</Text>
@@ -54,11 +101,11 @@ export default function Porfile({navigation}) {
           style={styles.img}
         />
         {content}
-        <TouchableOpacity onPress={() => navigation.navigate('MyEvent')} style={styles.continueButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('MyEvent',{cur_user: cur_user})} style={styles.continueButton}>
 						<Text style={styles.continueButtonText}>Continue</Text>
 				</TouchableOpacity>
         <View style={styles.shareContainer}>
-          {Exampledata[0].event.status !== 'In progress' && (
+          {event.status !== 'In progress' && (
             <View style={styles.row_2}>
               <Text style={[globalStyles.instructionText,{marginRight: 10}]}>share to friends</Text>
               <TouchableOpacity style={{marginRight: 10}}><Entypo name="facebook" size={24} color="black"/></TouchableOpacity>

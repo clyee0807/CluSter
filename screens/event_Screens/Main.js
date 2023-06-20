@@ -7,39 +7,15 @@ import Result from '../../components/result';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import TimeSelector from '../../components/TimeSelector';
 import BottomBar from '../../components/bottomBar';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getEvent } from '../../Server/event-request';
 import { getAllUser } from '../../Server/user-request';
 
-// const Exampledata = [
-//     {
-//         event: {
-//             eventName: 'MyEvent',
-//             dates: ['2023/5/20', '2023/5/21', '2023/5/22'],
-//             host: 'Anna',
-//             member: ['Bob', 'Cathy', 'Domingo'],
-//             interval: ['9:00', '10:00', '11:00','12:00','13:00','14:00'],
-//             description: 'This is description.',
-//             deadline: '2023/6/11',
-//             eventCode: '809BBF',
-//             // Use (date, time) to access the time block.
-//             // For example, (0, 0) stands for 2023/5/20 9:00.
-//             availablePeople: [
-//                 [['Bob', 'Cathy', 'Domingo'], ['Bob', 'Cathy'], [],[],[],[]],
-//                 [['Domingo'], ['Domingo'], [],[],[],[]],
-//                 [[], [], [],[],[],[]],
-//             ],
-//             topTimeBlock: [
-//                 [[0, 0]], 
-//                 [[0, 1]],
-//                 [[1, 0], [1, 1]]
-//             ],
-//             confirmTime: ['na','na']
-//         }
-//     }
-// ];
-export default function EventScreen({navigation}) {
-	const eventID = '1';
+
+export default function EventScreen({navigation, route}) {
+    const {eventID, cur_user} = route.params;
+	// const eventID = '1';
 	const [event, setEvent] = useState({
 		id: '1',
 		event_name: 'MyEvent1',
@@ -66,22 +42,40 @@ export default function EventScreen({navigation}) {
 	  });
 	const [user, setUser] = useState([]);
 	
-	useEffect(() => {
-		const loadEvents = async () => {
-			try {
-				const cur_event = await getEvent(eventID);
-				setEvent(cur_event);
-				const user_data = await getAllUser(cur_event.members);
-				setUser(user_data);
-				console.log("user set successfully!");
-			} catch (error) {
-			    console.log('Error reading JSON file:', error);
+	// useEffect(() => {
+	// 	const loadEvents = async () => {
+	// 		try {
+	// 			const cur_event = await getEvent(eventID);
+	// 			setEvent(cur_event);
+	// 			const user_data = await getAllUser(cur_event.members);
+	// 			setUser(user_data);
+	// 			console.log("user set successfully!");
+	// 		} catch (error) {
+	// 		    console.log('Error reading JSON file:', error);
+	// 		}
+	// 	}
+	// 	loadEvents();
+	// }, []);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			const loadEvents = async () => {
+				try {
+					const cur_event = await getEvent(eventID);
+					setEvent(cur_event);
+					const user_data = await getAllUser(cur_event.members);
+					setUser(user_data);
+					// console.log('result ava: ',event.available_member);
+					console.log("user set successfully!");
+				} catch (error) {
+					console.log('Error reading JSON file:', error);
+				}
 			}
-		}
-		loadEvents();
-	}, []);
-
-
+			loadEvents();
+		  return () => {};
+		}, [])
+	);
+	
 	var ava_people=[];
 	var tmp=[];
 	var tmp2=[];
@@ -155,10 +149,10 @@ export default function EventScreen({navigation}) {
 									</View>
 								)}
 							></FlatList>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen')}>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('VoteScreen',{eventID:eventID,cur_user: cur_user})}>
 								<Text style={{color:'#FFF',}}>Edit</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('Expired')}>
+							<TouchableOpacity style={styles.submit} onPress={() => navigation.navigate('Expired',{eventID:eventID,cur_user: cur_user})}>
 								<Text style={{color:'#FFF',}}>confirmTime</Text>
 							</TouchableOpacity>
 						</View>
@@ -166,7 +160,7 @@ export default function EventScreen({navigation}) {
 				>
 				</FlatList>
 			</View>
-			<BottomBar navigation={navigation}/>
+			<BottomBar eventID={eventID} cur_user={cur_user} navigation={navigation}/>
 		</View>
   	);
 }
