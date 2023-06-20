@@ -5,7 +5,7 @@ import BottomBar from '../components/bottomBar';
 import TextBar from '../components/textBar.js';
 
 export default function Login({navigation}) {
-    const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
+    const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
     const handleButtonPress = () => {
         if (isPasswordCorrect) {
           navigation.navigate('MyEvent');
