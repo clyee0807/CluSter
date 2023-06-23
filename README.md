@@ -5,8 +5,9 @@ event。我們新增了登入的功能,讓系統可以管理以前創過的 even
 嵌入外部個人行事曆,讓user 在比對時間的時候不再需要一直切不同分頁
 或 app 來比對。
 
-<details><summary>git小抄</summary>
-## Brief
+<details><summary>**git小抄**</summary>
+
+  ## Brief
 每個人在撰寫一個新的 feature 時（例如投票）
 應該要以 master 為 base branch 拉出另一個 branch
 名稱我們假設是 feat/voting 的 branch
