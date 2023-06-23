@@ -1,7 +1,7 @@
 # CluSter
 CluSter 是一個用來決定聚會時間的app,適合用在小組討論、日常聚會、旅遊安排等場合。使用者可以發起event或是受邀加入朋友創建的event。我們新增了登入的功能,讓系統可以管理以前創過的 event。同時將以敲定的活動的個人行事曆同時顯示再投票頁面,讓user 在比對時間的時候不再需要一直切不同分頁或 app 來比對。
-
-![Screenshot_1687488770](https://github.com/imhappying0807/CluSter/assets/92087210/df14628c-9f06-42e6-8ab6-c8d6eac8917b =100x400)
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/df14628c-9f06-42e6-8ab6-c8d6eac8917b" height="400px" width="160px" />
+![Screenshot_1687488770](https://github.com/imhappying0807/CluSter/assets/92087210/df14628c-9f06-42e6-8ab6-c8d6eac8917b)
 ![Screenshot_1687488778](https://github.com/imhappying0807/CluSter/assets/92087210/94b618b8-fbdb-4236-84c1-f7dab5533543)
 ![Screenshot_1687488790](https://github.com/imhappying0807/CluSter/assets/92087210/565f5fc4-d766-4cbb-81f2-cbb532df35dd)
 ![Screenshot_1687488793](https://github.com/imhappying0807/CluSter/assets/92087210/187d0de3-253f-4fe3-9a57-afcdefd1b159)
