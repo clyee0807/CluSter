@@ -1,17 +1,27 @@
 # CluSter
-CluSter 是一個用來決定聚會時間的app,適合用在小組討論、日常聚會、旅遊安排等場合。使用者可以發起event或是受邀加入朋友創建的event。我們新增了登入的功能,讓系統可以管理以前創過的 event。同時將以敲定的活動的個人行事曆同時顯示再投票頁面,讓user 在比對時間的時候不再需要一直切不同分頁或 app 來比對。
+CluSter以when2meet為靈感發想，是一個用來決定聚會時間的app,適合用在小組討論、日常聚會、旅遊安排等場合。使用者可以發起event或是受邀加入朋友創建的event。我們新增了登入的功能,讓系統可以管理以前創過的 event。同時將以敲定的活動的個人行事曆同時顯示再投票頁面,讓user 在比對時間的時候不再需要一直切不同分頁或 app 來比對。
 
 
-<img src="https://github.com/imhappying0807/CluSter/assets/92087210/df14628c-9f06-42e6-8ab6-c8d6eac8917b" height="800px" width="450px" />
-![Screenshot_1687488770](https://github.com/imhappying0807/CluSter/assets/92087210/df14628c-9f06-42e6-8ab6-c8d6eac8917b)
-![Screenshot_1687488778](https://github.com/imhappying0807/CluSter/assets/92087210/94b618b8-fbdb-4236-84c1-f7dab5533543)
-![Screenshot_1687488790](https://github.com/imhappying0807/CluSter/assets/92087210/565f5fc4-d766-4cbb-81f2-cbb532df35dd)
-![Screenshot_1687488793](https://github.com/imhappying0807/CluSter/assets/92087210/187d0de3-253f-4fe3-9a57-afcdefd1b159)
-![Screenshot_1687488846](https://github.com/imhappying0807/CluSter/assets/92087210/eb0fa522-733b-4e09-a7b0-f7fa64386756)
-![Screenshot_1687488854](https://github.com/imhappying0807/CluSter/assets/92087210/980c55c1-d1b1-4148-abfa-22df10bbf545)
-![Screenshot_1687488883](https://github.com/imhappying0807/CluSter/assets/92087210/fb096656-4cbb-4a5b-8825-e574e59bce98)
-![Screenshot_1687488887](https://github.com/imhappying0807/CluSter/assets/92087210/7f65b69c-ab6a-4c5c-a7dc-54bf948b46be)
 
+## Features
+* 首頁可以查看過去曾加入/創建的event
+* 有create/join兩大功能
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/37362ccf-319c-41d7-ba3e-0a765305e9df" height="800px" width="450px" />
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/d27267e9-998d-4713-ae24-73b93eaab8c7" height="800px" width="450px" />
+
+
+* 創立event可以有Specific Dates/Days of the Week來讓members投票
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/4af9318d-fa32-44d4-acab-399d38166edd" height="800px" width="450px"/>
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/d722ca96-9575-43db-8778-2018ec28b654" height="800px" width="450px" />
+
+* 投票者頁面，送出投票後可以看到當前投票結果以及當下前三高票，並可以隨時返回修改
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/1e81b485-fb39-4928-b8ad-301a9f6a7ae5" height="800px" width="450px" />
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/a3d8dea2-e209-4b04-999c-5f7e91e6a95a" height="800px" width="450px" />
+
+* 個人介面，新增好友功能，可以再創件event時快速加入members
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/80fed4a7-87d2-4b76-ab77-fe37a4d1d363" height="800px" width="450px" />
+<img src="https://github.com/imhappying0807/CluSter/assets/92087210/0e419611-ba50-4b78-a5a4-80e06048e6aa" height="800px" width="450px" />
+<hr/>
 <details><summary>git小抄</summary>
 
   ## Brief
