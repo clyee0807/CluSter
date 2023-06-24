@@ -15,10 +15,11 @@ CluSter以when2meet為靈感發想，是一個用來決定聚會時間的app,適
 <img src="https://github.com/imhappying0807/CluSter/assets/92087210/d722ca96-9575-43db-8778-2018ec28b654" height="640px" width="360px" />
 
 * 投票者頁面，送出投票後可以看到當前投票結果以及當下前三高票，並可以隨時返回修改
+* 如果是活動發起人，可以挑選最後的時間來敲定活動日期
 <img src="https://github.com/imhappying0807/CluSter/assets/92087210/1e81b485-fb39-4928-b8ad-301a9f6a7ae5" height="640px" width="360px" />
 <img src="https://github.com/imhappying0807/CluSter/assets/92087210/a3d8dea2-e209-4b04-999c-5f7e91e6a95a" height="640px" width="360px" />
 
-* 個人介面，新增好友功能，可以再創件event時快速加入members
+* 個人介面，新增好友功能，可以再創建event時快速加入members
 <img src="https://github.com/imhappying0807/CluSter/assets/92087210/80fed4a7-87d2-4b76-ab77-fe37a4d1d363" height="640px" width="360px" />
 <img src="https://github.com/imhappying0807/CluSter/assets/92087210/0e419611-ba50-4b78-a5a4-80e06048e6aa" height="640px" width="360px" />
 <hr/>
